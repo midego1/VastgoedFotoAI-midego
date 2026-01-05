@@ -6,18 +6,15 @@ import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { cn } from "@/lib/utils"
 import { SignOutButton } from "./sign-out-button"
-import { IconBuilding } from "@tabler/icons-react"
+import { IconSparkles, IconSettings } from "@tabler/icons-react"
 
 type DashboardHeaderProps = {
   userLabel?: string
 }
 
 const navItems = [
-  { href: "/dashboard", label: "Properties", icon: IconBuilding },
-  // Add more nav items here as pages are built
-  // { href: "/dashboard/editor", label: "Editor", icon: IconPhoto },
-  // { href: "/dashboard/history", label: "History", icon: IconHistory },
-  // { href: "/dashboard/settings", label: "Settings", icon: IconSettings },
+  { href: "/dashboard", label: "Projects", icon: IconSparkles },
+  { href: "/dashboard/settings", label: "Settings", icon: IconSettings },
 ] as const
 
 export function DashboardHeader({ userLabel }: DashboardHeaderProps) {
