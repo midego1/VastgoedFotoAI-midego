@@ -68,19 +68,25 @@ interface ImageGroup {
 function ImageCard({
   image,
   index,
-  onSelect,
+  onCompare,
   onEdit,
   onRetry,
+  onDownload,
+  onToggleSelect,
   isRetrying,
+  isSelected,
   versionCount,
   onVersionClick,
 }: {
   image: ImageGeneration
   index: number
-  onSelect: () => void
+  onCompare: () => void
   onEdit: () => void
   onRetry: () => void
+  onDownload: () => void
+  onToggleSelect: () => void
   isRetrying: boolean
+  isSelected: boolean
   versionCount?: number
   onVersionClick?: () => void
 }) {
@@ -91,10 +97,16 @@ function ImageCard({
   return (
     <div
       className={cn(
-        "animate-fade-in-up group relative aspect-square overflow-hidden rounded-xl bg-muted ring-1 ring-foreground/5 transition-all duration-200",
-        isCompleted && "hover:ring-foreground/10 hover:shadow-lg"
+        "animate-fade-in-up group relative aspect-square overflow-hidden rounded-xl bg-muted ring-1 transition-all duration-200",
+        isCompleted && !isSelected && "ring-foreground/5 hover:ring-foreground/10 hover:shadow-lg",
+        isSelected && "ring-2 ring-[var(--accent-teal)] shadow-lg"
       )}
       style={{ animationDelay: `${index * 50}ms` }}
+      onClick={() => {
+        if (isCompleted) {
+          onToggleSelect()
+        }
+      }}
     >
       <Image
         src={displayUrl}
@@ -143,22 +155,52 @@ function ImageCard({
         </div>
       )}
 
+      {/* Selection indicator */}
+      {isCompleted && (
+        <div
+          className={cn(
+            "absolute left-2 top-2 flex h-6 w-6 items-center justify-center rounded-full border-2 transition-all",
+            isSelected
+              ? "border-[var(--accent-teal)] bg-[var(--accent-teal)]"
+              : "border-white/50 bg-black/20 opacity-0 group-hover:opacity-100"
+          )}
+        >
+          {isSelected && <IconCheck className="h-3.5 w-3.5 text-white" />}
+        </div>
+      )}
+
       {/* Hover overlay for completed images */}
       {isCompleted && (
         <div className="absolute inset-0 flex items-center justify-center gap-3 bg-black/0 opacity-0 transition-all duration-200 group-hover:bg-black/40 group-hover:opacity-100">
           <button
-            onClick={onSelect}
-            className="flex h-12 w-12 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-sm transition-colors hover:bg-white/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-teal)]"
+            onClick={(e) => {
+              e.stopPropagation()
+              onCompare()
+            }}
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-sm transition-colors hover:bg-white/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-teal)]"
             title="Compare"
           >
-            <IconArrowsMaximize className="h-6 w-6" />
+            <IconArrowsMaximize className="h-5 w-5" />
           </button>
           <button
-            onClick={onEdit}
-            className="flex h-12 w-12 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-sm transition-colors hover:bg-white/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-teal)]"
+            onClick={(e) => {
+              e.stopPropagation()
+              onEdit()
+            }}
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-sm transition-colors hover:bg-white/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-teal)]"
             title="Edit"
           >
-            <IconPencil className="h-6 w-6" />
+            <IconPencil className="h-5 w-5" />
+          </button>
+          <button
+            onClick={(e) => {
+              e.stopPropagation()
+              onDownload()
+            }}
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-sm transition-colors hover:bg-white/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-teal)]"
+            title="Download"
+          >
+            <IconDownload className="h-5 w-5" />
           </button>
         </div>
       )}
@@ -181,20 +223,6 @@ function ImageCard({
           v{image.version || 1}
           <span className="text-white/70">/{versionCount}</span>
         </button>
-      )}
-
-      {/* Completed badge */}
-      {isCompleted && !hasMultipleVersions && (
-        <div className="absolute left-2 top-2 flex h-6 w-6 items-center justify-center rounded-full bg-emerald-500 shadow-md">
-          <IconCheck className="h-3.5 w-3.5 text-white" />
-        </div>
-      )}
-
-      {/* Completed badge when versions exist - move to left */}
-      {isCompleted && hasMultipleVersions && (
-        <div className="absolute left-2 top-2 flex h-6 w-6 items-center justify-center rounded-full bg-emerald-500 shadow-md">
-          <IconCheck className="h-3.5 w-3.5 text-white" />
-        </div>
       )}
     </div>
   )
@@ -403,6 +431,8 @@ export function ProjectDetailContent({ project, images }: ProjectDetailContentPr
   const [addImagesOpen, setAddImagesOpen] = React.useState(false)
   const [retryingImageId, setRetryingImageId] = React.useState<string | null>(null)
   const [versionSelectorGroup, setVersionSelectorGroup] = React.useState<ImageGroup | null>(null)
+  const [isDownloading, setIsDownloading] = React.useState(false)
+  const [selectedImageIds, setSelectedImageIds] = React.useState<Set<string>>(new Set())
 
   const template = getTemplateById(project.styleTemplateId)
   const status = statusConfig[project.status as ProjectStatus] || statusConfig.pending
@@ -463,6 +493,73 @@ export function ProjectDetailContent({ project, images }: ProjectDetailContentPr
     }
   }
 
+  const toggleImageSelection = React.useCallback((imageId: string) => {
+    setSelectedImageIds((prev) => {
+      const next = new Set(prev)
+      if (next.has(imageId)) {
+        next.delete(imageId)
+      } else {
+        next.add(imageId)
+      }
+      return next
+    })
+  }, [])
+
+  const clearSelection = React.useCallback(() => {
+    setSelectedImageIds(new Set())
+  }, [])
+
+  const handleDownload = async () => {
+    setIsDownloading(true)
+    try {
+      // If images are selected, download only those
+      const hasSelection = selectedImageIds.size > 0
+      const url = hasSelection
+        ? `/api/download/${project.id}?imageIds=${Array.from(selectedImageIds).join(",")}`
+        : `/api/download/${project.id}`
+
+      window.location.href = url
+
+      // Clear selection after download starts
+      if (hasSelection) {
+        setTimeout(() => clearSelection(), 500)
+      }
+      // Reset after a short delay (download starts in background)
+      setTimeout(() => setIsDownloading(false), 2000)
+    } catch (error) {
+      console.error("Download failed:", error)
+      setIsDownloading(false)
+    }
+  }
+
+  const handleDownloadSingle = async (image: ImageGeneration) => {
+    const imageUrl = image.resultImageUrl || image.originalImageUrl
+    if (!imageUrl) return
+
+    try {
+      const response = await fetch(imageUrl)
+      const blob = await response.blob()
+      const url = window.URL.createObjectURL(blob)
+      const a = document.createElement("a")
+      a.href = url
+
+      // Get filename from metadata or generate one
+      const metadata = image.metadata as { originalFileName?: string } | null
+      const originalName = metadata?.originalFileName || `image-${image.id}`
+      const extension = imageUrl.split(".").pop()?.split("?")[0] || "jpg"
+      const baseName = originalName.replace(/\.[^/.]+$/, "")
+      const versionSuffix = (image.version || 1) > 1 ? `-v${image.version}` : ""
+      a.download = `${baseName}${versionSuffix}.${extension}`
+
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+      window.URL.revokeObjectURL(url)
+    } catch (error) {
+      console.error("Download failed:", error)
+    }
+  }
+
   // Polling for processing images
   React.useEffect(() => {
     const processingImages = images.filter(
@@ -516,10 +613,35 @@ export function ProjectDetailContent({ project, images }: ProjectDetailContentPr
               </Button>
             )}
             {completedImages.length > 0 && (
-              <Button className="gap-2" style={{ backgroundColor: "var(--accent-teal)" }}>
-                <IconDownload className="h-4 w-4" />
-                Download All
-              </Button>
+              <div className="flex items-center gap-2">
+                {selectedImageIds.size > 0 && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={clearSelection}
+                    className="text-muted-foreground"
+                  >
+                    Clear selection
+                  </Button>
+                )}
+                <Button
+                  className="gap-2"
+                  style={{ backgroundColor: "var(--accent-teal)" }}
+                  onClick={handleDownload}
+                  disabled={isDownloading}
+                >
+                  {isDownloading ? (
+                    <IconLoader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <IconDownload className="h-4 w-4" />
+                  )}
+                  {isDownloading
+                    ? "Preparing…"
+                    : selectedImageIds.size > 0
+                      ? `Download Selected (${selectedImageIds.size})`
+                      : "Download All"}
+                </Button>
+              </div>
             )}
           </div>
         </div>
@@ -620,7 +742,9 @@ export function ProjectDetailContent({ project, images }: ProjectDetailContentPr
                   image={group.latestVersion}
                   index={index}
                   versionCount={group.versions.length}
-                  onSelect={() => {
+                  isSelected={selectedImageIds.has(group.latestVersion.id)}
+                  onToggleSelect={() => toggleImageSelection(group.latestVersion.id)}
+                  onCompare={() => {
                     if (group.latestVersion.status === "completed" && group.latestVersion.resultImageUrl) {
                       setSelectedImage(group.latestVersion)
                     }
@@ -631,6 +755,7 @@ export function ProjectDetailContent({ project, images }: ProjectDetailContentPr
                     }
                   }}
                   onRetry={() => handleRetry(group.latestVersion.id)}
+                  onDownload={() => handleDownloadSingle(group.latestVersion)}
                   isRetrying={retryingImageId === group.latestVersion.id}
                   onVersionClick={() => {
                     if (group.versions.length > 1) {

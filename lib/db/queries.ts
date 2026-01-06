@@ -561,3 +561,24 @@ export async function getProjectImagesGrouped(
 
   return grouped;
 }
+
+// Get only the latest version of each image in a project (for bulk download)
+export async function getLatestVersionImages(
+  projectId: string
+): Promise<ImageGeneration[]> {
+  const grouped = await getProjectImagesGrouped(projectId);
+  const latestVersions: ImageGeneration[] = [];
+
+  for (const [, versions] of grouped) {
+    // Get the last (highest version) from each group
+    const latest = versions[versions.length - 1];
+    if (latest && latest.status === "completed") {
+      latestVersions.push(latest);
+    }
+  }
+
+  // Sort by creation date (oldest first for consistent ordering)
+  return latestVersions.sort(
+    (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+  );
+}
