@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -176,9 +177,11 @@ const ActionsCell = memo(
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem onClick={() => console.log("View", userId)}>
-              <IconEye className="mr-2 h-4 w-4" />
-              View details
+            <DropdownMenuItem asChild>
+              <Link href={`/admin/users/${userId}`}>
+                <IconEye className="mr-2 h-4 w-4" />
+                View details
+              </Link>
             </DropdownMenuItem>
             {canImpersonate && (
               <>
