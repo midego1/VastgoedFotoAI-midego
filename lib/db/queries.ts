@@ -17,6 +17,7 @@ import {
   type VideoClip,
   type MusicTrack,
   type VideoProjectStatus,
+  NewVideoClip,
 } from "./schema";
 
 // ============================================================================
@@ -627,7 +628,9 @@ export async function getVideoProjectById(id: string): Promise<{
   clips: VideoClip[];
   musicTrack: MusicTrack | null;
 } | null> {
-  console.log(`[db:queries] getVideoProjectById starting for ID: ${id}`);
+  if (process.env.DEBUG_VIDEO === "1") {
+    console.log(`[db:queries] getVideoProjectById starting for ID: ${id}`);
+  }
   
   try {
     const result = await db
@@ -637,11 +640,15 @@ export async function getVideoProjectById(id: string): Promise<{
       .limit(1);
 
     if (!result[0]) {
-      console.warn(`[db:queries] getVideoProjectById: No project found with ID: ${id}`);
+      if (process.env.DEBUG_VIDEO === "1") {
+        console.warn(`[db:queries] getVideoProjectById: No project found with ID: ${id}`);
+      }
       return null;
     }
 
-    console.log(`[db:queries] getVideoProjectById: Found project "${result[0].name}"`);
+    if (process.env.DEBUG_VIDEO === "1") {
+      console.log(`[db:queries] getVideoProjectById: Found project "${result[0].name}"`);
+    }
 
     const clips = await db
       .select()
@@ -649,7 +656,9 @@ export async function getVideoProjectById(id: string): Promise<{
       .where(eq(videoClip.videoProjectId, id))
       .orderBy(videoClip.sequenceOrder);
 
-    console.log(`[db:queries] getVideoProjectById: Found ${clips.length} clips for project ${id}`);
+    if (process.env.DEBUG_VIDEO === "1") {
+      console.log(`[db:queries] getVideoProjectById: Found ${clips.length} clips for project ${id}`);
+    }
 
     let music: MusicTrack | null = null;
     if (result[0].musicTrackId) {
@@ -659,7 +668,9 @@ export async function getVideoProjectById(id: string): Promise<{
         .where(eq(musicTrack.id, result[0].musicTrackId))
         .limit(1);
       music = musicResult[0] || null;
-      console.log(`[db:queries] getVideoProjectById: Music track ${result[0].musicTrackId} found: ${!!music}`);
+      if (process.env.DEBUG_VIDEO === "1") {
+        console.log(`[db:queries] getVideoProjectById: Music track ${result[0].musicTrackId} found: ${!!music}`);
+      }
     }
 
     return {
@@ -691,7 +702,9 @@ export async function updateVideoProject(
   id: string,
   data: Partial<Omit<VideoProject, "id" | "createdAt">>
 ): Promise<VideoProject | null> {
-  console.log(`[db:queries] updateVideoProject starting for ID: ${id}`, { status: data.status });
+  if (process.env.DEBUG_VIDEO === "1") {
+    console.log(`[db:queries] updateVideoProject starting for ID: ${id}`, { status: data.status });
+  }
   
   try {
     const result = await db
@@ -701,11 +714,15 @@ export async function updateVideoProject(
       .returning();
 
     if (!result[0]) {
-      console.warn(`[db:queries] updateVideoProject: No project found to update with ID: ${id}`);
+      if (process.env.DEBUG_VIDEO === "1") {
+        console.warn(`[db:queries] updateVideoProject: No project found to update with ID: ${id}`);
+      }
       return null;
     }
 
-    console.log(`[db:queries] updateVideoProject successful for ID: ${id}`);
+    if (process.env.DEBUG_VIDEO === "1") {
+      console.log(`[db:queries] updateVideoProject successful for ID: ${id}`);
+    }
     return result[0];
   } catch (error) {
     console.error(`[db:queries] updateVideoProject error for ID ${id}:`, error);
@@ -785,13 +802,13 @@ export async function createVideoClip(
 }
 
 export async function createVideoClips(
-  clips: Array<Omit<VideoClip, "id" | "createdAt" | "updatedAt">>
+  clips: Array<Omit<NewVideoClip, "id" | "createdAt" | "updatedAt">>
 ): Promise<VideoClip[]> {
   const clipsWithIds = clips.map((clip) => ({
     ...clip,
     id: crypto.randomUUID(),
   }));
-  const result = await db.insert(videoClip).values(clipsWithIds).returning();
+  const result = await db.insert(videoClip).values(clipsWithIds as NewVideoClip[]).returning();
   return result;
 }
 

@@ -10,10 +10,8 @@ import {
   updateVideoClip,
   deleteVideoProject as dbDeleteVideoProject,
   getVideoProjectById,
-  getVideoClips,
   updateClipSequenceOrders,
   getMusicTracks as dbGetMusicTracks,
-  updateVideoProjectCounts,
 } from "@/lib/db/queries"
 import { getUserWithWorkspace } from "@/lib/db/queries"
 import { deleteVideoProjectFiles, uploadVideoSourceImage, getVideoSourceImagePath, getExtensionFromContentType } from "@/lib/supabase"
@@ -21,7 +19,7 @@ import { auth as triggerAuth, tasks } from "@trigger.dev/sdk/v3"
 import type { generateVideoTask } from "@/trigger/video-orchestrator"
 import { calculateVideoCost, costToCents, VIDEO_DEFAULTS } from "@/lib/video/video-constants"
 import { getMotionPrompt } from "@/lib/video/motion-prompts"
-import type { VideoRoomType, VideoAspectRatio, NewVideoClip, VideoClip } from "@/lib/db/schema"
+import type { VideoRoomType, VideoAspectRatio, NewVideoClip } from "@/lib/db/schema"
 
 // ============================================================================
 // Types
@@ -107,7 +105,7 @@ export async function createVideoProject(input: CreateVideoInput) {
     })
   )
 
-  await createVideoClips(clipsData as unknown as Omit<VideoClip, "id" | "createdAt" | "updatedAt">[])
+  await createVideoClips(clipsData)
 
   revalidatePath("/video")
 
@@ -115,50 +113,66 @@ export async function createVideoProject(input: CreateVideoInput) {
 }
 
 export async function triggerVideoGeneration(videoProjectId: string) {
-  console.log(`[triggerVideoGeneration] Starting trigger for project: ${videoProjectId}`);
+  if (process.env.DEBUG_VIDEO === "1") {
+    console.log(`[triggerVideoGeneration] Starting trigger for project: ${videoProjectId}`);
+  }
 
   const session = await auth.api.getSession({ headers: await headers() })
   if (!session?.user?.id) {
-    console.error("[triggerVideoGeneration] Unauthorized: No session found");
+    if (process.env.DEBUG_VIDEO === "1") {
+      console.error("[triggerVideoGeneration] Unauthorized: No session found");
+    }
     throw new Error("Unauthorized")
   }
 
   const projectData = await getVideoProjectById(videoProjectId)
   if (!projectData) {
-    console.error(`[triggerVideoGeneration] Video project not found: ${videoProjectId}`);
+    if (process.env.DEBUG_VIDEO === "1") {
+      console.error(`[triggerVideoGeneration] Video project not found: ${videoProjectId}`);
+    }
     throw new Error("Video project not found")
   }
 
   // Verify ownership
   const userData = await getUserWithWorkspace(session.user.id)
   if (!userData || projectData.videoProject.workspaceId !== userData.workspace.id) {
-    console.error(`[triggerVideoGeneration] Unauthorized: User does not own workspace ${projectData.videoProject.workspaceId}`);
+    if (process.env.DEBUG_VIDEO === "1") {
+      console.error(`[triggerVideoGeneration] Unauthorized: User does not own workspace ${projectData.videoProject.workspaceId}`);
+    }
     throw new Error("Unauthorized")
   }
 
   try {
     // Check if TRIGGER_SECRET_KEY is set (without logging its value)
-    if (!process.env.TRIGGER_SECRET_KEY) {
-      console.error("[triggerVideoGeneration] TRIGGER_SECRET_KEY is not set in environment variables");
-    } else {
-      console.log("[triggerVideoGeneration] TRIGGER_SECRET_KEY is present");
+    if (process.env.DEBUG_VIDEO === "1") {
+      if (!process.env.TRIGGER_SECRET_KEY) {
+        console.error("[triggerVideoGeneration] TRIGGER_SECRET_KEY is not set in environment variables");
+      } else {
+        console.log("[triggerVideoGeneration] TRIGGER_SECRET_KEY is present");
+      }
+
+      // Trigger the video generation task using the recommended tasks.trigger method
+      console.log("[triggerVideoGeneration] Calling tasks.trigger for generate-video...");
     }
 
-    // Trigger the video generation task using the recommended tasks.trigger method
-    console.log("[triggerVideoGeneration] Calling tasks.trigger for generate-video...");
     const handle = await tasks.trigger<typeof generateVideoTask>("generate-video", {
       videoProjectId,
     })
 
     if (!handle?.id) {
-      console.error("[triggerVideoGeneration] Trigger failed: No run ID returned from Trigger.dev");
+      if (process.env.DEBUG_VIDEO === "1") {
+        console.error("[triggerVideoGeneration] Trigger failed: No run ID returned from Trigger.dev");
+      }
       throw new Error("Failed to start video generation: No run ID returned")
     }
 
-    console.log(`[triggerVideoGeneration] Trigger successful! Run ID: ${handle.id}`);
+    if (process.env.DEBUG_VIDEO === "1") {
+      console.log(`[triggerVideoGeneration] Trigger successful! Run ID: ${handle.id}`);
 
-    // Generate public access token for real-time updates
-    console.log("[triggerVideoGeneration] Creating public access token...");
+      // Generate public access token for real-time updates
+      console.log("[triggerVideoGeneration] Creating public access token...");
+    }
+
     const publicAccessToken = await triggerAuth.createPublicToken({
       scopes: {
         read: { runs: [handle.id] }
@@ -172,7 +186,9 @@ export async function triggerVideoGeneration(videoProjectId: string) {
       triggerAccessToken: publicAccessToken,
     })
 
-    console.log(`[triggerVideoGeneration] Project ${videoProjectId} updated with run ID and access token`);
+    if (process.env.DEBUG_VIDEO === "1") {
+      console.log(`[triggerVideoGeneration] Project ${videoProjectId} updated with run ID and access token`);
+    }
 
     revalidatePath(`/video/${videoProjectId}`)
 

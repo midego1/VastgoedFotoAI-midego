@@ -19,7 +19,7 @@ export interface VideoTemplate {
   estimatedDuration: number // in seconds
 }
 
-export const VIDEO_TEMPLATES: VideoTemplate[] = [
+export const VIDEO_TEMPLATES = [
   {
     id: "classic-tour",
     name: "Classic Home Tour",
@@ -75,7 +75,7 @@ export const VIDEO_TEMPLATES: VideoTemplate[] = [
     name: "Quick Highlights",
     description: "Fast-paced teaser focusing on the property's best features.",
     thumbnailUrl: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80", // Placeholder
-    previewVideoUrl: "https://coverr.co/videos/ground-floor-of-a-house-lh10imqcar", // Placeholder
+    previewVideoUrl: "https://cdn.coverr.co/videos/coverr-interior-design-living-room-2646/1080p.mp4", // Placeholder (using same for now)
     estimatedDuration: 20,
     slots: [
       {
@@ -100,7 +100,7 @@ export const VIDEO_TEMPLATES: VideoTemplate[] = [
       },
     ],
   },
-]
+] satisfies VideoTemplate[]
 
 export function getVideoTemplateById(id: string): VideoTemplate | undefined {
   return VIDEO_TEMPLATES.find((t) => t.id === id)

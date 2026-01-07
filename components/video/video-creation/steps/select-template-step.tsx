@@ -1,7 +1,8 @@
 "use client"
 
 import * as React from "react"
-import { IconMovie, IconPlus, IconPlayerPlay, IconClock, IconLayout } from "@tabler/icons-react"
+import Image from "next/image"
+import { IconPlus, IconPlayerPlay, IconClock, IconLayout } from "@tabler/icons-react"
 import { cn } from "@/lib/utils"
 import { VIDEO_TEMPLATES, type VideoTemplate } from "@/lib/video/video-templates"
 import { Badge } from "@/components/ui/badge"
@@ -106,9 +107,10 @@ function TemplateCard({
       {/* Thumbnail / Video Container */}
       <div className="aspect-video relative bg-muted overflow-hidden">
         {/* Static Image */}
-        <img
+        <Image
           src={template.thumbnailUrl}
           alt={template.name}
+          fill
           className={cn(
             "absolute inset-0 h-full w-full object-cover transition-opacity duration-500",
             isHovered && template.previewVideoUrl ? "opacity-0" : "opacity-100"
@@ -116,7 +118,7 @@ function TemplateCard({
         />
 
         {/* Video Preview */}
-        {template.previewVideoUrl && (
+        {template.previewVideoUrl && (template.previewVideoUrl.endsWith('.mp4') || template.previewVideoUrl.includes('cdn.coverr.co')) && (
           <video
             ref={videoRef}
             src={template.previewVideoUrl}
