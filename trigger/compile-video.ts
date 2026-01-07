@@ -213,22 +213,31 @@ export const compileVideoTask = task({
         durationSeconds: totalDuration,
       }
     } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Unknown error";
+      
       logger.error("Video compilation failed", {
         videoProjectId,
-        error: error instanceof Error ? error.message : "Unknown error",
+        error: errorMessage,
       })
 
       metadata.set("status", {
         step: "failed",
-        label: "Compilation failed",
+        label: `Compilation failed: ${errorMessage}`,
         progress: 0,
       } satisfies CompileVideoStatus)
 
-      // Update project status
-      await updateVideoProject(videoProjectId, {
-        status: "failed",
-        errorMessage: error instanceof Error ? error.message : "Compilation failed",
-      })
+      // Update project status in DB (defensive check)
+      try {
+        await updateVideoProject(videoProjectId, {
+          status: "failed",
+          errorMessage: errorMessage,
+        })
+      } catch (dbError) {
+        logger.error("Failed to update project status in database", {
+          videoProjectId,
+          error: dbError instanceof Error ? dbError.message : "Unknown DB error",
+        })
+      }
 
       // Cleanup work directory
       if (existsSync(workDir)) {

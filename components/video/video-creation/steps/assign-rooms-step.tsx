@@ -79,9 +79,9 @@ export function AssignRoomsStep({
             onDragEnd={handleDragEnd}
             className={cn(
               "group flex items-center gap-4 rounded-xl border bg-card p-3 transition-all duration-200",
-              "hover:border-[var(--accent-teal)]/30 hover:shadow-md",
+              "hover:border-(--accent-teal)/30 hover:shadow-md",
               draggedIndex === index && "opacity-50 scale-[0.98]",
-              dragOverIndex === index && "border-[var(--accent-teal)] bg-[var(--accent-teal)]/5",
+              dragOverIndex === index && "border-(--accent-teal) bg-(--accent-teal)/5",
               "animate-fade-in-up"
             )}
             style={{ animationDelay: `${index * 30}ms` }}
@@ -115,7 +115,7 @@ export function AssignRoomsStep({
                   onChange={(e) => onUpdateImage(image.id, { roomType: e.target.value as VideoRoomType })}
                   className={cn(
                     "w-full appearance-none rounded-lg border bg-background px-3 py-2 pr-10 text-sm",
-                    "focus:border-[var(--accent-teal)] focus:outline-none focus:ring-2 focus:ring-[var(--accent-teal)]/20"
+                    "focus:border-(--accent-teal) focus:outline-none focus:ring-2 focus:ring-(--accent-teal)/20"
                   )}
                 >
                   {VIDEO_ROOM_TYPES.map((room) => (

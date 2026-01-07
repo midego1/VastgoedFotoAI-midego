@@ -120,7 +120,10 @@ export const generateVideoTask = task({
       })
 
       if (!compileResult.ok) {
-        throw new Error("Video compilation failed")
+        const compileErrorMessage = compileResult.error instanceof Error 
+          ? compileResult.error.message 
+          : (typeof compileResult.error === 'string' ? compileResult.error : "Video compilation failed");
+        throw new Error(compileErrorMessage)
       }
 
       // Calculate actual cost
@@ -155,22 +158,32 @@ export const generateVideoTask = task({
         actualCost,
       }
     } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Unknown error";
+      
       logger.error("Video generation failed", {
         videoProjectId,
-        error: error instanceof Error ? error.message : "Unknown error",
+        error: errorMessage,
       })
 
+      // Set failed status in metadata immediately for UI
       metadata.set("status", {
         step: "failed",
-        label: "Generation failed",
+        label: `Generation failed: ${errorMessage}`,
         progress: 0,
       } satisfies GenerateVideoStatus)
 
-      // Update project status
-      await updateVideoProject(videoProjectId, {
-        status: "failed",
-        errorMessage: error instanceof Error ? error.message : "Generation failed",
-      })
+      // Update project status in DB (defensive check in case project was deleted/not found)
+      try {
+        await updateVideoProject(videoProjectId, {
+          status: "failed",
+          errorMessage: errorMessage,
+        })
+      } catch (dbError) {
+        logger.error("Failed to update project status in database", {
+          videoProjectId,
+          error: dbError instanceof Error ? dbError.message : "Unknown DB error",
+        })
+      }
 
       throw error
     }

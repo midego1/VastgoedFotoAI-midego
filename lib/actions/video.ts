@@ -17,11 +17,11 @@ import {
 } from "@/lib/db/queries"
 import { getUserWithWorkspace } from "@/lib/db/queries"
 import { deleteVideoProjectFiles, uploadVideoSourceImage, getVideoSourceImagePath, getExtensionFromContentType } from "@/lib/supabase"
-import { auth as triggerAuth } from "@trigger.dev/sdk/v3"
-import { generateVideoTask } from "@/trigger/video-orchestrator"
+import { auth as triggerAuth, tasks } from "@trigger.dev/sdk/v3"
+import type { generateVideoTask } from "@/trigger/video-orchestrator"
 import { calculateVideoCost, costToCents, VIDEO_DEFAULTS } from "@/lib/video/video-constants"
 import { getMotionPrompt } from "@/lib/video/motion-prompts"
-import type { VideoRoomType, VideoAspectRatio, NewVideoClip } from "@/lib/db/schema"
+import type { VideoRoomType, VideoAspectRatio, NewVideoClip, VideoClip } from "@/lib/db/schema"
 
 // ============================================================================
 // Types
@@ -79,8 +79,17 @@ export async function createVideoProject(input: CreateVideoInput) {
     musicVolume: input.musicVolume ?? VIDEO_DEFAULTS.MUSIC_VOLUME,
     status: "draft",
     clipCount: input.clips.length,
-    completedClipCount: 0,
+    completedClipCount: 0, 
     estimatedCost,
+    thumbnailUrl: null,
+    errorMessage: null,
+    metadata: {},
+    description: "",
+    finalVideoUrl: null,
+    durationSeconds: null,
+    triggerRunId: null,
+    triggerAccessToken: null,
+    actualCost: 0
   })
 
   // Create clips
@@ -94,11 +103,11 @@ export async function createVideoProject(input: CreateVideoInput) {
       sequenceOrder: clip.sequenceOrder,
       motionPrompt: getMotionPrompt(clip.roomType),
       durationSeconds: clip.durationSeconds ?? VIDEO_DEFAULTS.CLIP_DURATION,
-      status: "pending" as const,
+      status: "pending",
     })
   )
 
-  await createVideoClips(clipsData)
+  await createVideoClips(clipsData as unknown as Omit<VideoClip, "id" | "createdAt" | "updatedAt">[])
 
   revalidatePath("/video")
 
@@ -106,44 +115,79 @@ export async function createVideoProject(input: CreateVideoInput) {
 }
 
 export async function triggerVideoGeneration(videoProjectId: string) {
+  console.log(`[triggerVideoGeneration] Starting trigger for project: ${videoProjectId}`);
+
   const session = await auth.api.getSession({ headers: await headers() })
   if (!session?.user?.id) {
+    console.error("[triggerVideoGeneration] Unauthorized: No session found");
     throw new Error("Unauthorized")
   }
 
   const projectData = await getVideoProjectById(videoProjectId)
   if (!projectData) {
+    console.error(`[triggerVideoGeneration] Video project not found: ${videoProjectId}`);
     throw new Error("Video project not found")
   }
 
   // Verify ownership
   const userData = await getUserWithWorkspace(session.user.id)
   if (!userData || projectData.videoProject.workspaceId !== userData.workspace.id) {
+    console.error(`[triggerVideoGeneration] Unauthorized: User does not own workspace ${projectData.videoProject.workspaceId}`);
     throw new Error("Unauthorized")
   }
 
-  // Trigger the video generation task
-  const handle = await generateVideoTask.trigger({
-    videoProjectId,
-  })
-
-  // Generate public access token for real-time updates
-  const publicAccessToken = await triggerAuth.createPublicToken({
-    scopes: {
-      read: { runs: [handle.id] }
+  try {
+    // Check if TRIGGER_SECRET_KEY is set (without logging its value)
+    if (!process.env.TRIGGER_SECRET_KEY) {
+      console.error("[triggerVideoGeneration] TRIGGER_SECRET_KEY is not set in environment variables");
+    } else {
+      console.log("[triggerVideoGeneration] TRIGGER_SECRET_KEY is present");
     }
-  })
 
-  // Update project with run ID AND access token for real-time tracking
-  await updateVideoProject(videoProjectId, {
-    status: "generating",
-    triggerRunId: handle.id,
-    triggerAccessToken: publicAccessToken,
-  })
+    // Trigger the video generation task using the recommended tasks.trigger method
+    console.log("[triggerVideoGeneration] Calling tasks.trigger for generate-video...");
+    const handle = await tasks.trigger<typeof generateVideoTask>("generate-video", {
+      videoProjectId,
+    })
 
-  revalidatePath(`/video/${videoProjectId}`)
+    if (!handle?.id) {
+      console.error("[triggerVideoGeneration] Trigger failed: No run ID returned from Trigger.dev");
+      throw new Error("Failed to start video generation: No run ID returned")
+    }
 
-  return { success: true, runId: handle.id }
+    console.log(`[triggerVideoGeneration] Trigger successful! Run ID: ${handle.id}`);
+
+    // Generate public access token for real-time updates
+    console.log("[triggerVideoGeneration] Creating public access token...");
+    const publicAccessToken = await triggerAuth.createPublicToken({
+      scopes: {
+        read: { runs: [handle.id] }
+      }
+    })
+
+    // Update project with run ID AND access token for real-time tracking
+    await updateVideoProject(videoProjectId, {
+      status: "generating",
+      triggerRunId: handle.id,
+      triggerAccessToken: publicAccessToken,
+    })
+
+    console.log(`[triggerVideoGeneration] Project ${videoProjectId} updated with run ID and access token`);
+
+    revalidatePath(`/video/${videoProjectId}`)
+
+    return { success: true, runId: handle.id }
+  } catch (error) {
+    console.error("[triggerVideoGeneration] Error triggering video generation:", error);
+    
+    // Update project status to failed if triggering failed
+    await updateVideoProject(videoProjectId, {
+      status: "failed",
+      errorMessage: error instanceof Error ? error.message : "Failed to trigger video generation",
+    })
+
+    throw error;
+  }
 }
 
 export async function updateVideoSettings(

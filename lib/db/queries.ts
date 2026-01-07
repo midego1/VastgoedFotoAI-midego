@@ -627,37 +627,50 @@ export async function getVideoProjectById(id: string): Promise<{
   clips: VideoClip[];
   musicTrack: MusicTrack | null;
 } | null> {
-  const result = await db
-    .select()
-    .from(videoProject)
-    .where(eq(videoProject.id, id))
-    .limit(1);
-
-  if (!result[0]) {
-    return null;
-  }
-
-  const clips = await db
-    .select()
-    .from(videoClip)
-    .where(eq(videoClip.videoProjectId, id))
-    .orderBy(videoClip.sequenceOrder);
-
-  let music: MusicTrack | null = null;
-  if (result[0].musicTrackId) {
-    const musicResult = await db
+  console.log(`[db:queries] getVideoProjectById starting for ID: ${id}`);
+  
+  try {
+    const result = await db
       .select()
-      .from(musicTrack)
-      .where(eq(musicTrack.id, result[0].musicTrackId))
+      .from(videoProject)
+      .where(eq(videoProject.id, id))
       .limit(1);
-    music = musicResult[0] || null;
-  }
 
-  return {
-    videoProject: result[0],
-    clips,
-    musicTrack: music,
-  };
+    if (!result[0]) {
+      console.warn(`[db:queries] getVideoProjectById: No project found with ID: ${id}`);
+      return null;
+    }
+
+    console.log(`[db:queries] getVideoProjectById: Found project "${result[0].name}"`);
+
+    const clips = await db
+      .select()
+      .from(videoClip)
+      .where(eq(videoClip.videoProjectId, id))
+      .orderBy(videoClip.sequenceOrder);
+
+    console.log(`[db:queries] getVideoProjectById: Found ${clips.length} clips for project ${id}`);
+
+    let music: MusicTrack | null = null;
+    if (result[0].musicTrackId) {
+      const musicResult = await db
+        .select()
+        .from(musicTrack)
+        .where(eq(musicTrack.id, result[0].musicTrackId))
+        .limit(1);
+      music = musicResult[0] || null;
+      console.log(`[db:queries] getVideoProjectById: Music track ${result[0].musicTrackId} found: ${!!music}`);
+    }
+
+    return {
+      videoProject: result[0],
+      clips,
+      musicTrack: music,
+    };
+  } catch (error) {
+    console.error(`[db:queries] getVideoProjectById error for ID ${id}:`, error);
+    throw error;
+  }
 }
 
 export async function createVideoProject(
@@ -678,12 +691,26 @@ export async function updateVideoProject(
   id: string,
   data: Partial<Omit<VideoProject, "id" | "createdAt">>
 ): Promise<VideoProject | null> {
-  const result = await db
-    .update(videoProject)
-    .set({ ...data, updatedAt: new Date() })
-    .where(eq(videoProject.id, id))
-    .returning();
-  return result[0] || null;
+  console.log(`[db:queries] updateVideoProject starting for ID: ${id}`, { status: data.status });
+  
+  try {
+    const result = await db
+      .update(videoProject)
+      .set({ ...data, updatedAt: new Date() })
+      .where(eq(videoProject.id, id))
+      .returning();
+
+    if (!result[0]) {
+      console.warn(`[db:queries] updateVideoProject: No project found to update with ID: ${id}`);
+      return null;
+    }
+
+    console.log(`[db:queries] updateVideoProject successful for ID: ${id}`);
+    return result[0];
+  } catch (error) {
+    console.error(`[db:queries] updateVideoProject error for ID ${id}:`, error);
+    throw error;
+  }
 }
 
 export async function deleteVideoProject(id: string): Promise<void> {

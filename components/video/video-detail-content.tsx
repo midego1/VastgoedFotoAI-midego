@@ -100,10 +100,14 @@ function RealtimeVideoProgress({
   clipCount: number
   onComplete?: () => void
 }) {
+  const router = useRouter()
   const { run } = useRealtimeRun<typeof generateVideoTask>(runId ?? "", {
     accessToken: accessToken ?? "",
     enabled: !!runId && !!accessToken,
   })
+
+  const isFailed = run?.status === "CANCELED" || run?.status === "CRASHED" || run?.status === "SYSTEM_FAILURE" || run?.status === "EXPIRED" || run?.status === "TIMED_OUT"
+  const isCompleted = run?.status === "COMPLETED"
 
   // Metadata is nested under "status" key from the orchestrator
   const metadata = run?.metadata as {
@@ -116,27 +120,58 @@ function RealtimeVideoProgress({
     }
   } | undefined
   const status = metadata?.status
-  const step = status?.step || "generating"
+  const step = status?.step || (isFailed ? "failed" : "generating")
   const currentClip = status?.clipIndex || 0
   const total = status?.totalClips || clipCount
   const progressFromMetadata = status?.progress
 
   // Use metadata progress if available, otherwise calculate from clips
-  const progress = progressFromMetadata ?? (step === "compiling" ? 70 : Math.round((currentClip / total) * 100))
+  const progress = progressFromMetadata ?? (step === "compiling" ? 70 : isFailed ? 0 : Math.round((currentClip / total) * 100))
 
   // Auto-refresh page when run completes or fails to get latest data
   React.useEffect(() => {
-    if (run?.status === "COMPLETED" || run?.status === "FAILED") {
+    if (isCompleted || isFailed) {
       onComplete?.()
     }
-  }, [run?.status, onComplete])
+  }, [run?.status, onComplete, isCompleted, isFailed])
+
+  if (isFailed) {
+    return (
+      <div className="rounded-xl border border-destructive/30 bg-destructive/5 p-6">
+        <div className="flex items-center gap-4">
+          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-destructive/10 text-destructive">
+            <IconAlertTriangle className="h-6 w-6" />
+          </div>
+          <div className="flex-1">
+            <h3 className="font-semibold text-destructive">Generation Failed</h3>
+            <p className="text-sm text-muted-foreground mt-1">
+              {status?.label || `The background task failed with status: ${run?.status}. Please try again.`}
+            </p>
+          </div>
+          <Button 
+            variant="outline" 
+            size="sm" 
+            onClick={() => router.refresh()}
+            className="flex items-center gap-2"
+          >
+            <IconRefresh className="h-4 w-4" />
+            Refresh Page
+          </Button>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="rounded-xl border bg-card p-6">
       <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 text-left">
           <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--accent-teal)]/10">
-            <IconLoader2 className="h-5 w-5 animate-spin text-[var(--accent-teal)]" />
+            {isCompleted ? (
+              <IconCheck className="h-5 w-5 text-[var(--accent-teal)]" />
+            ) : (
+              <IconLoader2 className="h-5 w-5 animate-spin text-[var(--accent-teal)]" />
+            )}
           </div>
           <div>
             <div className="font-medium">
@@ -153,7 +188,18 @@ function RealtimeVideoProgress({
             </div>
           </div>
         </div>
-        <span className="text-2xl font-bold text-[var(--accent-teal)]">{progress}%</span>
+        <div className="flex items-center gap-4">
+          <span className="text-2xl font-bold text-[var(--accent-teal)]">{progress}%</span>
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            onClick={() => router.refresh()}
+            title="Manual refresh"
+            className="h-8 w-8 text-muted-foreground hover:text-foreground"
+          >
+            <IconRefresh className="h-4 w-4" />
+          </Button>
+        </div>
       </div>
       <div className="h-2 overflow-hidden rounded-full bg-muted">
         <div

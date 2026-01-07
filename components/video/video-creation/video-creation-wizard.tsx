@@ -12,6 +12,8 @@ import {
   IconMovie,
   IconLoader2,
   IconSparkles,
+  IconTemplate,
+  IconLayoutDashboard,
 } from "@tabler/icons-react"
 import { toast } from "sonner"
 
@@ -24,10 +26,22 @@ import { SelectImagesStep } from "./steps/select-images-step"
 import { AssignRoomsStep } from "./steps/assign-rooms-step"
 import { SelectMusicStep } from "./steps/select-music-step"
 import { ReviewStep } from "./steps/review-step"
+import { SelectTemplateStep } from "./steps/select-template-step"
+import { StoryboardStep } from "./steps/storyboard-step"
 
-const STEPS: { id: VideoCreationStep; label: string; icon: React.ReactNode }[] = [
+// Steps for the "Custom" flow
+const CUSTOM_STEPS: { id: VideoCreationStep; label: string; icon: React.ReactNode }[] = [
+  { id: "select-template", label: "Style", icon: <IconTemplate className="h-4 w-4" /> },
   { id: "select-images", label: "Images", icon: <IconPhoto className="h-4 w-4" /> },
   { id: "assign-rooms", label: "Rooms", icon: <IconHome className="h-4 w-4" /> },
+  { id: "select-music", label: "Music", icon: <IconMusic className="h-4 w-4" /> },
+  { id: "review", label: "Review", icon: <IconCheck className="h-4 w-4" /> },
+]
+
+// Steps for the "Template" flow
+const TEMPLATE_STEPS: { id: VideoCreationStep; label: string; icon: React.ReactNode }[] = [
+  { id: "select-template", label: "Style", icon: <IconTemplate className="h-4 w-4" /> },
+  { id: "storyboard", label: "Storyboard", icon: <IconLayoutDashboard className="h-4 w-4" /> },
   { id: "select-music", label: "Music", icon: <IconMusic className="h-4 w-4" /> },
   { id: "review", label: "Review", icon: <IconCheck className="h-4 w-4" /> },
 ]
@@ -36,7 +50,7 @@ function StepIndicator({
   steps,
   currentStep,
 }: {
-  steps: typeof STEPS
+  steps: typeof CUSTOM_STEPS
   currentStep: VideoCreationStep
 }) {
   const currentIndex = steps.findIndex((s) => s.id === currentStep)
@@ -52,16 +66,16 @@ function StepIndicator({
             <div
               className={cn(
                 "flex items-center gap-1.5 sm:gap-2 rounded-full px-2.5 sm:px-4 py-2 text-sm font-medium transition-all duration-300",
-                isActive && "bg-[var(--accent-teal)]/15 text-[var(--accent-teal)] shadow-sm shadow-[var(--accent-teal)]/10",
-                isCompleted && "text-[var(--accent-teal)]",
+                isActive && "bg-(--accent-teal)/15 text-(--accent-teal) shadow-sm shadow-(--accent-teal)/10",
+                isCompleted && "text-(--accent-teal)",
                 !isActive && !isCompleted && "text-muted-foreground"
               )}
             >
               <span
                 className={cn(
                   "flex h-7 w-7 items-center justify-center rounded-full text-xs font-semibold transition-all duration-300",
-                  isActive && "bg-[var(--accent-teal)] text-white shadow-lg shadow-[var(--accent-teal)]/30",
-                  isCompleted && "bg-[var(--accent-teal)] text-white",
+                  isActive && "bg-(--accent-teal) text-white shadow-lg shadow-(--accent-teal)/30",
+                  isCompleted && "bg-(--accent-teal) text-white",
                   !isActive && !isCompleted && "bg-muted text-muted-foreground"
                 )}
               >
@@ -75,7 +89,7 @@ function StepIndicator({
                 className={cn(
                   "h-px w-6 sm:w-10 transition-all duration-300",
                   index < currentIndex
-                    ? "bg-gradient-to-r from-[var(--accent-teal)] to-[var(--accent-teal)]/50"
+                    ? "bg-linear-to-r from-(--accent-teal) to-(--accent-teal)/50"
                     : "bg-border"
                 )}
               />
@@ -88,6 +102,14 @@ function StepIndicator({
 }
 
 const stepTitles: Record<VideoCreationStep, { title: string; description: string }> = {
+  "select-template": {
+    title: "Choose a Style",
+    description: "Start with a template or build from scratch",
+  },
+  "storyboard": {
+    title: "Build Your Story",
+    description: "Add photos to the storyboard slots",
+  },
   "select-images": {
     title: "Select Images",
     description: "Choose the images for your property video",
@@ -116,6 +138,7 @@ export function VideoCreationWizard() {
     creation.setIsSubmitting(true)
 
     try {
+      console.log("[VideoCreationWizard] Starting video project creation...");
       // Create the video project
       const result = await createVideoProject({
         name: creation.projectName,
@@ -132,11 +155,27 @@ export function VideoCreationWizard() {
       })
 
       if (!result.success) {
+        console.error("[VideoCreationWizard] Project creation failed:", result);
         throw new Error("Failed to create video project")
       }
 
+      console.log(`[VideoCreationWizard] Project created successfully: ${result.videoProjectId}. Triggering generation...`);
+
       // Trigger video generation
-      await triggerVideoGeneration(result.videoProjectId)
+      try {
+        await triggerVideoGeneration(result.videoProjectId)
+      } catch (triggerError) {
+        console.error("[VideoCreationWizard] Trigger failed, but project was created:", triggerError);
+        // We still redirect because the project exists, but we show a different message
+        toast.warning("Video project created, but generation failed to start automatically.", {
+          description: "You can try to restart the generation from the video details page.",
+          duration: 10000,
+        })
+        router.push(`/video/${result.videoProjectId}`)
+        return;
+      }
+
+      console.log("[VideoCreationWizard] Video generation triggered successfully");
 
       toast.success("Video generation started!", {
         description: "We'll notify you when your video is ready.",
@@ -145,7 +184,7 @@ export function VideoCreationWizard() {
       // Redirect to video detail page
       router.push(`/video/${result.videoProjectId}`)
     } catch (error) {
-      console.error("Video creation error:", error)
+      console.error("[VideoCreationWizard] General error in handleSubmit:", error)
       toast.error("Failed to create video", {
         description: error instanceof Error ? error.message : "Please try again.",
       })
@@ -156,10 +195,23 @@ export function VideoCreationWizard() {
   const currentStepInfo = stepTitles[creation.step]
   const estimatedCost = calculateVideoCost(creation.images.length)
 
+  // Determine which steps to show based on mode
+  const steps = creation.selectedTemplateId ? TEMPLATE_STEPS : CUSTOM_STEPS
+
+  const handleTemplateSelect = (templateId: string) => {
+    creation.setTemplateId(templateId)
+    creation.setStep("storyboard")
+  }
+
+  const handleCustomSelect = () => {
+    creation.setTemplateId(null)
+    creation.setStep("select-images")
+  }
+
   return (
     <div className="flex min-h-[calc(100vh-4rem)] flex-col">
       {/* Cinematic Header with Gradient */}
-      <div className="relative border-b bg-gradient-to-b from-background via-background to-muted/30">
+      <div className="relative border-b bg-linear-to-b from-background via-background to-muted/30">
         {/* Decorative film strip pattern */}
         <div className="absolute inset-0 opacity-[0.02]" style={{
           backgroundImage: `repeating-linear-gradient(90deg, transparent, transparent 20px, currentColor 20px, currentColor 22px)`,
@@ -168,7 +220,7 @@ export function VideoCreationWizard() {
         <div className="relative mx-auto max-w-5xl px-4 py-8 sm:px-6">
           {/* Logo/Title */}
           <div className="mb-6 flex items-center justify-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-[var(--accent-teal)] to-[var(--accent-teal)]/70 shadow-lg shadow-[var(--accent-teal)]/20">
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-linear-to-br from-(--accent-teal) to-(--accent-teal)/70 shadow-lg shadow-(--accent-teal)/20">
               <IconMovie className="h-6 w-6 text-white" />
             </div>
             <div>
@@ -178,7 +230,7 @@ export function VideoCreationWizard() {
           </div>
 
           {/* Step Indicator */}
-          <StepIndicator steps={STEPS} currentStep={creation.step} />
+          <StepIndicator steps={steps} currentStep={creation.step} />
 
           {/* Step Title */}
           <div className="mt-6 text-center animate-fade-in">
@@ -192,6 +244,23 @@ export function VideoCreationWizard() {
       <div className="flex-1 overflow-y-auto">
         <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6">
           <div className="animate-fade-in-up">
+            {creation.step === "select-template" && (
+              <SelectTemplateStep
+                selectedTemplateId={creation.selectedTemplateId}
+                onSelectTemplate={handleTemplateSelect}
+                onSelectCustom={handleCustomSelect}
+              />
+            )}
+            
+            {creation.step === "storyboard" && creation.selectedTemplateId && (
+              <StoryboardStep
+                selectedTemplateId={creation.selectedTemplateId}
+                images={creation.images}
+                onAddImageToSlot={creation.addImageToSlot}
+                onRemoveImage={creation.removeImage}
+              />
+            )}
+
             {creation.step === "select-images" && (
               <SelectImagesStep
                 images={creation.images}
@@ -232,11 +301,11 @@ export function VideoCreationWizard() {
       </div>
 
       {/* Footer */}
-      <div className="sticky bottom-0 border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+      <div className="sticky bottom-0 border-t bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/80">
         <div className="mx-auto max-w-5xl px-4 py-4 sm:px-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              {creation.step !== "select-images" && (
+              {creation.step !== "select-template" && (
                 <Button
                   variant="ghost"
                   onClick={creation.goToPreviousStep}
@@ -250,7 +319,7 @@ export function VideoCreationWizard() {
 
               {/* Cost Preview */}
               {creation.images.length > 0 && (
-                <div className="hidden sm:flex items-center gap-2 rounded-full bg-[var(--accent-amber)]/10 px-4 py-1.5 text-sm">
+                <div className="hidden sm:flex items-center gap-2 rounded-full bg-(--accent-amber)/10 px-4 py-1.5 text-sm">
                   <span className="text-muted-foreground">Est. cost:</span>
                   <span className="font-semibold" style={{ color: "var(--accent-amber)" }}>
                     {formatVideoCost(estimatedCost)}
@@ -275,8 +344,7 @@ export function VideoCreationWizard() {
                 <Button
                   onClick={handleSubmit}
                   disabled={!creation.canProceed() || creation.isSubmitting}
-                  className="gap-2 min-w-[160px] shadow-lg shadow-[var(--accent-teal)]/20"
-                  style={{ backgroundColor: "var(--accent-teal)" }}
+                  className="gap-2 min-w-[160px] shadow-lg shadow-(--accent-teal)/20 bg-(--accent-teal)"
                 >
                   {creation.isSubmitting ? (
                     <>
@@ -291,15 +359,16 @@ export function VideoCreationWizard() {
                   )}
                 </Button>
               ) : (
-                <Button
-                  onClick={creation.goToNextStep}
-                  disabled={!creation.canProceed()}
-                  className="gap-2 shadow-lg shadow-[var(--accent-teal)]/20"
-                  style={{ backgroundColor: "var(--accent-teal)" }}
-                >
-                  Continue
-                  <IconArrowRight className="h-4 w-4" />
-                </Button>
+                creation.step !== "select-template" && (
+                    <Button
+                      onClick={creation.goToNextStep}
+                      disabled={!creation.canProceed()}
+                      className="gap-2 shadow-lg shadow-(--accent-teal)/20 bg-(--accent-teal)"
+                    >
+                      Continue
+                      <IconArrowRight className="h-4 w-4" />
+                    </Button>
+                )
               )}
             </div>
           </div>

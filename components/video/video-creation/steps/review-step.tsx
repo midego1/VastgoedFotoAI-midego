@@ -56,7 +56,7 @@ export function ReviewStep({
 
       {/* Stats Cards */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <div className="rounded-xl border bg-gradient-to-br from-background to-muted/30 p-4">
+        <div className="rounded-xl border bg-linear-to-br from-background to-muted/30 p-4">
           <div className="flex items-center gap-2 text-muted-foreground">
             <IconPhoto className="h-4 w-4" />
             <span className="text-sm">Clips</span>
@@ -64,7 +64,7 @@ export function ReviewStep({
           <div className="mt-2 text-2xl font-bold">{images.length}</div>
         </div>
 
-        <div className="rounded-xl border bg-gradient-to-br from-background to-muted/30 p-4">
+        <div className="rounded-xl border bg-linear-to-br from-background to-muted/30 p-4">
           <div className="flex items-center gap-2 text-muted-foreground">
             <IconClock className="h-4 w-4" />
             <span className="text-sm">Duration</span>
@@ -72,7 +72,7 @@ export function ReviewStep({
           <div className="mt-2 text-2xl font-bold">{totalDuration}s</div>
         </div>
 
-        <div className="rounded-xl border bg-gradient-to-br from-background to-muted/30 p-4">
+        <div className="rounded-xl border bg-linear-to-br from-background to-muted/30 p-4">
           <div className="flex items-center gap-2 text-muted-foreground">
             <IconAspectRatio className="h-4 w-4" />
             <span className="text-sm">Aspect</span>
@@ -80,12 +80,12 @@ export function ReviewStep({
           <div className="mt-2 text-2xl font-bold">{aspectRatio}</div>
         </div>
 
-        <div className="rounded-xl border bg-gradient-to-br from-[var(--accent-amber)]/5 to-[var(--accent-amber)]/10 p-4">
-          <div className="flex items-center gap-2 text-[var(--accent-amber)]">
+        <div className="rounded-xl border bg-linear-to-br from-(--accent-amber)/5 to-(--accent-amber)/10 p-4">
+          <div className="flex items-center gap-2 text-(--accent-amber)">
             <IconCurrencyDollar className="h-4 w-4" />
             <span className="text-sm">Est. Cost</span>
           </div>
-          <div className="mt-2 text-2xl font-bold" style={{ color: "var(--accent-amber)" }}>
+          <div className="mt-2 text-2xl font-bold text-(--accent-amber)">
             {formatVideoCost(estimatedCost)}
           </div>
         </div>
@@ -96,7 +96,7 @@ export function ReviewStep({
         <div className="flex items-center gap-3">
           <div className={cn(
             "flex h-10 w-10 items-center justify-center rounded-full",
-            musicTrack ? "bg-[var(--accent-teal)]/10 text-[var(--accent-teal)]" : "bg-muted text-muted-foreground"
+            musicTrack ? "bg-(--accent-teal)/10 text-(--accent-teal)" : "bg-muted text-muted-foreground"
           )}>
             <IconMusic className="h-5 w-5" />
           </div>
@@ -119,7 +119,7 @@ export function ReviewStep({
         </h4>
         <div className="relative">
           {/* Timeline */}
-          <div className="absolute left-6 top-8 bottom-8 w-0.5 bg-gradient-to-b from-[var(--accent-teal)] via-[var(--accent-teal)]/50 to-transparent" />
+          <div className="absolute left-6 top-8 bottom-8 w-0.5 bg-linear-to-b from-(--accent-teal) via-(--accent-teal)/50 to-transparent" />
 
           <div className="space-y-3">
             {images.map((image, index) => {
@@ -132,7 +132,7 @@ export function ReviewStep({
                 >
                   {/* Timeline Node */}
                   <div className="relative z-10 flex h-12 w-12 shrink-0 items-center justify-center">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--accent-teal)] text-sm font-bold text-white shadow-lg shadow-[var(--accent-teal)]/20">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-(--accent-teal) text-sm font-bold text-white shadow-lg shadow-(--accent-teal)/20">
                       {index + 1}
                     </div>
                   </div>
@@ -177,12 +177,12 @@ export function ReviewStep({
           </div>
           <div className="flex justify-between">
             <span className="text-muted-foreground">Video Compilation</span>
-            <span className="font-medium text-[var(--accent-green)]">Free</span>
+            <span className="font-medium text-(--accent-green)">Free</span>
           </div>
           <div className="my-2 border-t" />
           <div className="flex justify-between text-base">
             <span className="font-medium">Total Estimated</span>
-            <span className="font-bold" style={{ color: "var(--accent-amber)" }}>
+            <span className="font-bold text-(--accent-amber)">
               {formatVideoCost(estimatedCost)}
             </span>
           </div>

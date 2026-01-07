@@ -1,5 +1,5 @@
 import { task, logger, metadata } from "@trigger.dev/sdk/v3"
-import { fal, KLING_VIDEO_PRO, type KlingVideoOutput } from "@/lib/fal"
+import { fal, KLING_VIDEO_PRO, type KlingVideoInput, type KlingVideoOutput } from "@/lib/fal"
 import { getVideoClipById, updateVideoClip, updateVideoProjectCounts } from "@/lib/db/queries"
 import { uploadVideo, getVideoPath } from "@/lib/supabase"
 import { getMotionPrompt, DEFAULT_NEGATIVE_PROMPT } from "@/lib/video/motion-prompts"
@@ -53,6 +53,13 @@ export const generateVideoClipTask = task({
         return { success: true, message: "Already processed", clipUrl: clip.clipUrl }
       }
 
+      // Fetch video project to get aspect ratio
+      const { getVideoProjectById } = await import("@/lib/db/queries")
+      const videoProjectData = await getVideoProjectById(clip.videoProjectId)
+      if (!videoProjectData) {
+        throw new Error("Video project not found")
+      }
+
       // Update status to processing
       await updateVideoClip(clipId, { status: "processing" })
 
@@ -94,16 +101,20 @@ export const generateVideoClipTask = task({
         clipId,
         prompt: motionPrompt,
         duration: clip.durationSeconds?.toString() || "5",
+        aspectRatio: videoProjectData.videoProject.aspectRatio,
       })
 
+      // Prepare Kling input with proper typing
+      const klingInput: KlingVideoInput = {
+        image_url: falImageUrl,
+        prompt: motionPrompt,
+        duration: (clip.durationSeconds?.toString() || "5") as "5" | "10",
+        aspect_ratio: videoProjectData.videoProject.aspectRatio as "16:9" | "9:16" | "1:1",
+        negative_prompt: DEFAULT_NEGATIVE_PROMPT,
+      }
+
       const result = await fal.subscribe(KLING_VIDEO_PRO, {
-        input: {
-          image_url: falImageUrl,
-          prompt: motionPrompt,
-          duration: (clip.durationSeconds?.toString() || "5") as "5" | "10",
-          aspect_ratio: "16:9", // Default to landscape for real estate
-          negative_prompt: DEFAULT_NEGATIVE_PROMPT,
-        },
+        input: klingInput,
         onQueueUpdate: (update) => {
           logger.info("Kling processing update", { update })
           if (update.status === "IN_PROGRESS") {
@@ -143,13 +154,7 @@ export const generateVideoClipTask = task({
 
       const resultVideoBuffer = await resultVideoResponse.arrayBuffer()
 
-      // Get videoProject to access workspaceId
-      const { getVideoProjectById } = await import("@/lib/db/queries")
-      const videoProjectData = await getVideoProjectById(clip.videoProjectId)
-      if (!videoProjectData) {
-        throw new Error("Video project not found")
-      }
-
+      // Use already fetched videoProjectData for workspaceId
       const videoPath = getVideoPath(
         videoProjectData.videoProject.workspaceId,
         clip.videoProjectId,

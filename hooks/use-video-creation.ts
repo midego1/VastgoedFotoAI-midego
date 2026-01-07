@@ -3,8 +3,16 @@
 import * as React from "react"
 import type { VideoRoomType, VideoAspectRatio, MusicTrack } from "@/lib/db/schema"
 import { VIDEO_DEFAULTS, VIDEO_LIMITS } from "@/lib/video/video-constants"
+import { getVideoTemplateById } from "@/lib/video/video-templates"
+import { autoSequenceClips, reindexSequenceOrders } from "@/lib/video/room-sequence"
 
-export type VideoCreationStep = "select-images" | "assign-rooms" | "select-music" | "review"
+export type VideoCreationStep = 
+  | "select-template"
+  | "storyboard"
+  | "select-images" 
+  | "assign-rooms" 
+  | "select-music" 
+  | "review"
 
 export interface VideoImageItem {
   id: string
@@ -17,6 +25,7 @@ export interface VideoImageItem {
 
 export interface VideoCreationState {
   step: VideoCreationStep
+  selectedTemplateId: string | null
   projectName: string
   images: VideoImageItem[]
   aspectRatio: VideoAspectRatio
@@ -25,11 +34,14 @@ export interface VideoCreationState {
   isSubmitting: boolean
 }
 
-const STEP_ORDER: VideoCreationStep[] = ["select-images", "assign-rooms", "select-music", "review"]
+// We'll handle the order dynamically based on template selection
+const CUSTOM_FLOW_STEPS: VideoCreationStep[] = ["select-template", "select-images", "assign-rooms", "select-music", "review"]
+const TEMPLATE_FLOW_STEPS: VideoCreationStep[] = ["select-template", "storyboard", "select-music", "review"]
 
 export function useVideoCreation() {
   const [state, setState] = React.useState<VideoCreationState>({
-    step: "select-images",
+    step: "select-template",
+    selectedTemplateId: null,
     projectName: "",
     images: [],
     aspectRatio: VIDEO_DEFAULTS.ASPECT_RATIO,
@@ -42,16 +54,27 @@ export function useVideoCreation() {
     setState((prev) => ({ ...prev, step }))
   }, [])
 
+  const setTemplateId = React.useCallback((id: string | null) => {
+    setState((prev) => ({ 
+      ...prev, 
+      selectedTemplateId: id,
+      // Clear images when switching templates/modes to avoid confusion
+      images: [] 
+    }))
+  }, [])
+
   const setProjectName = React.useCallback((name: string) => {
     setState((prev) => ({ ...prev, projectName: name }))
   }, [])
 
   const addImages = React.useCallback((newImages: Omit<VideoImageItem, "sequenceOrder">[]) => {
     setState((prev) => {
-      const startOrder = prev.images.length
+      // Find the next available sequence order
+      const maxOrder = prev.images.reduce((max, img) => Math.max(max, img.sequenceOrder), 0)
+      
       const imagesWithOrder = newImages.map((img, i) => ({
         ...img,
-        sequenceOrder: startOrder + i + 1,
+        sequenceOrder: maxOrder + i + 1,
       }))
       const combined = [...prev.images, ...imagesWithOrder]
       // Limit to max images
@@ -62,10 +85,34 @@ export function useVideoCreation() {
     })
   }, [])
 
+  // Specialized function for storyboard slots
+  const addImageToSlot = React.useCallback((image: Omit<VideoImageItem, "sequenceOrder">, slotIndex: number) => {
+    setState((prev) => {
+      // Remove any existing image in this slot
+      const filtered = prev.images.filter(img => img.sequenceOrder !== slotIndex + 1)
+      
+      // Add new image at specific sequence order (1-based)
+      const newImage = {
+        ...image,
+        sequenceOrder: slotIndex + 1
+      }
+      
+      return {
+        ...prev,
+        images: [...filtered, newImage]
+      }
+    })
+  }, [])
+
   const removeImage = React.useCallback((id: string) => {
     setState((prev) => {
+      // If in template mode, we just remove the image but keep others' positions fixed
+      if (prev.selectedTemplateId) {
+         return { ...prev, images: prev.images.filter((img) => img.id !== id) }
+      }
+
+      // In custom mode, we re-index
       const filtered = prev.images.filter((img) => img.id !== id)
-      // Re-index sequence orders
       const reindexed = filtered.map((img, i) => ({
         ...img,
         sequenceOrder: i + 1,
@@ -88,6 +135,9 @@ export function useVideoCreation() {
 
   const reorderImages = React.useCallback((fromIndex: number, toIndex: number) => {
     setState((prev) => {
+      // Only for custom mode
+      if (prev.selectedTemplateId) return prev;
+
       const newImages = [...prev.images]
       const [removed] = newImages.splice(fromIndex, 1)
       newImages.splice(toIndex, 0, removed)
@@ -102,7 +152,8 @@ export function useVideoCreation() {
 
   const autoArrangeByRoomType = React.useCallback(() => {
     setState((prev) => {
-      const { autoSequenceClips, reindexSequenceOrders } = require("@/lib/video/room-sequence")
+      if (prev.selectedTemplateId) return prev; // Disable for templates
+
       const sorted = autoSequenceClips(prev.images)
       const reindexed = reindexSequenceOrders(sorted)
       return { ...prev, images: reindexed }
@@ -125,11 +176,16 @@ export function useVideoCreation() {
     setState((prev) => ({ ...prev, isSubmitting: submitting }))
   }, [])
 
+  const getCurrentStepList = React.useCallback((state: VideoCreationState) => {
+    return state.selectedTemplateId ? TEMPLATE_FLOW_STEPS : CUSTOM_FLOW_STEPS
+  }, [])
+
   const goToNextStep = React.useCallback(() => {
     setState((prev) => {
-      const currentIndex = STEP_ORDER.indexOf(prev.step)
-      if (currentIndex < STEP_ORDER.length - 1) {
-        return { ...prev, step: STEP_ORDER[currentIndex + 1] }
+      const stepList = prev.selectedTemplateId ? TEMPLATE_FLOW_STEPS : CUSTOM_FLOW_STEPS
+      const currentIndex = stepList.indexOf(prev.step)
+      if (currentIndex < stepList.length - 1) {
+        return { ...prev, step: stepList[currentIndex + 1] }
       }
       return prev
     })
@@ -137,9 +193,10 @@ export function useVideoCreation() {
 
   const goToPreviousStep = React.useCallback(() => {
     setState((prev) => {
-      const currentIndex = STEP_ORDER.indexOf(prev.step)
+      const stepList = prev.selectedTemplateId ? TEMPLATE_FLOW_STEPS : CUSTOM_FLOW_STEPS
+      const currentIndex = stepList.indexOf(prev.step)
       if (currentIndex > 0) {
-        return { ...prev, step: STEP_ORDER[currentIndex - 1] }
+        return { ...prev, step: stepList[currentIndex - 1] }
       }
       return prev
     })
@@ -147,14 +204,40 @@ export function useVideoCreation() {
 
   const canProceed = React.useCallback(() => {
     switch (state.step) {
+      case "select-template":
+        // Always allowed to proceed - if they select a template, we go to storyboard.
+        // If they don't (conceptually "custom"), they click "Start from Scratch" which sets template to null and goes to select-images.
+        // But the UI will handle the "Start from Scratch" vs "Select Template" distinct actions.
+        // For the purpose of a generic "Next" button (if it existed), we'd need to know if a selection was made.
+        // The SelectTemplateStep will likely handle the navigation directly.
+        return true 
+        
       case "select-images":
         return state.images.length >= VIDEO_LIMITS.MIN_IMAGES_PER_VIDEO
+        
       case "assign-rooms":
         return state.images.every((img) => img.roomType)
+
+      case "storyboard":
+        if (!state.selectedTemplateId) return false
+        const template = getVideoTemplateById(state.selectedTemplateId)
+        if (!template) return false
+        
+        // Check if all slots have an image
+        // We know images are keyed by sequenceOrder = slotIndex + 1
+        const filledSlots = state.images.map(img => img.sequenceOrder)
+        // Check if every slot index (1..slots.length) is present
+        for (let i = 1; i <= template.slots.length; i++) {
+            if (!filledSlots.includes(i)) return false
+        }
+        return true
+
       case "select-music":
         return true // Music is optional
+        
       case "review":
         return state.projectName.trim().length > 0 && state.images.length > 0
+        
       default:
         return false
     }
@@ -162,7 +245,8 @@ export function useVideoCreation() {
 
   const reset = React.useCallback(() => {
     setState({
-      step: "select-images",
+      step: "select-template",
+      selectedTemplateId: null,
       projectName: "",
       images: [],
       aspectRatio: VIDEO_DEFAULTS.ASPECT_RATIO,
@@ -175,8 +259,10 @@ export function useVideoCreation() {
   return {
     ...state,
     setStep,
+    setTemplateId,
     setProjectName,
     addImages,
+    addImageToSlot,
     removeImage,
     updateImage,
     reorderImages,

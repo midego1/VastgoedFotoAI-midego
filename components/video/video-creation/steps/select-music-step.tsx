@@ -42,7 +42,7 @@ const MOCK_TRACKS: MusicTrack[] = [
     licenseType: "royalty-free",
     attribution: null,
     isActive: true,
-    createdAt: new Date(),
+    createdAt: new Date("2024-01-01"),
   },
   {
     id: "2",
@@ -58,7 +58,7 @@ const MOCK_TRACKS: MusicTrack[] = [
     licenseType: "royalty-free",
     attribution: null,
     isActive: true,
-    createdAt: new Date(),
+    createdAt: new Date("2024-01-01"),
   },
   {
     id: "3",
@@ -74,7 +74,7 @@ const MOCK_TRACKS: MusicTrack[] = [
     licenseType: "royalty-free",
     attribution: null,
     isActive: true,
-    createdAt: new Date(),
+    createdAt: new Date("2024-01-01"),
   },
   {
     id: "4",
@@ -90,7 +90,7 @@ const MOCK_TRACKS: MusicTrack[] = [
     licenseType: "royalty-free",
     attribution: null,
     isActive: true,
-    createdAt: new Date(),
+    createdAt: new Date("2024-01-01"),
   },
   {
     id: "5",
@@ -106,7 +106,7 @@ const MOCK_TRACKS: MusicTrack[] = [
     licenseType: "royalty-free",
     attribution: null,
     isActive: true,
-    createdAt: new Date(),
+    createdAt: new Date("2024-01-01"),
   },
 ]
 
@@ -148,7 +148,7 @@ export function SelectMusicStep({
               className={cn(
                 "flex flex-col items-center gap-2 rounded-xl border-2 p-4 transition-all duration-200",
                 aspectRatio === ratio.id
-                  ? "border-[var(--accent-teal)] bg-[var(--accent-teal)]/5"
+                  ? "border-(--accent-teal) bg-(--accent-teal)/5"
                   : "border-transparent bg-muted/50 hover:bg-muted"
               )}
             >
@@ -156,7 +156,7 @@ export function SelectMusicStep({
               <div
                 className={cn(
                   "rounded border-2 transition-colors",
-                  aspectRatio === ratio.id ? "border-[var(--accent-teal)]" : "border-muted-foreground/30"
+                  aspectRatio === ratio.id ? "border-(--accent-teal)" : "border-muted-foreground/30"
                 )}
                 style={{
                   width: ratio.id === "16:9" ? 48 : ratio.id === "9:16" ? 27 : 36,
@@ -168,7 +168,7 @@ export function SelectMusicStep({
                 <div className="text-xs text-muted-foreground">{ratio.description}</div>
               </div>
               {aspectRatio === ratio.id && (
-                <IconCheck className="h-4 w-4 text-[var(--accent-teal)]" />
+                <IconCheck className="h-4 w-4 text-(--accent-teal)" />
               )}
             </button>
           ))}
@@ -191,7 +191,7 @@ export function SelectMusicStep({
             className={cn(
               "rounded-full px-4 py-1.5 text-sm font-medium transition-colors",
               activeCategory === "all"
-                ? "bg-[var(--accent-teal)] text-white"
+                ? "bg-(--accent-teal) text-white"
                 : "bg-muted text-muted-foreground hover:text-foreground"
             )}
           >
@@ -205,7 +205,7 @@ export function SelectMusicStep({
               className={cn(
                 "rounded-full px-4 py-1.5 text-sm font-medium transition-colors",
                 activeCategory === cat.id
-                  ? "bg-[var(--accent-teal)] text-white"
+                  ? "bg-(--accent-teal) text-white"
                   : "bg-muted text-muted-foreground hover:text-foreground"
               )}
             >
@@ -221,7 +221,7 @@ export function SelectMusicStep({
           className={cn(
             "mb-4 flex w-full items-center gap-3 rounded-xl border-2 p-4 transition-all duration-200",
             selectedTrack === null
-              ? "border-[var(--accent-teal)] bg-[var(--accent-teal)]/5"
+              ? "border-(--accent-teal) bg-(--accent-teal)/5"
               : "border-transparent bg-muted/50 hover:bg-muted"
           )}
         >
@@ -233,21 +233,28 @@ export function SelectMusicStep({
             <div className="text-sm text-muted-foreground">Video will have no background audio</div>
           </div>
           {selectedTrack === null && (
-            <IconCheck className="h-5 w-5 text-[var(--accent-teal)]" />
+            <IconCheck className="h-5 w-5 text-(--accent-teal)" />
           )}
         </button>
 
         {/* Track List */}
         <div className="space-y-2">
           {filteredTracks.map((track) => (
-            <button
+            <div
               key={track.id}
-              type="button"
+              role="button"
+              tabIndex={0}
               onClick={() => onSelectTrack(track)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault()
+                  onSelectTrack(track)
+                }
+              }}
               className={cn(
-                "flex w-full items-center gap-3 rounded-xl border-2 p-4 transition-all duration-200",
+                "flex w-full cursor-pointer items-center gap-3 rounded-xl border-2 p-4 transition-all duration-200",
                 selectedTrack?.id === track.id
-                  ? "border-[var(--accent-teal)] bg-[var(--accent-teal)]/5"
+                  ? "border-(--accent-teal) bg-(--accent-teal)/5"
                   : "border-transparent bg-muted/50 hover:bg-muted"
               )}
             >
@@ -258,7 +265,7 @@ export function SelectMusicStep({
                   e.stopPropagation()
                   setPlayingId(playingId === track.id ? null : track.id)
                 }}
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--accent-teal)]/10 text-[var(--accent-teal)] hover:bg-[var(--accent-teal)]/20"
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-(--accent-teal)/10 text-(--accent-teal) hover:bg-(--accent-teal)/20"
               >
                 {playingId === track.id ? (
                   <IconPlayerPause className="h-5 w-5" />
@@ -281,9 +288,9 @@ export function SelectMusicStep({
               </div>
 
               {selectedTrack?.id === track.id && (
-                <IconCheck className="h-5 w-5 text-[var(--accent-teal)]" />
+                <IconCheck className="h-5 w-5 text-(--accent-teal)" />
               )}
-            </button>
+            </div>
           ))}
         </div>
       </div>
