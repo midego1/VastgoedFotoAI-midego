@@ -21,6 +21,7 @@ export interface TeamMember {
   role: UserRole;
   status: MemberStatus;
   joinedAt: Date;
+  inviteToken?: string; // For pending invitations
 }
 
 export const mockWorkspace: Workspace = {

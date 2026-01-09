@@ -588,3 +588,44 @@ export async function chargeWithSavedPaymentMethod(
     return { success: false, error: "Failed to charge payment method" };
   }
 }
+
+// ============================================================================
+// Billing Portal
+// ============================================================================
+
+/**
+ * Create a Stripe Billing Portal session for the user's workspace
+ * Allows users to manage payment methods and view invoice history
+ */
+export async function createBillingPortalSession(): Promise<
+  ActionResult<{ url: string }>
+> {
+  try {
+    const session = await auth.api.getSession({ headers: await headers() });
+    if (!session?.user) {
+      return { success: false, error: "Not authenticated" };
+    }
+
+    const workspaceId = session.user.workspaceId;
+    if (!workspaceId) {
+      return { success: false, error: "No workspace found" };
+    }
+
+    // Get or create Stripe customer
+    const customerResult = await getOrCreateStripeCustomer(workspaceId);
+    if (!customerResult.success) {
+      return { success: false, error: customerResult.error };
+    }
+
+    // Create billing portal session
+    const portalSession = await stripe.billingPortal.sessions.create({
+      customer: customerResult.data.stripeCustomerId,
+      return_url: `${getBaseUrl()}/dashboard/settings`,
+    });
+
+    return { success: true, data: { url: portalSession.url } };
+  } catch (error) {
+    console.error("[payments:createBillingPortalSession] Error:", error);
+    return { success: false, error: "Failed to create billing portal session" };
+  }
+}

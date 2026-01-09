@@ -7,8 +7,10 @@ import {
   IconClock,
   IconLoader2,
   IconLock,
+  IconLogin,
   IconUser,
 } from "@tabler/icons-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
@@ -16,7 +18,10 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { acceptInvitationAction } from "@/lib/actions/invitations";
+import {
+  acceptInvitationAction,
+  acceptInvitationAsLoggedInUser,
+} from "@/lib/actions/invitations";
 
 interface InviteAcceptFormProps {
   token: string;
@@ -24,6 +29,10 @@ interface InviteAcceptFormProps {
   workspaceName: string;
   isExpired: boolean;
   isAccepted: boolean;
+  role: string;
+  hasExistingAccount?: boolean;
+  isLoggedIn?: boolean;
+  loggedInEmail?: string;
 }
 
 export function InviteAcceptForm({
@@ -32,12 +41,34 @@ export function InviteAcceptForm({
   workspaceName,
   isExpired,
   isAccepted,
+  role,
+  hasExistingAccount = false,
+  isLoggedIn = false,
+  loggedInEmail,
 }: InviteAcceptFormProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [showSignUpForm, setShowSignUpForm] = useState(!hasExistingAccount);
+
+  const roleLabel =
+    role === "admin" ? "an admin" : role === "owner" ? "the owner" : "a member";
+
+  // Handler for logged-in users accepting directly
+  const handleAcceptAsLoggedIn = () => {
+    startTransition(async () => {
+      const result = await acceptInvitationAsLoggedInUser(token);
+
+      if (result.success) {
+        toast.success("Welcome! You've joined the workspace.");
+        router.push(result.data.redirectTo);
+      } else {
+        toast.error(result.error);
+      }
+    });
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -117,6 +148,178 @@ export function InviteAcceptForm({
     );
   }
 
+  // User is logged in with wrong email
+  if (
+    isLoggedIn &&
+    loggedInEmail &&
+    loggedInEmail.toLowerCase() !== email.toLowerCase()
+  ) {
+    return (
+      <div className="rounded-2xl bg-card p-8 text-center ring-1 ring-foreground/5">
+        <div
+          className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full"
+          style={{
+            backgroundColor:
+              "color-mix(in oklch, var(--accent-amber) 15%, transparent)",
+          }}
+        >
+          <IconAlertTriangle
+            className="h-8 w-8"
+            style={{ color: "var(--accent-amber)" }}
+          />
+        </div>
+        <h1 className="mb-2 font-bold text-xl">Wrong Account</h1>
+        <p className="mb-2 text-muted-foreground">
+          This invitation was sent to <strong>{email}</strong>
+        </p>
+        <p className="mb-4 text-muted-foreground">
+          You&apos;re signed in as <strong>{loggedInEmail}</strong>
+        </p>
+        <p className="mb-4 text-muted-foreground text-sm">
+          Please sign out and sign in with the correct email to accept this
+          invitation.
+        </p>
+        <Button className="gap-2" onClick={() => router.push("/dashboard")}>
+          Go to Dashboard
+        </Button>
+      </div>
+    );
+  }
+
+  // User is logged in with correct email - show direct accept
+  if (
+    isLoggedIn &&
+    loggedInEmail &&
+    loggedInEmail.toLowerCase() === email.toLowerCase()
+  ) {
+    return (
+      <div className="rounded-2xl bg-card ring-1 ring-foreground/5">
+        {/* Header */}
+        <div className="border-b p-6 text-center">
+          <div
+            className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-xl"
+            style={{
+              backgroundColor:
+                "color-mix(in oklch, var(--accent-violet) 15%, transparent)",
+            }}
+          >
+            <IconBuilding
+              className="h-7 w-7"
+              style={{ color: "var(--accent-violet)" }}
+            />
+          </div>
+          <h1 className="font-bold text-xl">Join {workspaceName}</h1>
+          <p className="mt-1 text-muted-foreground text-sm">
+            You&apos;ve been invited to join as {roleLabel}
+          </p>
+        </div>
+
+        {/* Content */}
+        <div className="space-y-4 p-6">
+          <div className="rounded-lg bg-muted/50 p-4 text-center">
+            <p className="text-muted-foreground text-sm">
+              Signed in as <strong>{loggedInEmail}</strong>
+            </p>
+          </div>
+
+          <Button
+            className="w-full gap-2"
+            disabled={isPending}
+            onClick={handleAcceptAsLoggedIn}
+            style={{ backgroundColor: "var(--accent-violet)" }}
+          >
+            {isPending ? (
+              <>
+                <IconLoader2 className="h-4 w-4 animate-spin" />
+                Joining...
+              </>
+            ) : (
+              <>
+                <IconCheck className="h-4 w-4" />
+                Accept Invitation
+              </>
+            )}
+          </Button>
+        </div>
+
+        {/* Footer */}
+        <div className="border-t bg-muted/30 px-6 py-4 text-center text-muted-foreground text-xs">
+          By accepting, you agree to our Terms of Service and Privacy Policy
+        </div>
+      </div>
+    );
+  }
+
+  // User has existing account - show sign in prompt
+  if (hasExistingAccount && !showSignUpForm) {
+    return (
+      <div className="rounded-2xl bg-card ring-1 ring-foreground/5">
+        {/* Header */}
+        <div className="border-b p-6 text-center">
+          <div
+            className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-xl"
+            style={{
+              backgroundColor:
+                "color-mix(in oklch, var(--accent-violet) 15%, transparent)",
+            }}
+          >
+            <IconBuilding
+              className="h-7 w-7"
+              style={{ color: "var(--accent-violet)" }}
+            />
+          </div>
+          <h1 className="font-bold text-xl">Join {workspaceName}</h1>
+          <p className="mt-1 text-muted-foreground text-sm">
+            You&apos;ve been invited to join as {roleLabel}
+          </p>
+        </div>
+
+        {/* Content */}
+        <div className="space-y-4 p-6">
+          <div className="rounded-lg bg-muted/50 p-4 text-center">
+            <p className="text-muted-foreground text-sm">
+              An account already exists for <strong>{email}</strong>
+            </p>
+          </div>
+
+          <Button
+            asChild
+            className="w-full gap-2"
+            style={{ backgroundColor: "var(--accent-violet)" }}
+          >
+            <Link href={`/sign-in?redirect=/invite/${token}`}>
+              <IconLogin className="h-4 w-4" />
+              Sign In to Accept
+            </Link>
+          </Button>
+
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-card px-2 text-muted-foreground">or</span>
+            </div>
+          </div>
+
+          <Button
+            className="w-full"
+            onClick={() => setShowSignUpForm(true)}
+            variant="outline"
+          >
+            Create New Account Instead
+          </Button>
+        </div>
+
+        {/* Footer */}
+        <div className="border-t bg-muted/30 px-6 py-4 text-center text-muted-foreground text-xs">
+          By accepting, you agree to our Terms of Service and Privacy Policy
+        </div>
+      </div>
+    );
+  }
+
+  // Sign up form (default for new accounts)
   return (
     <div className="rounded-2xl bg-card ring-1 ring-foreground/5">
       {/* Header */}
@@ -135,7 +338,7 @@ export function InviteAcceptForm({
         </div>
         <h1 className="font-bold text-xl">Join {workspaceName}</h1>
         <p className="mt-1 text-muted-foreground text-sm">
-          You&apos;ve been invited to join as the workspace owner
+          You&apos;ve been invited to join as {roleLabel}
         </p>
       </div>
 
@@ -239,6 +442,28 @@ export function InviteAcceptForm({
             </>
           )}
         </Button>
+
+        {hasExistingAccount && (
+          <>
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <span className="w-full border-t" />
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-card px-2 text-muted-foreground">or</span>
+              </div>
+            </div>
+
+            <Button
+              className="w-full"
+              onClick={() => setShowSignUpForm(false)}
+              type="button"
+              variant="outline"
+            >
+              Sign In with Existing Account
+            </Button>
+          </>
+        )}
       </form>
 
       {/* Footer */}

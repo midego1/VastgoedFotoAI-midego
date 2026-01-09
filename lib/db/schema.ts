@@ -66,6 +66,11 @@ export const user = pgTable("user", {
 
   // System admin flag (for super admin access across all workspaces)
   isSystemAdmin: boolean("is_system_admin").notNull().default(false),
+
+  // Better-auth admin plugin fields
+  banned: boolean("banned").notNull().default(false),
+  banReason: text("ban_reason"),
+  banExpires: timestamp("ban_expires"),
 });
 
 export const session = pgTable(

@@ -1,15 +1,18 @@
 "use server";
 
 import { addDays } from "date-fns";
-import { and, eq, gt } from "drizzle-orm";
+import { and, eq, gt, isNull } from "drizzle-orm";
 import { nanoid } from "nanoid";
 import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
 import type { ActionResult } from "@/lib/actions/admin";
 import { verifySystemAdmin } from "@/lib/admin-auth";
+import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import {
   type Invitation,
   invitation,
+  type UserRole,
   user,
   type WorkspacePlan,
   workspace,
@@ -349,5 +352,314 @@ export async function deleteInvitationAction(
   } catch (error) {
     console.error("[invitations:deleteInvitation] Error:", error);
     return { success: false, error: "Failed to delete invitation" };
+  }
+}
+
+// ============================================================================
+// Workspace Member Invitations (Owner/Admin of workspace)
+// ============================================================================
+
+/**
+ * Create an invitation for a team member to join the workspace
+ * Returns a shareable link that can be sent to the invitee
+ */
+export async function createWorkspaceMemberInvitation(
+  email: string,
+  role: UserRole
+): Promise<ActionResult<{ token: string; inviteUrl: string }>> {
+  try {
+    const session = await auth.api.getSession({ headers: await headers() });
+    if (!session?.user) {
+      return { success: false, error: "Not authenticated" };
+    }
+
+    // Get current user with workspace
+    const [currentUser] = await db
+      .select()
+      .from(user)
+      .where(eq(user.id, session.user.id));
+
+    if (!currentUser?.workspaceId) {
+      return { success: false, error: "Workspace not found" };
+    }
+
+    // Check if user is owner or admin
+    if (currentUser.role !== "owner" && currentUser.role !== "admin") {
+      return {
+        success: false,
+        error: "Only owners and admins can invite members",
+      };
+    }
+
+    const workspaceId = currentUser.workspaceId;
+    const normalizedEmail = email.toLowerCase().trim();
+
+    // Check if user is already a member of this workspace
+    const [existingMember] = await db
+      .select()
+      .from(user)
+      .where(
+        and(eq(user.email, normalizedEmail), eq(user.workspaceId, workspaceId))
+      );
+
+    if (existingMember) {
+      return {
+        success: false,
+        error: "This user is already a member of your workspace",
+      };
+    }
+
+    // Check if there's already a pending invitation for this email
+    const [existingInvitation] = await db
+      .select()
+      .from(invitation)
+      .where(
+        and(
+          eq(invitation.email, normalizedEmail),
+          eq(invitation.workspaceId, workspaceId),
+          isNull(invitation.acceptedAt),
+          gt(invitation.expiresAt, new Date())
+        )
+      );
+
+    if (existingInvitation) {
+      // Return existing invitation link
+      const baseUrl =
+        process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+      return {
+        success: true,
+        data: {
+          token: existingInvitation.token,
+          inviteUrl: `${baseUrl}/invite/${existingInvitation.token}`,
+        },
+      };
+    }
+
+    // Create new invitation (expires in 7 days)
+    const token = nanoid(32);
+    const expiresAt = addDays(new Date(), 7);
+
+    await db.insert(invitation).values({
+      id: nanoid(),
+      email: normalizedEmail,
+      workspaceId,
+      role,
+      token,
+      expiresAt,
+    });
+
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+    const inviteUrl = `${baseUrl}/invite/${token}`;
+
+    revalidatePath("/dashboard/settings");
+
+    return {
+      success: true,
+      data: { token, inviteUrl },
+    };
+  } catch (error) {
+    console.error("[invitations:createWorkspaceMember] Error:", error);
+    return { success: false, error: "Failed to create invitation" };
+  }
+}
+
+/**
+ * Get pending invitations for the current user's workspace
+ */
+export async function getWorkspacePendingInvitations(): Promise<
+  ActionResult<
+    {
+      id: string;
+      email: string;
+      role: UserRole;
+      token: string;
+      expiresAt: Date;
+      createdAt: Date;
+    }[]
+  >
+> {
+  try {
+    const session = await auth.api.getSession({ headers: await headers() });
+    if (!session?.user) {
+      return { success: false, error: "Not authenticated" };
+    }
+
+    const [currentUser] = await db
+      .select()
+      .from(user)
+      .where(eq(user.id, session.user.id));
+
+    if (!currentUser?.workspaceId) {
+      return { success: false, error: "Workspace not found" };
+    }
+
+    const invitations = await db
+      .select({
+        id: invitation.id,
+        email: invitation.email,
+        role: invitation.role,
+        token: invitation.token,
+        expiresAt: invitation.expiresAt,
+        createdAt: invitation.createdAt,
+      })
+      .from(invitation)
+      .where(
+        and(
+          eq(invitation.workspaceId, currentUser.workspaceId),
+          isNull(invitation.acceptedAt),
+          gt(invitation.expiresAt, new Date())
+        )
+      )
+      .orderBy(invitation.createdAt);
+
+    return {
+      success: true,
+      data: invitations.map((inv) => ({
+        ...inv,
+        role: inv.role as UserRole,
+      })),
+    };
+  } catch (error) {
+    console.error("[invitations:getWorkspacePending] Error:", error);
+    return { success: false, error: "Failed to get invitations" };
+  }
+}
+
+/**
+ * Accept an invitation as a logged-in user
+ * User must be logged in and email must match the invitation
+ */
+export async function acceptInvitationAsLoggedInUser(
+  token: string
+): Promise<ActionResult<{ redirectTo: string }>> {
+  try {
+    const session = await auth.api.getSession({ headers: await headers() });
+    if (!session?.user) {
+      return {
+        success: false,
+        error: "You must be logged in to accept an invitation",
+      };
+    }
+
+    // Get the invitation
+    const [result] = await db
+      .select({
+        id: invitation.id,
+        email: invitation.email,
+        role: invitation.role,
+        workspaceId: invitation.workspaceId,
+        expiresAt: invitation.expiresAt,
+        acceptedAt: invitation.acceptedAt,
+      })
+      .from(invitation)
+      .where(eq(invitation.token, token));
+
+    if (!result) {
+      return { success: false, error: "Invitation not found" };
+    }
+
+    // Check if already accepted
+    if (result.acceptedAt) {
+      return {
+        success: false,
+        error: "This invitation has already been accepted",
+      };
+    }
+
+    // Check if expired
+    if (result.expiresAt < new Date()) {
+      return { success: false, error: "This invitation has expired" };
+    }
+
+    // Verify email matches
+    if (session.user.email.toLowerCase() !== result.email.toLowerCase()) {
+      return {
+        success: false,
+        error: `This invitation was sent to ${result.email}. Please log in with that email address.`,
+      };
+    }
+
+    // Update user to join the workspace
+    await db
+      .update(user)
+      .set({
+        workspaceId: result.workspaceId,
+        role: result.role,
+        updatedAt: new Date(),
+      })
+      .where(eq(user.id, session.user.id));
+
+    // Mark invitation as accepted
+    await db
+      .update(invitation)
+      .set({ acceptedAt: new Date() })
+      .where(eq(invitation.id, result.id));
+
+    revalidatePath("/dashboard");
+    revalidatePath("/dashboard/settings");
+
+    return {
+      success: true,
+      data: { redirectTo: "/dashboard" },
+    };
+  } catch (error) {
+    console.error("[invitations:acceptAsLoggedIn] Error:", error);
+    return { success: false, error: "Failed to accept invitation" };
+  }
+}
+
+/**
+ * Cancel/revoke a workspace invitation
+ */
+export async function cancelWorkspaceInvitation(
+  invitationId: string
+): Promise<ActionResult<void>> {
+  try {
+    const session = await auth.api.getSession({ headers: await headers() });
+    if (!session?.user) {
+      return { success: false, error: "Not authenticated" };
+    }
+
+    const [currentUser] = await db
+      .select()
+      .from(user)
+      .where(eq(user.id, session.user.id));
+
+    if (!currentUser?.workspaceId) {
+      return { success: false, error: "Workspace not found" };
+    }
+
+    // Check if user is owner or admin
+    if (currentUser.role !== "owner" && currentUser.role !== "admin") {
+      return {
+        success: false,
+        error: "Only owners and admins can cancel invitations",
+      };
+    }
+
+    // Verify invitation belongs to this workspace
+    const [inv] = await db
+      .select()
+      .from(invitation)
+      .where(
+        and(
+          eq(invitation.id, invitationId),
+          eq(invitation.workspaceId, currentUser.workspaceId)
+        )
+      );
+
+    if (!inv) {
+      return { success: false, error: "Invitation not found" };
+    }
+
+    // Delete the invitation
+    await db.delete(invitation).where(eq(invitation.id, invitationId));
+
+    revalidatePath("/dashboard/settings");
+
+    return { success: true, data: undefined };
+  } catch (error) {
+    console.error("[invitations:cancelWorkspace] Error:", error);
+    return { success: false, error: "Failed to cancel invitation" };
   }
 }

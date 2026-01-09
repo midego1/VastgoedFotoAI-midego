@@ -2,15 +2,20 @@
 
 import {
   IconBuilding,
+  IconCreditCard,
+  IconExternalLink,
+  IconLoader2,
   IconSettings,
   IconUserPlus,
   IconUsers,
 } from "@tabler/icons-react";
-import { useState } from "react";
+import { useState, useTransition } from "react";
+import { toast } from "sonner";
 import { InviteMemberDialog } from "@/components/settings/invite-member-dialog";
 import { TeamMembersTable } from "@/components/settings/team-members-table";
 import { WorkspaceForm } from "@/components/settings/workspace-form";
 import { Button } from "@/components/ui/button";
+import { createBillingPortalSession } from "@/lib/actions/payments";
 import type { Workspace } from "@/lib/db/schema";
 import type { TeamMember } from "@/lib/mock/workspace";
 
@@ -26,9 +31,21 @@ export function SettingsContent({
   currentUserId,
 }: SettingsContentProps) {
   const [inviteDialogOpen, setInviteDialogOpen] = useState(false);
+  const [isBillingPending, startBillingTransition] = useTransition();
 
   const activeMembers = members.filter((m) => m.status === "active").length;
   const pendingInvites = members.filter((m) => m.status === "pending").length;
+
+  const handleManageBilling = () => {
+    startBillingTransition(async () => {
+      const result = await createBillingPortalSession();
+      if (result.success) {
+        window.open(result.data.url, "_blank");
+      } else {
+        toast.error(result.error);
+      }
+    });
+  };
 
   return (
     <div className="space-y-8 px-4 pb-8 md:px-6 lg:px-8">
@@ -78,8 +95,57 @@ export function SettingsContent({
         </div>
       </section>
 
-      {/* Team Section */}
+      {/* Billing Section */}
       <section className="stagger-2 animate-fade-in-up space-y-4">
+        <div className="flex items-center gap-2">
+          <div
+            className="flex h-8 w-8 items-center justify-center rounded-lg"
+            style={{
+              backgroundColor:
+                "color-mix(in oklch, var(--accent-amber) 15%, transparent)",
+            }}
+          >
+            <IconCreditCard
+              className="h-4 w-4"
+              style={{ color: "var(--accent-amber)" }}
+            />
+          </div>
+          <div>
+            <h2 className="font-semibold text-lg">Billing</h2>
+            <p className="text-muted-foreground text-sm">
+              Manage payment methods and view invoices
+            </p>
+          </div>
+        </div>
+
+        <div className="rounded-2xl border border-foreground/5 bg-card p-6 shadow-sm">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="space-y-1">
+              <p className="font-medium">Payment Settings</p>
+              <p className="text-muted-foreground text-sm">
+                Update payment methods, view payment history, and download
+                invoices
+              </p>
+            </div>
+            <Button
+              className="shrink-0 gap-2"
+              disabled={isBillingPending}
+              onClick={handleManageBilling}
+              variant="outline"
+            >
+              {isBillingPending ? (
+                <IconLoader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <IconExternalLink className="h-4 w-4" />
+              )}
+              Manage Billing
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Team Section */}
+      <section className="stagger-3 animate-fade-in-up space-y-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div
