@@ -84,7 +84,7 @@ export async function getOrCreateStripeCustomer(
 
 /**
  * Check if a workspace can use invoice billing
- * Requirements: has organization number + invited by admin + marked as eligible
+ * Requirements: has organization number + marked as invoice eligible by admin
  */
 export async function canUseInvoiceBilling(
   workspaceId: string
@@ -94,11 +94,6 @@ export async function canUseInvoiceBilling(
 
     if (!workspaceData) {
       return { eligible: false, reason: "Workspace not found" };
-    }
-
-    // Must be invited by admin
-    if (!workspaceData.invitedByAdmin) {
-      return { eligible: false, reason: "Not an invited customer" };
     }
 
     // Must have organization number (Norwegian business)
