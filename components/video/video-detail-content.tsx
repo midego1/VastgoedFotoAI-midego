@@ -45,6 +45,7 @@ import { deleteVideoProject, retryFailedClip } from "@/lib/actions/video";
 import type {
   MusicTrack,
   VideoClip,
+  VideoClipStatus,
   VideoProject,
   VideoProjectStatus,
 } from "@/lib/db/schema";
@@ -91,7 +92,10 @@ const statusConfig: Record<
   },
 };
 
-const clipStatusConfig = {
+const clipStatusConfig: Record<
+  VideoClipStatus,
+  { label: string; color: string }
+> = {
   pending: { label: "Pending", color: "bg-muted" },
   processing: { label: "Processing", color: "bg-[var(--accent-teal)]" },
   completed: { label: "Completed", color: "bg-[var(--accent-green)]" },
@@ -439,7 +443,7 @@ export function VideoDetailContent({
   const [showDeleteDialog, setShowDeleteDialog] = React.useState(false);
   const [isDeleting, setIsDeleting] = React.useState(false);
 
-  const status = statusConfig[videoProject.status];
+  const status = statusConfig[videoProject.status as VideoProjectStatus];
   const isProcessing =
     videoProject.status === "generating" || videoProject.status === "compiling";
   const isCompleted = videoProject.status === "completed";
@@ -599,7 +603,8 @@ export function VideoDetailContent({
                   const roomConfig = VIDEO_ROOM_TYPES.find(
                     (r) => r.id === clip.roomType
                   );
-                  const clipStatus = clipStatusConfig[clip.status];
+                  const clipStatus =
+                    clipStatusConfig[clip.status as VideoClipStatus];
                   const nextClip = clips[index + 1];
                   const showTransition =
                     clip.transitionType === "seamless" &&

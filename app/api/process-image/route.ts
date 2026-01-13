@@ -4,7 +4,7 @@ import {
   updateImageGeneration,
   updateProjectCounts,
 } from "@/lib/db/queries";
-import { fal, NANO_BANANA_PRO_EDIT, type NanoBananaProOutput } from "@/lib/fal";
+import { fal, NANO_BANANA_PRO_EDIT } from "@/lib/fal";
 import {
   getExtensionFromContentType,
   getImagePath,
@@ -56,19 +56,19 @@ export async function POST(request: NextRequest) {
       console.log("Uploaded to Fal.ai storage:", falImageUrl);
 
       // Call Fal.ai Nano Banana Pro API with Fal.ai storage URL
-      const result = (await fal.subscribe(NANO_BANANA_PRO_EDIT, {
+      const result = await fal.subscribe(NANO_BANANA_PRO_EDIT, {
         input: {
           prompt: image.prompt,
           image_urls: [falImageUrl], // Use Fal.ai storage URL
           num_images: 1,
           output_format: "jpeg",
         },
-      })) as NanoBananaProOutput;
+      });
 
       console.log("Fal.ai result:", JSON.stringify(result, null, 2));
 
-      // Check for result - handle both direct and wrapped response
-      const output = (result as { data?: NanoBananaProOutput }).data || result;
+      // Extract output from Result type (has data property)
+      const output = result.data;
       if (!output.images?.[0]?.url) {
         console.error("No images in response. Full result:", result);
         throw new Error("No image returned from Fal.ai");

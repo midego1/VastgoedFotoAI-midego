@@ -264,10 +264,12 @@ export function ImageMaskEditor({
     } else {
       // Load previous state
       const prevState = newHistory.at(-1);
-      canvas.loadFromJSON(prevState, () => {
-        canvas.renderAll();
-        calculateMaskBounds();
-      });
+      if (prevState) {
+        canvas.loadFromJSON(prevState, () => {
+          canvas.renderAll();
+          calculateMaskBounds();
+        });
+      }
     }
 
     setCanvasHistory(newHistory);

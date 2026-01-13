@@ -6,13 +6,7 @@ import {
   getImageGenerationById,
   updateProjectCounts,
 } from "@/lib/db/queries";
-import {
-  FLUX_FILL_PRO,
-  type FluxFillOutput,
-  fal,
-  NANO_BANANA_PRO_EDIT,
-  type NanoBananaProOutput,
-} from "@/lib/fal";
+import { FLUX_FILL_PRO, fal, NANO_BANANA_PRO_EDIT } from "@/lib/fal";
 import {
   getExtensionFromContentType,
   getImagePath,
@@ -103,7 +97,19 @@ export async function POST(request: NextRequest) {
       if (mode === "remove") {
         // REMOVE MODE: Use FLUX Fill Pro (inpainting)
         // Convert base64 mask data URL to buffer
-        const maskBase64 = maskDataUrl?.split(",")[1];
+        if (!maskDataUrl) {
+          return NextResponse.json(
+            { error: "Mask is required for remove mode" },
+            { status: 400 }
+          );
+        }
+        const maskBase64 = maskDataUrl.split(",")[1];
+        if (!maskBase64) {
+          return NextResponse.json(
+            { error: "Invalid mask data URL format" },
+            { status: 400 }
+          );
+        }
         const maskBuffer = Buffer.from(maskBase64, "base64");
 
         // Resize mask to match source image dimensions
@@ -115,7 +121,9 @@ export async function POST(request: NextRequest) {
         console.log("Resized mask to match source image dimensions");
 
         // Upload resized mask to Fal.ai storage
-        const maskBlob = new Blob([resizedMaskBuffer], { type: "image/png" });
+        const maskBlob = new Blob([new Uint8Array(resizedMaskBuffer)], {
+          type: "image/png",
+        });
         const falMaskUrl = await fal.storage.upload(
           new File([maskBlob], "mask.png", { type: "image/png" })
         );
@@ -123,20 +131,19 @@ export async function POST(request: NextRequest) {
         console.log("Uploaded mask to Fal.ai storage:", falMaskUrl);
 
         // Call FLUX Fill Pro API
-        const result = (await fal.subscribe(FLUX_FILL_PRO, {
+        const result = await fal.subscribe(FLUX_FILL_PRO, {
           input: {
             image_url: falImageUrl,
             mask_url: falMaskUrl,
             prompt,
-            num_inference_steps: 28,
             output_format: "jpeg",
           },
-        })) as FluxFillOutput;
+        });
 
         console.log("FLUX Fill result:", JSON.stringify(result, null, 2));
 
-        // Check for result - handle both direct and wrapped response
-        const output = (result as { data?: FluxFillOutput }).data || result;
+        // Extract output from Result type (has data property)
+        const output = result.data;
         if (!output.images?.[0]?.url) {
           console.error("No images in response. Full result:", result);
           throw new Error("No image returned from FLUX Fill");
@@ -148,20 +155,19 @@ export async function POST(request: NextRequest) {
         // ADD MODE: Use Nano Banana Pro (image-to-image)
         console.log("Using Nano Banana Pro for add mode");
 
-        const result = (await fal.subscribe(NANO_BANANA_PRO_EDIT, {
+        const result = await fal.subscribe(NANO_BANANA_PRO_EDIT, {
           input: {
             prompt,
             image_urls: [falImageUrl],
             num_images: 1,
             output_format: "jpeg",
           },
-        })) as NanoBananaProOutput;
+        });
 
         console.log("Nano Banana result:", JSON.stringify(result, null, 2));
 
-        // Check for result - handle both direct and wrapped response
-        const output =
-          (result as { data?: NanoBananaProOutput }).data || result;
+        // Extract output from Result type (has data property)
+        const output = result.data;
         if (!output.images?.[0]?.url) {
           console.error("No images in response. Full result:", result);
           throw new Error("No image returned from Nano Banana");

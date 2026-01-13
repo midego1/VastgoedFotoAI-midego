@@ -19,9 +19,9 @@ export const auth = betterAuth({
     enabled: true,
     minPasswordLength: 8,
     requireEmailVerification: true,
-    sendResetPassword: ({ user: resetUser, url }) => {
+    sendResetPassword: async ({ user: resetUser, url }) => {
       // Don't await to prevent timing attacks
-      sendPasswordResetEmail(resetUser.email, resetUser.name, url);
+      void sendPasswordResetEmail(resetUser.email, resetUser.name, url);
     },
     resetPasswordTokenExpiresIn: 60 * 60, // 1 hour
   },

@@ -76,6 +76,9 @@ export async function GET(
     (async () => {
       for (let i = 0; i < images.length; i++) {
         const image = images[i];
+        if (!image) {
+          continue;
+        }
         const imageUrl = image.resultImageUrl || image.originalImageUrl;
         if (!imageUrl) {
           continue;
