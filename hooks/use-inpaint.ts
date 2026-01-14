@@ -12,7 +12,7 @@ interface UseInpaintReturn {
     prompt: string,
     mode: EditMode,
     replaceNewerVersions?: boolean
-  ) => Promise<{ success: boolean; runId?: string }>;
+  ) => Promise<{ success: boolean; runId?: string; newImageId?: string }>;
   isProcessing: boolean;
   error: string | null;
   runId: string | null;
@@ -37,7 +37,7 @@ export function useInpaint(): UseInpaintReturn {
       prompt: string,
       mode: EditMode,
       replaceNewerVersions = false
-    ): Promise<{ success: boolean; runId?: string }> => {
+    ): Promise<{ success: boolean; runId?: string; newImageId?: string }> => {
       if (!(imageId && prompt)) {
         setError("Missing required fields");
         return { success: false };
@@ -69,7 +69,11 @@ export function useInpaint(): UseInpaintReturn {
         setRunId(result.data.runId);
         // Keep isProcessing true - the task is running in the background
         // The component should use the runId to track progress
-        return { success: true, runId: result.data.runId };
+        return {
+          success: true,
+          runId: result.data.runId,
+          newImageId: result.data.newImageId,
+        };
       } catch (err) {
         console.error("Inpaint error:", err);
         setError(err instanceof Error ? err.message : "Inpainting failed");

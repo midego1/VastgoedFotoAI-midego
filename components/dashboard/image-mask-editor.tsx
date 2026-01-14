@@ -10,6 +10,7 @@ import {
 } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import * as React from "react";
+import { toast } from "sonner";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -52,12 +53,14 @@ interface ImageMaskEditorProps {
   image: ImageGeneration;
   latestVersion: number;
   onClose: () => void;
+  onEditStarted?: (runId: string, newImageId: string) => void;
 }
 
 export function ImageMaskEditor({
   image,
   latestVersion,
   onClose,
+  onEditStarted,
 }: ImageMaskEditorProps) {
   const router = useRouter();
   const { inpaint, isProcessing, error } = useInpaint();
@@ -320,14 +323,27 @@ export function ImageMaskEditor({
         replaceNewerVersions
       );
 
-      if (result.success) {
-        // The task is now running in the background
-        // Close the editor and let the project detail page poll/track progress
+      if (result.success && result.runId && result.newImageId) {
+        // Show success toast
+        toast.success("Edit started! Processing in background...");
+
+        // Pass runId and newImageId to parent for optimistic updates
+        if (onEditStarted) {
+          onEditStarted(result.runId, result.newImageId);
+        }
+
+        // Brief delay before closing for visual feedback
+        await new Promise((resolve) => setTimeout(resolve, 1500));
+
+        // Refresh and close
         router.refresh();
         onClose();
+      } else if (!result.success) {
+        // Show error toast
+        toast.error("Failed to start edit. Please try again.");
       }
     },
-    [image.id, inpaint, router, onClose]
+    [image.id, inpaint, router, onClose, onEditStarted]
   );
 
   // Proceed with removal after description is provided
@@ -578,6 +594,19 @@ export function ImageMaskEditor({
         className="relative flex flex-1 items-center justify-center overflow-hidden p-8"
         ref={containerRef}
       >
+        {/* Processing overlay */}
+        {isProcessing && (
+          <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm">
+            <div className="text-center text-white">
+              <IconLoader2 className="mx-auto mb-2 h-8 w-8 animate-spin" />
+              <p className="text-sm">Starting edit...</p>
+              <p className="mt-1 text-white/70 text-xs">
+                This may take 20-30 seconds
+              </p>
+            </div>
+          </div>
+        )}
+
         {/* Loading state */}
         {!imageLoaded && (
           <div className="flex items-center gap-2 text-white/70">

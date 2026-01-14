@@ -54,6 +54,7 @@ import {
 import type { ImageGeneration, Project, ProjectStatus } from "@/lib/db/schema";
 import { getTemplateById, ROOM_TYPES } from "@/lib/style-templates";
 import { cn } from "@/lib/utils";
+import type { inpaintImageTask } from "@/trigger/inpaint-image";
 import type { processImageTask } from "@/trigger/process-image";
 import { AddImagesDialog } from "./add-images-dialog";
 import { ImageMaskEditor } from "./image-mask-editor";
@@ -110,7 +111,9 @@ function RealtimeProcessingLabel({
   fallback?: string;
   onComplete?: () => void;
 }) {
-  const { run } = useRealtimeRun<typeof processImageTask>(runId ?? "", {
+  const { run } = useRealtimeRun<
+    typeof processImageTask | typeof inpaintImageTask
+  >(runId ?? "", {
     accessToken: accessToken ?? "",
     enabled: !!runId && !!accessToken,
   });
@@ -1049,6 +1052,23 @@ export function ProjectDetailContent({
     }
   };
 
+  // Handle when a new edit starts - optimistic update
+  const handleEditStarted = React.useCallback(
+    (runId: string, newImageId: string) => {
+      // Add to runIds immediately for real-time tracking
+      setRunIds((prev) => {
+        const next = new Map(prev);
+        next.set(newImageId, runId);
+        return next;
+      });
+      // Trigger access token fetch if we don't have one yet
+      if (!accessToken) {
+        // The useEffect below will handle fetching the token
+      }
+    },
+    [accessToken]
+  );
+
   // Fetch access token when we have run IDs to track
   React.useEffect(() => {
     if (runIds.size === 0) {
@@ -1705,6 +1725,7 @@ export function ProjectDetailContent({
           image={editingImage}
           latestVersion={editingImageLatestVersion}
           onClose={() => setEditingImage(null)}
+          onEditStarted={handleEditStarted}
         />
       )}
 

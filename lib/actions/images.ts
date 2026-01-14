@@ -179,6 +179,8 @@ export async function recordUploadedImages(
         originalImageUrl: publicUrl,
         resultImageUrl: null,
         prompt,
+        version: 1,
+        parentId: null,
         status: "pending",
         errorMessage: null,
         metadata: {
@@ -967,7 +969,7 @@ export async function triggerInpaintTask(
   mode: EditMode,
   maskDataUrl?: string,
   replaceNewerVersions?: boolean
-): Promise<ActionResult<{ runId: string }>> {
+): Promise<ActionResult<{ runId: string; newImageId: string }>> {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -1051,7 +1053,10 @@ export async function triggerInpaintTask(
     revalidatePath("/dashboard");
     revalidatePath(`/dashboard/${image.projectId}`);
 
-    return { success: true, data: { runId: handle.id } };
+    return {
+      success: true,
+      data: { runId: handle.id, newImageId: newImage.id },
+    };
   } catch (error) {
     console.error("Failed to trigger inpaint task:", error);
     return { success: false, error: "Failed to start edit" };
