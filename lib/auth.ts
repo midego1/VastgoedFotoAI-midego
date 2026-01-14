@@ -31,6 +31,7 @@ export const auth = betterAuth({
     "http://localhost:3001",
     "https://www.vastgoedfotoai.nl",
     "https://vastgoed-foto-ai-nl.vercel.app",
+    "https://vastgoed-foto-ai-midego.vercel.app",
   ],
 
   database: drizzleAdapter(db, {
