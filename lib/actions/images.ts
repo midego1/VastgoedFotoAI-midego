@@ -1,5 +1,6 @@
 "use server";
 
+import { tasks } from "@trigger.dev/sdk/v3";
 import { eq, inArray, or } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
@@ -23,7 +24,7 @@ import {
   getImagePath,
   getPublicUrl,
 } from "@/lib/supabase";
-import { type EditMode, inpaintImageTask } from "@/trigger/inpaint-image";
+import type { EditMode, inpaintImageTask } from "@/trigger/inpaint-image";
 import { processImageTask } from "@/trigger/process-image";
 
 // Top-level regex for extracting storage path from Supabase URLs
@@ -1034,13 +1035,56 @@ export async function triggerInpaintTask(
     });
 
     // Trigger the background task with the pre-created record ID
-    const handle = await inpaintImageTask.trigger({
+    console.log("[triggerInpaintTask] Triggering inpaint task", {
       imageId,
       newImageId: newImage.id,
-      prompt,
       mode,
-      maskDataUrl,
+      hasMask: !!maskDataUrl,
+      promptLength: prompt.length,
     });
+
+    let handle;
+    try {
+      // Use tasks.trigger for consistency with video generation
+      // This is the recommended approach in Trigger.dev v4
+      handle = await tasks.trigger<typeof inpaintImageTask>("inpaint-image", {
+        imageId,
+        newImageId: newImage.id,
+        prompt,
+        mode,
+        maskDataUrl,
+      });
+
+      if (!handle?.id) {
+        console.error(
+          "[triggerInpaintTask] Trigger failed: No run ID returned"
+        );
+        throw new Error("Failed to trigger inpaint task: No run ID returned");
+      }
+
+      console.log("[triggerInpaintTask] Trigger successful", {
+        runId: handle.id,
+      });
+    } catch (triggerError) {
+      console.error("[triggerInpaintTask] Trigger error:", triggerError);
+      // Log full error details
+      if (triggerError instanceof Error) {
+        console.error(
+          "[triggerInpaintTask] Error message:",
+          triggerError.message
+        );
+        console.error("[triggerInpaintTask] Error stack:", triggerError.stack);
+      }
+      // Update the record to failed status
+      await updateImageGeneration(newImage.id, {
+        status: "failed",
+        errorMessage:
+          triggerError instanceof Error
+            ? triggerError.message
+            : "Failed to trigger task",
+      });
+      throw triggerError;
+    }
 
     // Update metadata with runId for real-time Trigger.dev tracking
     await updateImageGeneration(newImage.id, {
