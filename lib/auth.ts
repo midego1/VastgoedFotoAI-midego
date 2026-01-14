@@ -26,6 +26,13 @@ function getAuthBaseUrl(): string {
 
 export const auth = betterAuth({
   baseURL: getAuthBaseUrl(),
+  trustedOrigins: [
+    "http://localhost:3000",
+    "http://localhost:3001",
+    "https://www.vastgoedfotoai.nl",
+    "https://vastgoed-foto-ai-nl.vercel.app",
+  ],
+
   database: drizzleAdapter(db, {
     provider: "pg",
     schema,
