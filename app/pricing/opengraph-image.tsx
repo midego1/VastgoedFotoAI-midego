@@ -2,7 +2,6 @@ import { ImageResponse } from "next/og";
 import { loadOutfitFont } from "@/lib/og-fonts";
 import { OG_COLORS, OG_FONTS, OG_SIZE } from "@/lib/og-styles";
 
-export const runtime = "edge";
 export const alt = "Pricing - Proppi";
 export const size = OG_SIZE;
 export const contentType = "image/png";
