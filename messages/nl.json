@@ -51,18 +51,75 @@
       "appPreview": "App Voorbeeld"
     },
     "features": {
-      "title": "Functies",
-      "subtitle": "Alles wat u nodig heeft voor professionele vastgoedfoto's"
+      "badge": "Functies",
+      "title": "Alles wat u nodig heeft om prachtige advertenties te maken",
+      "subtitle": "Krachtige functies speciaal ontworpen voor vastgoedprofessionals die tijd willen besparen en klanten willen imponeren.",
+      "items": {
+        "aiEnhancement": {
+          "title": "AI-gestuurde Verbetering",
+          "description": "Onze geavanceerde AI transformeert gewone foto's automatisch in verbluffende, professionele afbeeldingen."
+        },
+        "templates": {
+          "title": "Meerdere Stijlsjablonen",
+          "description": "Kies uit verschillende professioneel ontworpen stijlen die passen bij uw merk en vastgoedtype."
+        },
+        "fast": {
+          "title": "Resultaten in Seconden",
+          "description": "Geen wachten. Krijg uw verbeterde foto's terug in seconden, niet in uren of dagen."
+        },
+        "batch": {
+          "title": "Batch Verwerking",
+          "description": "Upload meerdere foto's tegelijk en verwerk volledige vastgoed shoots in één keer."
+        },
+        "noSoftware": {
+          "title": "Geen Software Vereist",
+          "description": "Alles draait in uw browser. Geen downloads, geen installaties, geen technische vaardigheden nodig."
+        },
+        "secure": {
+          "title": "Veilig & Privé",
+          "description": "Uw foto's worden versleuteld en automatisch verwijderd na verwerking. Uw gegevens blijven van u."
+        }
+      }
     },
     "howItWorks": {
-      "title": "Hoe het werkt",
-      "subtitle": "Eenvoudig proces, professionele resultaten"
+      "badge": "Hoe het werkt",
+      "title": "Drie eenvoudige stappen",
+      "subtitle": "Krijg professionele resultaten in minuten",
+      "steps": {
+        "upload": {
+          "title": "Upload Uw Foto's",
+          "description": "Sleep en zet uw vastgoedfoto's neer of selecteer ze van uw apparaat. We ondersteunen alle gangbare beeldformaten."
+        },
+        "enhance": {
+          "title": "AI Verbetering",
+          "description": "Onze AI analyseert elke foto en past automatisch professionele verbeteringen toe - belichting, kleurcorrectie en meer."
+        },
+        "download": {
+          "title": "Download & Deel",
+          "description": "Bekijk een voorbeeld van uw verbeterde foto's en download ze in hoge resolutie. Direct klaar om uw klanten te imponeren."
+        }
+      }
+    },
+    "cta": {
+      "title": "Klaar om uw vastgoedfoto's te transformeren?",
+      "subtitle": "Sluit u aan bij duizenden vastgoedprofessionals die Proppi gebruiken",
+      "button": "Gratis Beginnen"
     },
     "footer": {
       "company": "Bedrijf",
       "product": "Product",
       "legal": "Juridisch",
-      "allRightsReserved": "Alle rechten voorbehouden"
+      "allRightsReserved": "Alle rechten voorbehouden",
+      "links": {
+        "about": "Over Ons",
+        "blog": "Blog",
+        "contact": "Contact",
+        "features": "Functies",
+        "pricing": "Prijzen",
+        "help": "Hulp",
+        "privacy": "Privacybeleid",
+        "terms": "Gebruiksvoorwaarden"
+      }
     }
   },
   "pricing": {
@@ -86,7 +143,7 @@
   },
   "dashboard": {
     "title": "Projecten",
-    "subtitle": "Transform uw vastgoedfoto's met AI",
+    "subtitle": "Transformeer uw vastgoedfoto's met AI",
     "newProject": "Nieuw project",
     "myProjects": "Mijn projecten",
     "recentProjects": "Recente projecten",

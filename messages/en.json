@@ -51,18 +51,75 @@
       "appPreview": "App Preview"
     },
     "features": {
-      "title": "Features",
-      "subtitle": "Everything you need for professional property photos"
+      "badge": "Features",
+      "title": "Everything you need to create stunning listings",
+      "subtitle": "Powerful features designed specifically for real estate professionals who want to save time and impress clients.",
+      "items": {
+        "aiEnhancement": {
+          "title": "AI-Powered Enhancement",
+          "description": "Our advanced AI transforms ordinary photos into stunning, professional-quality images automatically."
+        },
+        "templates": {
+          "title": "Multiple Style Templates",
+          "description": "Choose from a variety of professionally designed styles to match your brand and property type."
+        },
+        "fast": {
+          "title": "Results in Seconds",
+          "description": "No waiting around. Get your enhanced photos back in seconds, not hours or days."
+        },
+        "batch": {
+          "title": "Batch Processing",
+          "description": "Upload multiple photos at once and process entire property shoots in one go."
+        },
+        "noSoftware": {
+          "title": "No Software Required",
+          "description": "Everything runs in your browser. No downloads, no installations, no technical skills needed."
+        },
+        "secure": {
+          "title": "Secure & Private",
+          "description": "Your photos are encrypted and automatically deleted after processing. Your data stays yours."
+        }
+      }
     },
     "howItWorks": {
-      "title": "How It Works",
-      "subtitle": "Simple process, professional results"
+      "badge": "How It Works",
+      "title": "Three simple steps",
+      "subtitle": "Get professional results in minutes",
+      "steps": {
+        "upload": {
+          "title": "Upload Your Photos",
+          "description": "Drag and drop your property photos or select them from your device. We support all common image formats."
+        },
+        "enhance": {
+          "title": "AI Enhancement",
+          "description": "Our AI analyzes each photo and automatically applies professional enhancements - lighting, color correction, and more."
+        },
+        "download": {
+          "title": "Download & Share",
+          "description": "Preview your enhanced photos and download them in high resolution. Ready to impress your clients immediately."
+        }
+      }
+    },
+    "cta": {
+      "title": "Ready to transform your property photos?",
+      "subtitle": "Join thousands of real estate professionals using Proppi",
+      "button": "Get Started for Free"
     },
     "footer": {
       "company": "Company",
       "product": "Product",
       "legal": "Legal",
-      "allRightsReserved": "All rights reserved"
+      "allRightsReserved": "All rights reserved",
+      "links": {
+        "about": "About",
+        "blog": "Blog",
+        "contact": "Contact",
+        "features": "Features",
+        "pricing": "Pricing",
+        "help": "Help",
+        "privacy": "Privacy Policy",
+        "terms": "Terms of Service"
+      }
     }
   },
   "pricing": {
