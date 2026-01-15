@@ -35,10 +35,20 @@
   },
   "landing": {
     "hero": {
-      "title": "Maak direct prachtige vastgoedfoto's met AI",
-      "subtitle": "Transform uw vastgoedfoto's met AI-bewerking. Professionele resultaten in seconden.",
+      "badge": "#1 AI Foto-editor voor Vastgoed",
+      "title": "Maak Prachtige",
+      "titleAccent": "Vastgoedfoto's",
+      "titleEnd": "Direct met AI",
+      "subtitle": "Transformeer foto's 10x sneller. Geen ontwerpvaardigheden nodig.",
       "cta": "Gratis beginnen",
-      "goToDashboard": "Naar Dashboard"
+      "goToDashboard": "Naar Dashboard",
+      "watchDemo": "Bekijk Demo",
+      "stats": {
+        "photosEnhanced": "Foto's verbeterd",
+        "averageTime": "Gemiddelde tijd",
+        "listingEngagement": "Advertentie betrokkenheid"
+      },
+      "appPreview": "App Voorbeeld"
     },
     "features": {
       "title": "Functies",

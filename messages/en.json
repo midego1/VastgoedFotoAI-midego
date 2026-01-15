@@ -35,10 +35,20 @@
   },
   "landing": {
     "hero": {
-      "title": "Create Stunning Property Photos Instantly with AI",
-      "subtitle": "Transform your real estate photos with AI-powered editing. Professional results in seconds.",
+      "badge": "#1 AI Photo Editor for Real Estate",
+      "title": "Create Stunning",
+      "titleAccent": "Property Photos",
+      "titleEnd": "Instantly with AI",
+      "subtitle": "Transform photos 10x faster. No design skills needed.",
       "cta": "Start for Free",
-      "goToDashboard": "Go to Dashboard"
+      "goToDashboard": "Go to Dashboard",
+      "watchDemo": "Watch Demo",
+      "stats": {
+        "photosEnhanced": "Photos enhanced",
+        "averageTime": "Average time",
+        "listingEngagement": "Listing engagement"
+      },
+      "appPreview": "App Preview"
     },
     "features": {
       "title": "Features",

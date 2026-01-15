@@ -4,9 +4,11 @@ import { IconArrowRight, IconPlayerPlay } from "@tabler/icons-react";
 import Link from "next/link";
 import { Suspense } from "react";
 import { useSession } from "@/lib/auth-client";
+import { useTranslations } from "next-intl";
 
 function HeroAuthButton() {
   const { data: session, isPending } = useSession();
+  const t = useTranslations("landing.hero");
 
   if (isPending) {
     return (
@@ -18,7 +20,7 @@ function HeroAuthButton() {
   }
 
   const href = session ? "/dashboard" : "/sign-in";
-  const text = session ? "Go to Dashboard" : "Start for Free";
+  const text = session ? t("goToDashboard") : t("cta");
 
   return (
     <Link
@@ -37,6 +39,8 @@ function HeroAuthButton() {
 }
 
 export function LandingHero() {
+  const t = useTranslations("landing.hero");
+
   return (
     <section className="relative overflow-hidden px-6 pt-16 pb-24 md:pt-24 md:pb-32">
       {/* Subtle gradient accent */}
@@ -63,7 +67,7 @@ export function LandingHero() {
             className="size-2 rounded-full"
             style={{ backgroundColor: "var(--landing-accent)" }}
           />
-          #1 AI Photo Editor for Real Estate
+          {t("badge")}
         </div>
 
         {/* Main Headline */}
@@ -71,13 +75,13 @@ export function LandingHero() {
           className="landing-stagger-2 animate-spring-up font-bold text-4xl leading-[1.1] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl"
           style={{ color: "var(--landing-text)" }}
         >
-          Create Stunning
+          {t("title")}
           <br />
           <span style={{ color: "var(--landing-accent)" }}>
-            Property Photos
+            {t("titleAccent")}
           </span>
           <br />
-          Instantly with AI
+          {t("titleEnd")}
         </h1>
 
         {/* Subheadline */}
@@ -85,7 +89,7 @@ export function LandingHero() {
           className="landing-stagger-3 mx-auto mt-6 max-w-xl animate-spring-up text-lg leading-relaxed md:text-xl"
           style={{ color: "var(--landing-text-muted)" }}
         >
-          Transform photos 10x faster. No design skills needed.
+          {t("subtitle")}
         </p>
 
         {/* CTA Buttons */}
@@ -111,7 +115,7 @@ export function LandingHero() {
             type="button"
           >
             <IconPlayerPlay className="size-5" />
-            Watch Demo
+            {t("watchDemo")}
           </button>
         </div>
 
@@ -128,7 +132,7 @@ export function LandingHero() {
               className="mt-1 text-sm"
               style={{ color: "var(--landing-text-muted)" }}
             >
-              Photos enhanced
+              {t("stats.photosEnhanced")}
             </p>
           </div>
           <div
@@ -146,7 +150,7 @@ export function LandingHero() {
               className="mt-1 text-sm"
               style={{ color: "var(--landing-text-muted)" }}
             >
-              Average time
+              {t("stats.averageTime")}
             </p>
           </div>
           <div
@@ -164,7 +168,7 @@ export function LandingHero() {
               className="mt-1 text-sm"
               style={{ color: "var(--landing-text-muted)" }}
             >
-              Listing engagement
+              {t("stats.listingEngagement")}
             </p>
           </div>
         </div>
@@ -224,7 +228,7 @@ export function LandingHero() {
                   className="font-medium text-sm"
                   style={{ color: "var(--landing-text-muted)" }}
                 >
-                  App Preview
+                  {t("appPreview")}
                 </p>
               </div>
             </div>
