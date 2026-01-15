@@ -1,6 +1,6 @@
 "use client";
 
-import { IconLoader } from "@tabler/icons-react";
+import { IconEye, IconEyeOff, IconLoader } from "@tabler/icons-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -23,6 +23,7 @@ export default function SignUpPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -101,15 +102,29 @@ export default function SignUpPage() {
           </div>
           <div className="space-y-2">
             <Label htmlFor="password">Password</Label>
-            <Input
-              autoComplete="new-password"
-              disabled={isLoading}
-              id="password"
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="At least 8 characters"
-              type="password"
-              value={password}
-            />
+            <div className="relative">
+              <Input
+                autoComplete="new-password"
+                disabled={isLoading}
+                id="password"
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="At least 8 characters"
+                type={showPassword ? "text" : "password"}
+                value={password}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                tabIndex={-1}
+              >
+                {showPassword ? (
+                  <IconEyeOff className="size-4" />
+                ) : (
+                  <IconEye className="size-4" />
+                )}
+              </button>
+            </div>
           </div>
           <Button className="w-full" disabled={isLoading} type="submit">
             {isLoading ? (

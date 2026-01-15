@@ -10,6 +10,7 @@ import {
   IconVolume,
   IconVolumeOff,
 } from "@tabler/icons-react";
+import { useTranslations } from "next-intl";
 import * as React from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Slider } from "@/components/ui/slider";
@@ -125,6 +126,7 @@ export function SelectMusicStep({
   generateNativeAudio,
   onGenerateNativeAudioChange,
 }: SelectMusicStepProps) {
+  const t = useTranslations("video.music");
   const [activeCategory, setActiveCategory] = React.useState<string>("all");
   const [playingId, setPlayingId] = React.useState<string | null>(null);
 
@@ -151,11 +153,10 @@ export function SelectMusicStep({
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="font-semibold text-lg">
-                  AI Native Audio Generation
+                  {t("aiNativeAudio.title")}
                 </h3>
                 <p className="text-muted-foreground text-sm">
-                  Our AI can generate cinematic audio and speech directly with
-                  the video.
+                  {t("aiNativeAudio.description")}
                 </p>
               </div>
               <Checkbox
@@ -172,15 +173,12 @@ export function SelectMusicStep({
               <div className="mt-4 animate-fade-in space-y-3">
                 <div className="flex items-center gap-2 font-medium text-(--accent-teal) text-sm">
                   <IconCheck className="h-4 w-4" />
-                  Premium Production Quality ($0.14/sec)
+                  {t("aiNativeAudio.premium")}
                 </div>
                 <div className="text-muted-foreground text-xs leading-relaxed">
-                  <p>• Synchronized environmental sounds and atmosphere</p>
-                  <p>
-                    • Native speech synthesis (lowercase for speech, UPPERCASE
-                    for proper nouns)
-                  </p>
-                  <p>• Professional audio-visual coherence</p>
+                  <p>• {t("aiNativeAudio.feature1")}</p>
+                  <p>• {t("aiNativeAudio.feature2")}</p>
+                  <p>• {t("aiNativeAudio.feature3")}</p>
                 </div>
               </div>
             )}
@@ -192,7 +190,7 @@ export function SelectMusicStep({
       <div>
         <h3 className="mb-3 flex items-center gap-2 font-medium text-sm">
           <IconAspectRatio className="h-4 w-4" />
-          Video Aspect Ratio
+          {t("aspectRatio")}
         </h3>
         <div className="grid grid-cols-3 gap-3">
           {VIDEO_ASPECT_RATIOS.map((ratio) => (
@@ -240,8 +238,8 @@ export function SelectMusicStep({
       <div>
         <h3 className="mb-3 flex items-center gap-2 font-medium text-sm">
           <IconMusic className="h-4 w-4" />
-          Background Music
-          <span className="font-normal text-muted-foreground">(optional)</span>
+          {t("backgroundMusic")}
+          <span className="font-normal text-muted-foreground">({t("optional")})</span>
         </h3>
 
         {/* Category Tabs */}
@@ -256,7 +254,7 @@ export function SelectMusicStep({
             onClick={() => setActiveCategory("all")}
             type="button"
           >
-            All
+            {t("all")}
           </button>
           {MUSIC_CATEGORIES.map((cat) => (
             <button
@@ -290,9 +288,9 @@ export function SelectMusicStep({
             <IconVolumeOff className="h-5 w-5 text-muted-foreground" />
           </div>
           <div className="flex-1 text-left">
-            <div className="font-medium">No Music</div>
+            <div className="font-medium">{t("noMusic")}</div>
             <div className="text-muted-foreground text-sm">
-              Video will have no background audio
+              {t("noMusicDescription")}
             </div>
           </div>
           {selectedTrack === null && (
@@ -379,7 +377,7 @@ export function SelectMusicStep({
             </span>
           </div>
           <p className="mt-2 text-muted-foreground text-xs">
-            Adjust the background music volume relative to the video
+            {t("volumeDescription")}
           </p>
         </div>
       )}

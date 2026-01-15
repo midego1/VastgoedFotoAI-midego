@@ -5,6 +5,8 @@ import {
   IconBuilding,
   IconCheck,
   IconClock,
+  IconEye,
+  IconEyeOff,
   IconLoader2,
   IconLock,
   IconLogin,
@@ -51,6 +53,8 @@ export function InviteAcceptForm({
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [showSignUpForm, setShowSignUpForm] = useState(!hasExistingAccount);
 
   const roleLabel =
@@ -380,16 +384,28 @@ export function InviteAcceptForm({
           <div className="relative">
             <IconLock className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
-              className="pl-10"
+              className="pl-10 pr-10"
               disabled={isPending}
               id="password"
               minLength={8}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="At least 8 characters"
               required
-              type="password"
+              type={showPassword ? "text" : "password"}
               value={password}
             />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+              tabIndex={-1}
+            >
+              {showPassword ? (
+                <IconEyeOff className="h-4 w-4" />
+              ) : (
+                <IconEye className="h-4 w-4" />
+              )}
+            </button>
           </div>
         </div>
 
@@ -401,15 +417,27 @@ export function InviteAcceptForm({
           <div className="relative">
             <IconLock className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
-              className="pl-10"
+              className="pl-10 pr-10"
               disabled={isPending}
               id="confirm-password"
               onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder="Confirm your password"
               required
-              type="password"
+              type={showConfirmPassword ? "text" : "password"}
               value={confirmPassword}
             />
+            <button
+              type="button"
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+              tabIndex={-1}
+            >
+              {showConfirmPassword ? (
+                <IconEyeOff className="h-4 w-4" />
+              ) : (
+                <IconEye className="h-4 w-4" />
+              )}
+            </button>
           </div>
           {password && confirmPassword && password !== confirmPassword && (
             <p className="flex items-center gap-1 text-destructive text-xs">

@@ -66,13 +66,19 @@ export const FIKEN_CONFIG = {
 /**
  * Default billing prices (in cents - minor currency units)
  * These are used when workspace doesn't have custom pricing set
+ * 
+ * Launch pricing (2026): 50% off for the entire year
+ * - Normal price: €49 per property (4900 cents) starting 2027
+ * - Launch price: €24.50 per property (2450 cents) during 2026
  */
 export const BILLING_DEFAULTS = {
-  IMAGE_PROJECT_PRICE_CENTS: 9900, // €99
-  VIDEO_PROJECT_PRICE_CENTS: 9900, // €99
+  IMAGE_PROJECT_PRICE_CENTS: 2450, // €24.50 (launch price, 50% off €49)
+  VIDEO_PROJECT_PRICE_CENTS: 2450, // €24.50 (launch price, 50% off €49)
+  NORMAL_PRICE_CENTS: 4900, // €49 (regular price starting 2027)
   VAT_RATE: 0.21, // 21% Dutch VAT
   DEFAULT_AFFILIATE_COMMISSION: 20, // 20%
   DUE_DAYS: 14, // Payment due in 14 days
+  MAX_IMAGES_PER_PROPERTY: 30, // Maximum 30 photos per property
 } as const;
 
 // =============================================================================

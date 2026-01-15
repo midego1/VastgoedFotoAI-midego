@@ -17,8 +17,8 @@ export function BillingTabs({ uninvoicedItems, invoices }: BillingTabsProps) {
   return (
     <Tabs className="space-y-4" defaultValue="uninvoiced">
       <TabsList>
-        <TabsTrigger value="uninvoiced">Ikke fakturert</TabsTrigger>
-        <TabsTrigger value="history">Fakturahistorikk</TabsTrigger>
+        <TabsTrigger value="uninvoiced">Uninvoiced</TabsTrigger>
+        <TabsTrigger value="history">Invoice History</TabsTrigger>
       </TabsList>
 
       <TabsContent className="mt-4" value="uninvoiced">

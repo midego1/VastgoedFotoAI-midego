@@ -1,40 +1,37 @@
+"use client";
+
 import {
   IconHeart,
   IconRocket,
   IconSparkles,
   IconTarget,
 } from "@tabler/icons-react";
+import { useTranslations } from "next-intl";
 import { LandingFooter } from "./landing-footer";
 import { LandingNav } from "./landing-nav";
 
-const values = [
-  {
-    icon: IconSparkles,
-    title: "Quality First",
-    description:
-      "Every image we process meets professional standards. We never compromise on the output quality.",
-  },
-  {
-    icon: IconRocket,
-    title: "Speed Matters",
-    description:
-      "Real estate moves fast. Our AI delivers results in seconds, not hours or days.",
-  },
-  {
-    icon: IconHeart,
-    title: "Built for You",
-    description:
-      "Designed specifically for real estate professionals. Every feature solves a real problem.",
-  },
-  {
-    icon: IconTarget,
-    title: "Simple Pricing",
-    description:
-      "No subscriptions, no hidden fees. Pay only for what you use, when you use it.",
-  },
-];
-
 export function AboutPage() {
+  const t = useTranslations("about");
+
+  const values = [
+    {
+      icon: IconSparkles,
+      titleKey: "qualityFirst",
+    },
+    {
+      icon: IconRocket,
+      titleKey: "speedMatters",
+    },
+    {
+      icon: IconHeart,
+      titleKey: "builtForYou",
+    },
+    {
+      icon: IconTarget,
+      titleKey: "simplePricing",
+    },
+  ];
+
   return (
     <div
       className="min-h-screen"
@@ -50,24 +47,19 @@ export function AboutPage() {
               className="font-semibold text-sm uppercase tracking-wider"
               style={{ color: "var(--landing-accent)" }}
             >
-              About Us
+              {t("badge")}
             </p>
             <h1
               className="mt-3 font-bold text-4xl tracking-tight sm:text-5xl md:text-6xl"
               style={{ color: "var(--landing-text)" }}
             >
-              Making property photos
-              <br />
-              look incredible
+              {t("title")}
             </h1>
             <p
               className="mt-6 text-lg leading-relaxed md:text-xl"
               style={{ color: "var(--landing-text-muted)" }}
             >
-              VastgoedFotoAI.nl is an AI-powered photo enhancement platform built
-              specifically for real estate professionals. We help agents,
-              photographers, and property managers create stunning visuals that
-              sell properties faster.
+              {t("subtitle")}
             </p>
           </div>
         </section>
@@ -86,36 +78,16 @@ export function AboutPage() {
               className="font-bold text-2xl tracking-tight sm:text-3xl"
               style={{ color: "var(--landing-text)" }}
             >
-              Our Story
+              {t("story.title")}
             </h2>
             <div
               className="mt-6 space-y-4 text-base leading-relaxed"
               style={{ color: "var(--landing-text-muted)" }}
             >
-              <p>
-                We started VastgoedFotoAI.nl because we saw a gap in the market. Real
-                estate professionals needed high-quality photo enhancement, but
-                existing solutions were either too expensive, too slow, or
-                required technical expertise.
-              </p>
-              <p>
-                Professional photography services can cost hundreds of dollars
-                per property and take days to deliver. DIY editing tools require
-                hours of learning and manual work. Neither option works when you
-                have multiple listings and tight deadlines.
-              </p>
-              <p>
-                VastgoedFotoAI.nl bridges this gap. Our AI understands real estate
-                photography. It knows how to brighten rooms, enhance curb
-                appeal, and make properties look their absolute best. All
-                automatically, in seconds.
-              </p>
-              <p>
-                Today, we&apos;ve processed over 50,000 images for real estate
-                professionals. Our users report up to 85% higher
-                engagement on their listings. And we&apos;re just getting
-                started.
-              </p>
+              <p>{t("story.p1")}</p>
+              <p>{t("story.p2")}</p>
+              <p>{t("story.p3")}</p>
+              <p>{t("story.p4")}</p>
             </div>
           </div>
         </section>
@@ -131,13 +103,13 @@ export function AboutPage() {
                 className="font-semibold text-sm uppercase tracking-wider"
                 style={{ color: "var(--landing-accent)" }}
               >
-                Our Values
+                {t("values.badge")}
               </p>
               <h2
                 className="mt-3 font-bold text-3xl tracking-tight sm:text-4xl"
                 style={{ color: "var(--landing-text)" }}
               >
-                What we believe in
+                {t("values.title")}
               </h2>
             </div>
 
@@ -145,7 +117,7 @@ export function AboutPage() {
               {values.map((value) => (
                 <div
                   className="rounded-2xl p-6"
-                  key={value.title}
+                  key={value.titleKey}
                   style={{
                     backgroundColor: "var(--landing-card)",
                     border: "1px solid var(--landing-border)",
@@ -167,13 +139,13 @@ export function AboutPage() {
                     className="font-semibold text-lg"
                     style={{ color: "var(--landing-text)" }}
                   >
-                    {value.title}
+                    {t(`values.${value.titleKey}.title`)}
                   </h3>
                   <p
                     className="mt-2 text-sm leading-relaxed"
                     style={{ color: "var(--landing-text-muted)" }}
                   >
-                    {value.description}
+                    {t(`values.${value.titleKey}.description`)}
                   </p>
                 </div>
               ))}
@@ -188,22 +160,19 @@ export function AboutPage() {
               className="font-semibold text-sm uppercase tracking-wider"
               style={{ color: "var(--landing-accent)" }}
             >
-              Our Mission
+              {t("mission.badge")}
             </p>
             <h2
               className="mt-3 font-bold text-3xl tracking-tight sm:text-4xl"
               style={{ color: "var(--landing-text)" }}
             >
-              Empowering real estate professionals
+              {t("mission.title")}
             </h2>
             <p
               className="mt-6 text-lg leading-relaxed"
               style={{ color: "var(--landing-text-muted)" }}
             >
-              Our mission is to democratize professional-quality real estate
-              photography. We believe every property deserves to be presented at
-              its best, regardless of budget or technical expertise. By
-              harnessing the power of AI, we make this possible for everyone.
+              {t("mission.description")}
             </p>
           </div>
         </section>
@@ -222,14 +191,13 @@ export function AboutPage() {
               className="font-bold text-3xl tracking-tight sm:text-4xl"
               style={{ color: "var(--landing-text)" }}
             >
-              Want to learn more?
+              {t("cta.title")}
             </h2>
             <p
               className="mx-auto mt-4 max-w-lg text-lg leading-relaxed"
               style={{ color: "var(--landing-text-muted)" }}
             >
-              We&apos;d love to hear from you. Whether you have questions about
-              our service or just want to say hello, get in touch.
+              {t("cta.subtitle")}
             </p>
             <div className="mt-8">
               <a
@@ -240,7 +208,7 @@ export function AboutPage() {
                   color: "var(--landing-accent-foreground)",
                 }}
               >
-                Contact Us
+                {t("cta.button")}
               </a>
             </div>
           </div>

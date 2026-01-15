@@ -40,7 +40,7 @@ function StatusBadge({ status }: { status: InvoiceStatus }) {
           className="border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-400"
           variant="outline"
         >
-          Betalt
+          Paid
         </Badge>
       );
     case "sent":
@@ -49,7 +49,7 @@ function StatusBadge({ status }: { status: InvoiceStatus }) {
           className="border-blue-500/30 bg-blue-500/10 text-blue-700 dark:text-blue-400"
           variant="outline"
         >
-          Sendt
+          Sent
         </Badge>
       );
     case "draft":
@@ -58,7 +58,7 @@ function StatusBadge({ status }: { status: InvoiceStatus }) {
           className="border-slate-500/30 bg-slate-500/10 text-slate-700 dark:text-slate-400"
           variant="outline"
         >
-          Utkast
+          Draft
         </Badge>
       );
     case "overdue":
@@ -67,7 +67,7 @@ function StatusBadge({ status }: { status: InvoiceStatus }) {
           className="border-red-500/30 bg-red-500/10 text-red-700 dark:text-red-400"
           variant="outline"
         >
-          Forfalt
+          Overdue
         </Badge>
       );
     case "cancelled":
@@ -76,7 +76,7 @@ function StatusBadge({ status }: { status: InvoiceStatus }) {
           className="border-slate-500/30 bg-slate-500/10 text-slate-700 dark:text-slate-400"
           variant="outline"
         >
-          Kansellert
+          Cancelled
         </Badge>
       );
     default:
@@ -85,7 +85,7 @@ function StatusBadge({ status }: { status: InvoiceStatus }) {
           className="border-amber-500/30 bg-amber-500/10 text-amber-700 dark:text-amber-400"
           variant="outline"
         >
-          Venter
+          Pending
         </Badge>
       );
   }
@@ -104,17 +104,17 @@ export function InvoiceHistoryTable({ invoices }: InvoiceHistoryTableProps) {
     try {
       const result = await markInvoiceAsPaidAction(invoiceId);
       if (result.success) {
-        toast.success("Faktura markert som betalt", {
+        toast.success("Invoice marked as paid", {
           description: result.affiliateEarningCreated
-            ? "Affiliate-provisjon er også opprettet"
+            ? "Affiliate commission has also been created"
             : undefined,
         });
         router.refresh();
       } else {
-        toast.error("Feil", { description: result.error });
+        toast.error("Error", { description: result.error });
       }
     } catch {
-      toast.error("Feil", { description: "Kunne ikke markere som betalt" });
+      toast.error("Error", { description: "Could not mark as paid" });
     } finally {
       setMarkingPaidId(null);
     }
@@ -135,9 +135,9 @@ export function InvoiceHistoryTable({ invoices }: InvoiceHistoryTableProps) {
             style={{ color: "var(--accent-violet)" }}
           />
         </div>
-        <h3 className="font-semibold text-lg">Ingen fakturaer enna</h3>
+        <h3 className="font-semibold text-lg">No invoices yet</h3>
         <p className="mt-1 text-muted-foreground text-sm">
-          Fakturaer vil vises her nar du begynner a fakturere.
+          Invoices will appear here when you start invoicing.
         </p>
       </div>
     );
@@ -149,14 +149,14 @@ export function InvoiceHistoryTable({ invoices }: InvoiceHistoryTableProps) {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Fakturanr.</TableHead>
-              <TableHead>Kunde</TableHead>
-              <TableHead className="text-center">Prosjekter</TableHead>
-              <TableHead className="text-right">Belop</TableHead>
-              <TableHead className="text-right">Med MVA</TableHead>
+              <TableHead>Invoice No.</TableHead>
+              <TableHead>Customer</TableHead>
+              <TableHead className="text-center">Projects</TableHead>
+              <TableHead className="text-right">Amount</TableHead>
+              <TableHead className="text-right">With VAT</TableHead>
               <TableHead>Status</TableHead>
-              <TableHead>Utstedt</TableHead>
-              <TableHead>Forfall</TableHead>
+              <TableHead>Issued</TableHead>
+              <TableHead>Due</TableHead>
               <TableHead className="w-24" />
             </TableRow>
           </TableHeader>
@@ -194,8 +194,8 @@ export function InvoiceHistoryTable({ invoices }: InvoiceHistoryTableProps) {
                         </div>
                         <div className="text-muted-foreground text-xs">
                           {invoice.workspaceOrgNumber
-                            ? `Org: ${invoice.workspaceOrgNumber}`
-                            : "Mangler org.nr"}
+                            ? `VAT: ${invoice.workspaceOrgNumber}`
+                            : "Missing VAT ID"}
                         </div>
                       </div>
                     </div>
@@ -224,7 +224,7 @@ export function InvoiceHistoryTable({ invoices }: InvoiceHistoryTableProps) {
                   <TableCell>
                     <span className="text-muted-foreground text-sm">
                       {invoice.issueDate
-                        ? invoice.issueDate.toLocaleDateString("nb-NO", {
+                        ? invoice.issueDate.toLocaleDateString("en-GB", {
                             day: "numeric",
                             month: "short",
                           })
@@ -234,7 +234,7 @@ export function InvoiceHistoryTable({ invoices }: InvoiceHistoryTableProps) {
                   <TableCell>
                     <span className="text-muted-foreground text-sm">
                       {invoice.dueDate
-                        ? invoice.dueDate.toLocaleDateString("nb-NO", {
+                        ? invoice.dueDate.toLocaleDateString("en-GB", {
                             day: "numeric",
                             month: "short",
                           })
@@ -260,7 +260,7 @@ export function InvoiceHistoryTable({ invoices }: InvoiceHistoryTableProps) {
                               )}
                             </Button>
                           </TooltipTrigger>
-                          <TooltipContent>Marker som betalt</TooltipContent>
+                          <TooltipContent>Mark as paid</TooltipContent>
                         </Tooltip>
                       )}
                       {invoice.fikenInvoiceId && (
@@ -281,7 +281,7 @@ export function InvoiceHistoryTable({ invoices }: InvoiceHistoryTableProps) {
                               </a>
                             </Button>
                           </TooltipTrigger>
-                          <TooltipContent>Apne i Fiken</TooltipContent>
+                          <TooltipContent>Open in Fiken</TooltipContent>
                         </Tooltip>
                       )}
                     </div>
@@ -300,7 +300,7 @@ export function InvoiceHistoryTable({ invoices }: InvoiceHistoryTableProps) {
           >
             {invoices.length}
           </span>{" "}
-          fakturaer totalt
+          invoices total
         </div>
       </div>
     </TooltipProvider>

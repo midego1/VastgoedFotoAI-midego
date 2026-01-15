@@ -34,10 +34,10 @@ export function EmailLayout({ preview, children }: EmailLayoutProps) {
           <Hr style={hr} />
           <Section style={footer}>
             <Text style={footerText}>
-              VastgoedFotoAI.nl - AI-powered real estate photo editor
+              VastgoedFotoAI.nl - AI-gestuurde vastgoedfoto editor
             </Text>
             <Text style={footerText}>
-              © {new Date().getFullYear()} VastgoedFotoAI.nl. All rights reserved.
+              © {new Date().getFullYear()} VastgoedFotoAI.nl. Alle rechten voorbehouden.
             </Text>
           </Section>
         </Container>

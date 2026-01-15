@@ -43,9 +43,9 @@ export default async function AdminBillingPage() {
             <IconFileInvoice className="h-5 w-5 text-white" />
           </div>
           <div>
-            <h1 className="font-bold text-2xl tracking-tight">Betalinger</h1>
+            <h1 className="font-bold text-2xl tracking-tight">Billing</h1>
             <p className="text-muted-foreground text-sm">
-              Administrer fakturaer og spor inntekter fra fullførte prosjekter
+              Manage invoices and track revenue from completed projects
             </p>
           </div>
         </div>

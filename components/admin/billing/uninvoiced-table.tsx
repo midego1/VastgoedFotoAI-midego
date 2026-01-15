@@ -41,10 +41,10 @@ import {
 } from "@/lib/actions/billing";
 import type { UninvoicedLineItemRow } from "@/lib/db/queries";
 
-// Format Norwegian currency
+// Format currency in EUR
 function formatEUR(amountOre: number): string {
-  const eur = amountCents / 100;
-  return new Intl.NumberFormat("nb-NO", {
+  const eur = amountOre / 100;
+  return new Intl.NumberFormat("en-GB", {
     style: "currency",
     currency: "EUR",
     minimumFractionDigits: 0,
@@ -130,8 +130,8 @@ export function UninvoicedTable({ items }: UninvoicedTableProps) {
 
   const handleSendInvoices = async () => {
     if (hasMissingOrgNumber) {
-      toast.error("Mangler org.nr", {
-        description: "En eller flere kunder mangler organisasjonsnummer",
+      toast.error("Missing VAT ID", {
+        description: "One or more customers are missing a VAT ID",
       });
       return;
     }
@@ -145,7 +145,7 @@ export function UninvoicedTable({ items }: UninvoicedTableProps) {
       );
 
       if (!result.success) {
-        toast.error("Feil", { description: result.error });
+        toast.error("Error", { description: result.error });
         return;
       }
 
@@ -158,15 +158,15 @@ export function UninvoicedTable({ items }: UninvoicedTableProps) {
         }
       }
 
-      toast.success("Fakturaer sendt", {
-        description: `${sentCount} faktura(er) til ${selectedByWorkspace.size} kunde(r) for totalt ${formatEUR(selectedTotal)}`,
+      toast.success("Invoices sent", {
+        description: `${sentCount} invoice(s) to ${selectedByWorkspace.size} customer(s) for a total of ${formatEUR(selectedTotal)}`,
       });
 
       setSelectedIds(new Set());
       router.refresh();
     } catch {
-      toast.error("Feil", {
-        description: "Kunne ikke sende fakturaer",
+      toast.error("Error", {
+        description: "Could not send invoices",
       });
     } finally {
       setIsSendingBatch(false);
@@ -175,8 +175,8 @@ export function UninvoicedTable({ items }: UninvoicedTableProps) {
 
   const handleSendSingle = async (item: UninvoicedLineItemRow) => {
     if (!item.workspaceOrgNumber) {
-      toast.error("Mangler org.nr", {
-        description: "Kunden mangler organisasjonsnummer",
+      toast.error("Missing VAT ID", {
+        description: "Customer is missing a VAT ID",
       });
       return;
     }
@@ -188,7 +188,7 @@ export function UninvoicedTable({ items }: UninvoicedTableProps) {
       const result = await createInvoiceFromLineItemsAction([item.id]);
 
       if (!result.success) {
-        toast.error("Feil", { description: result.error });
+        toast.error("Error", { description: result.error });
         return;
       }
 
@@ -202,14 +202,14 @@ export function UninvoicedTable({ items }: UninvoicedTableProps) {
         return;
       }
 
-      toast.success("Faktura sendt", {
+      toast.success("Invoice sent", {
         description: `${item.workspaceName} – ${formatEUR(item.amountOre)}`,
       });
 
       router.refresh();
     } catch {
-      toast.error("Feil", {
-        description: "Kunne ikke sende faktura",
+      toast.error("Error", {
+        description: "Could not send invoice",
       });
     } finally {
       setSendingSingleId(null);
@@ -231,9 +231,9 @@ export function UninvoicedTable({ items }: UninvoicedTableProps) {
             style={{ color: "var(--accent-green)" }}
           />
         </div>
-        <h3 className="font-semibold text-lg">Alt er fakturert!</h3>
+        <h3 className="font-semibold text-lg">All invoiced!</h3>
         <p className="mt-1 text-muted-foreground text-sm">
-          Det er ingen prosjekter som venter på fakturering.
+          There are no projects waiting to be invoiced.
         </p>
       </div>
     );
@@ -247,23 +247,22 @@ export function UninvoicedTable({ items }: UninvoicedTableProps) {
         {selectedIds.size > 0 ? (
           <>
             <AlertTitle className="flex items-center gap-2">
-              {selectedIds.size} prosjekt{selectedIds.size !== 1 ? "er" : ""}{" "}
-              valgt
+              {selectedIds.size} project{selectedIds.size !== 1 ? "s" : ""}{" "}
+              selected
               <Badge className="font-mono font-normal" variant="outline">
                 {formatEUR(selectedTotal)}
               </Badge>
             </AlertTitle>
             <AlertDescription>
-              {selectedByWorkspace.size} faktura
-              {selectedByWorkspace.size !== 1 ? "er" : ""} vil bli opprettet
+              {selectedByWorkspace.size} invoice
+              {selectedByWorkspace.size !== 1 ? "s" : ""} will be created
             </AlertDescription>
           </>
         ) : (
           <>
-            <AlertTitle>Velg prosjekter</AlertTitle>
+            <AlertTitle>Select projects</AlertTitle>
             <AlertDescription>
-              Klikk på en rad eller bruk avkrysningsboksene for å velge
-              prosjekter
+              Click a row or use checkboxes to select projects
             </AlertDescription>
           </>
         )}
@@ -279,8 +278,8 @@ export function UninvoicedTable({ items }: UninvoicedTableProps) {
               <IconSend className="mr-2 h-4 w-4" />
             )}
             {selectedIds.size > 0
-              ? `Send ${selectedByWorkspace.size} faktura${selectedByWorkspace.size !== 1 ? "er" : ""}`
-              : "Send faktura"}
+              ? `Send ${selectedByWorkspace.size} invoice${selectedByWorkspace.size !== 1 ? "s" : ""}`
+              : "Send invoice"}
           </Button>
         </AlertAction>
       </Alert>
@@ -293,18 +292,18 @@ export function UninvoicedTable({ items }: UninvoicedTableProps) {
               <TableRow>
                 <TableHead className="w-12">
                   <Checkbox
-                    aria-label="Velg alle"
+                    aria-label="Select all"
                     checked={
                       allSelected || (someSelected ? "indeterminate" : false)
                     }
                     onCheckedChange={toggleAll}
                   />
                 </TableHead>
-                <TableHead>Prosjekt</TableHead>
-                <TableHead>Kunde</TableHead>
+                <TableHead>Project</TableHead>
+                <TableHead>Customer</TableHead>
                 <TableHead className="text-center">Type</TableHead>
-                <TableHead className="text-right">Beløp</TableHead>
-                <TableHead>Opprettet</TableHead>
+                <TableHead className="text-right">Amount</TableHead>
+                <TableHead>Created</TableHead>
                 <TableHead className="w-24" />
               </TableRow>
             </TableHeader>
@@ -312,7 +311,7 @@ export function UninvoicedTable({ items }: UninvoicedTableProps) {
               {items.map((item) => {
                 const isVideo = !!item.videoProjectId;
                 const itemName =
-                  item.projectName || item.videoProjectName || "Ukjent";
+                  item.projectName || item.videoProjectName || "Unknown";
                 const hasMissingOrg = !item.workspaceOrgNumber;
 
                 return (
@@ -323,7 +322,7 @@ export function UninvoicedTable({ items }: UninvoicedTableProps) {
                   >
                     <TableCell onClick={(e) => e.stopPropagation()}>
                       <Checkbox
-                        aria-label={`Velg ${itemName}`}
+                        aria-label={`Select ${itemName}`}
                         checked={selectedIds.has(item.id)}
                         onCheckedChange={() => toggleItem(item.id)}
                       />
@@ -353,7 +352,7 @@ export function UninvoicedTable({ items }: UninvoicedTableProps) {
                                 />
                               </TooltipTrigger>
                               <TooltipContent>
-                                Mangler org.nr – kan ikke faktureres
+                                Missing VAT ID – cannot be invoiced
                               </TooltipContent>
                             </Tooltip>
                           ) : (
@@ -369,8 +368,8 @@ export function UninvoicedTable({ items }: UninvoicedTableProps) {
                           </div>
                           <div className="text-muted-foreground text-xs">
                             {item.workspaceOrgNumber
-                              ? `Org: ${item.workspaceOrgNumber}`
-                              : "Mangler org.nr"}
+                              ? `VAT: ${item.workspaceOrgNumber}`
+                              : "Missing VAT ID"}
                           </div>
                         </div>
                       </div>
@@ -383,7 +382,7 @@ export function UninvoicedTable({ items }: UninvoicedTableProps) {
                           <IconPhoto className="h-4 w-4 text-muted-foreground" />
                         )}
                         <span className="text-muted-foreground text-xs">
-                          {isVideo ? "Video" : "Foto"}
+                          {isVideo ? "Video" : "Photo"}
                         </span>
                       </div>
                     </TableCell>
@@ -397,7 +396,7 @@ export function UninvoicedTable({ items }: UninvoicedTableProps) {
                     </TableCell>
                     <TableCell>
                       <span className="text-muted-foreground text-sm">
-                        {item.createdAt.toLocaleDateString("nb-NO", {
+                        {item.createdAt.toLocaleDateString("en-GB", {
                           day: "numeric",
                           month: "short",
                         })}
@@ -431,8 +430,8 @@ export function UninvoicedTable({ items }: UninvoicedTableProps) {
               style={{ color: "var(--accent-amber)" }}
             >
               {items.length}
-            </span>{" "}
-            prosjekter venter på fakturering
+          </span>{" "}
+          projects awaiting invoicing
           </div>
         </div>
       </TooltipProvider>

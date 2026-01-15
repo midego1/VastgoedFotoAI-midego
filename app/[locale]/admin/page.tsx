@@ -1,12 +1,10 @@
 import { IconShieldCheck } from "@tabler/icons-react";
 import { AdminStatsBar } from "@/components/admin/admin-stats-bar";
-import { RecentActivityList } from "@/components/admin/recent-activity";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { getAdminStats, getRecentActivity } from "@/lib/mock/admin-stats";
+import { getAdminOverviewStats } from "@/lib/db/queries";
 
-export default function AdminOverviewPage() {
-  const stats = getAdminStats();
-  const recentActivity = getRecentActivity(12);
+export default async function AdminOverviewPage() {
+  const stats = await getAdminOverviewStats();
 
   return (
     <div className="space-y-6 px-4 md:px-6 lg:px-8">
@@ -45,19 +43,36 @@ export default function AdminOverviewPage() {
         />
       </div>
 
-      {/* Recent Activity */}
+      {/* Quick Links */}
       <div className="stagger-2 animate-fade-in-up">
         <Card>
           <CardHeader className="pb-3">
             <CardTitle className="font-semibold text-base">
-              Recent Activity
+              Quick Overview
             </CardTitle>
           </CardHeader>
           <CardContent className="pt-0">
-            <RecentActivityList activities={recentActivity} />
+            <div className="grid gap-4 md:grid-cols-3">
+              <div className="rounded-lg bg-muted/50 p-4">
+                <p className="text-muted-foreground text-sm">Active Workspaces</p>
+                <p className="font-bold text-2xl">{stats.activeWorkspaces}</p>
+                <p className="text-muted-foreground text-xs">of {stats.totalWorkspaces} total</p>
+              </div>
+              <div className="rounded-lg bg-muted/50 p-4">
+                <p className="text-muted-foreground text-sm">Active Users</p>
+                <p className="font-bold text-2xl">{stats.activeUsers}</p>
+                <p className="text-muted-foreground text-xs">of {stats.totalUsers} total</p>
+              </div>
+              <div className="rounded-lg bg-muted/50 p-4">
+                <p className="text-muted-foreground text-sm">Images Generated</p>
+                <p className="font-bold text-2xl">{stats.totalImages.toLocaleString()}</p>
+                <p className="text-muted-foreground text-xs">{stats.imagesThisMonth.toLocaleString()} this month</p>
+              </div>
+            </div>
           </CardContent>
         </Card>
       </div>
     </div>
   );
 }
+

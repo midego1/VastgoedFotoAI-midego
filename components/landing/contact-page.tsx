@@ -1,18 +1,13 @@
 "use client";
 
 import { IconClock, IconMail, IconSend } from "@tabler/icons-react";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { LandingFooter } from "./landing-footer";
 import { LandingNav } from "./landing-nav";
 
-const topics = [
-  { value: "general", label: "General Inquiry" },
-  { value: "support", label: "Technical Support" },
-  { value: "sales", label: "Sales & Pricing" },
-  { value: "partnership", label: "Partnership" },
-];
-
 export function ContactPage() {
+  const t = useTranslations("contact");
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -41,22 +36,19 @@ export function ContactPage() {
               className="font-semibold text-sm uppercase tracking-wider"
               style={{ color: "var(--landing-accent)" }}
             >
-              Contact
+              {t("badge")}
             </p>
             <h1
               className="mt-3 font-bold text-4xl tracking-tight sm:text-5xl md:text-6xl"
               style={{ color: "var(--landing-text)" }}
             >
-              Get in touch with
-              <br />
-              VastgoedFotoAI.nl
+              {t("title")}
             </h1>
             <p
               className="mt-6 text-lg leading-relaxed md:text-xl"
               style={{ color: "var(--landing-text-muted)" }}
             >
-              Have questions about VastgoedFotoAI.nl? Need help with your property
-              photos? Our team is here to help.
+              {t("subtitle")}
             </p>
           </div>
         </section>
@@ -83,7 +75,7 @@ export function ContactPage() {
                       htmlFor="name"
                       style={{ color: "var(--landing-text)" }}
                     >
-                      Name
+                      {t("form.name")}
                     </label>
                     <input
                       className="h-12 w-full rounded-xl px-4 text-sm outline-none transition-all focus:ring-2"
@@ -91,7 +83,7 @@ export function ContactPage() {
                       onChange={(e) =>
                         setFormData({ ...formData, name: e.target.value })
                       }
-                      placeholder="Your name"
+                      placeholder={t("form.namePlaceholder")}
                       required
                       style={{
                         backgroundColor: "var(--landing-bg)",
@@ -110,7 +102,7 @@ export function ContactPage() {
                       htmlFor="email"
                       style={{ color: "var(--landing-text)" }}
                     >
-                      Email
+                      {t("form.email")}
                     </label>
                     <input
                       className="h-12 w-full rounded-xl px-4 text-sm outline-none transition-all focus:ring-2"
@@ -118,7 +110,7 @@ export function ContactPage() {
                       onChange={(e) =>
                         setFormData({ ...formData, email: e.target.value })
                       }
-                      placeholder="you@example.com"
+                      placeholder={t("form.emailPlaceholder")}
                       required
                       style={{
                         backgroundColor: "var(--landing-bg)",
@@ -138,7 +130,7 @@ export function ContactPage() {
                     htmlFor="topic"
                     style={{ color: "var(--landing-text)" }}
                   >
-                    Topic
+                    {t("form.topic")}
                   </label>
                   <select
                     className="h-12 w-full rounded-xl px-4 text-sm outline-none transition-all focus:ring-2"
@@ -157,13 +149,12 @@ export function ContactPage() {
                     value={formData.topic}
                   >
                     <option disabled value="">
-                      Select a topic
+                      {t("form.topicPlaceholder")}
                     </option>
-                    {topics.map((topic) => (
-                      <option key={topic.value} value={topic.value}>
-                        {topic.label}
-                      </option>
-                    ))}
+                    <option value="general">{t("topics.general")}</option>
+                    <option value="support">{t("topics.support")}</option>
+                    <option value="sales">{t("topics.sales")}</option>
+                    <option value="partnership">{t("topics.partnership")}</option>
                   </select>
                 </div>
 
@@ -174,7 +165,7 @@ export function ContactPage() {
                     htmlFor="message"
                     style={{ color: "var(--landing-text)" }}
                   >
-                    Message
+                    {t("form.message")}
                   </label>
                   <textarea
                     className="w-full rounded-xl px-4 py-3 text-sm outline-none transition-all focus:ring-2"
@@ -182,7 +173,7 @@ export function ContactPage() {
                     onChange={(e) =>
                       setFormData({ ...formData, message: e.target.value })
                     }
-                    placeholder="How can we help you?"
+                    placeholder={t("form.messagePlaceholder")}
                     required
                     rows={5}
                     style={{
@@ -204,7 +195,7 @@ export function ContactPage() {
                   }}
                   type="submit"
                 >
-                  Send Message
+                  {t("form.submit")}
                   <IconSend className="size-5" />
                 </button>
               </form>
@@ -235,7 +226,7 @@ export function ContactPage() {
                   className="font-semibold"
                   style={{ color: "var(--landing-text)" }}
                 >
-                  Email us
+                  {t("info.emailUs")}
                 </h3>
                 <p
                   className="mt-1 text-sm"
@@ -268,13 +259,13 @@ export function ContactPage() {
                   className="font-semibold"
                   style={{ color: "var(--landing-text)" }}
                 >
-                  Response time
+                  {t("info.responseTime")}
                 </h3>
                 <p
                   className="mt-1 text-sm"
                   style={{ color: "var(--landing-text-muted)" }}
                 >
-                  We typically respond within 24 hours during business days.
+                  {t("info.responseDescription")}
                 </p>
               </div>
             </div>

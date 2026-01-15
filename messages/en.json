@@ -111,6 +111,8 @@
       "product": "Product",
       "legal": "Legal",
       "allRightsReserved": "All rights reserved",
+      "description": "Transform your real estate photos with AI-powered enhancements. Professional results in seconds.",
+      "supportedBy": "Supported by",
       "links": {
         "about": "About",
         "blog": "Blog",
@@ -135,10 +137,12 @@
     "perVideo": "per video",
     "photo": {
       "title": "Photo Enhancement",
-      "price": "€19",
-      "per": "per property",
+      "price": "€24.50",
+      "originalPrice": "€49",
+      "launchDiscount": "50% off launch price!",
+      "per": "per property (excl. VAT)",
       "features": {
-        "images": "Up to 20 images per property",
+        "images": "Up to 30 images per property",
         "ai": "AI-powered enhancement",
         "templates": "Multiple style templates",
         "downloads": "High-resolution downloads",
@@ -161,7 +165,7 @@
       "title": "Frequently Asked Questions",
       "q1": {
         "question": "How does the pricing work?",
-        "answer": "We charge per project, not per month. For photo enhancement, you pay €19 per property (up to 20 images). For video creation, you pay €19 per video. No subscriptions, no hidden fees."
+        "answer": "We charge per project, not per month. For photo enhancement, you pay €24.50 per property (up to 30 images) - that's 50% off our regular €49 price for our launch year! Prices are excluding VAT. No subscriptions, no hidden fees."
       },
       "q2": {
         "question": "What image formats do you support?",
@@ -176,8 +180,8 @@
         "answer": "Yes! New users get free credits to try out the platform. You can enhance a few images to see the quality before committing to a full property project."
       },
       "q5": {
-        "question": "What if I have more than 20 images?",
-        "answer": "If your property has more than 20 images, you can create multiple projects or contact us for custom pricing on larger shoots."
+        "question": "What if I have more than 30 images?",
+        "answer": "If your property has more than 30 images, you can create multiple projects or contact us for custom pricing on larger shoots."
       },
       "q6": {
         "question": "Do you offer refunds?",
@@ -317,14 +321,14 @@
     "title": "Admin Dashboard",
     "users": "Users",
     "workspaces": "Workspaces",
-    "billing": "Billing",
-    "affiliate": "Affiliate",
+    "billingLabel": "Billing",
+    "affiliateLabel": "Affiliate",
     "revenue": "Revenue",
     "settings": "Settings",
     "overview": "Overview",
     "billing": {
       "invoiceHistory": "Invoice History",
-      "uninvoiced": "Uninvoiced Projects",
+      "uninvoicedLabel": "Uninvoiced Projects",
       "noInvoices": "No invoices yet",
       "invoicesWillAppear": "Invoices will appear here when you create them",
       "invoiceNumber": "Invoice No.",
@@ -406,5 +410,93 @@
   "currency": {
     "eur": "EUR",
     "symbol": "€"
+  },
+  "about": {
+    "badge": "About Us",
+    "title": "Making property photos look incredible",
+    "subtitle": "VastgoedFotoAI.nl is an AI-powered photo enhancement platform built specifically for real estate professionals. We help agents, photographers, and property managers create stunning visuals that sell properties faster.",
+    "story": {
+      "title": "Our Story",
+      "p1": "We started VastgoedFotoAI.nl because we saw a gap in the market. Real estate professionals needed high-quality photo enhancement, but existing solutions were either too expensive, too slow, or required technical expertise.",
+      "p2": "Professional photography services can cost hundreds of dollars per property and take days to deliver. DIY editing tools require hours of learning and manual work. Neither option works when you have multiple listings and tight deadlines.",
+      "p3": "VastgoedFotoAI.nl bridges this gap. Our AI understands real estate photography. It knows how to brighten rooms, enhance curb appeal, and make properties look their absolute best. All automatically, in seconds.",
+      "p4": "Today, we've processed over 50,000 images for real estate professionals. Our users report up to 85% higher engagement on their listings. And we're just getting started."
+    },
+    "values": {
+      "badge": "Our Values",
+      "title": "What we believe in",
+      "qualityFirst": {
+        "title": "Quality First",
+        "description": "Every image we process meets professional standards. We never compromise on the output quality."
+      },
+      "speedMatters": {
+        "title": "Speed Matters",
+        "description": "Real estate moves fast. Our AI delivers results in seconds, not hours or days."
+      },
+      "builtForYou": {
+        "title": "Built for You",
+        "description": "Designed specifically for real estate professionals. Every feature solves a real problem."
+      },
+      "simplePricing": {
+        "title": "Simple Pricing",
+        "description": "No subscriptions, no hidden fees. Pay only for what you use, when you use it."
+      }
+    },
+    "mission": {
+      "badge": "Our Mission",
+      "title": "Empowering real estate professionals",
+      "description": "Our mission is to democratize professional-quality real estate photography. We believe every property deserves to be presented at its best, regardless of budget or technical expertise. By harnessing the power of AI, we make this possible for everyone."
+    },
+    "cta": {
+      "title": "Want to learn more?",
+      "subtitle": "We'd love to hear from you. Whether you have questions about our service or just want to say hello, get in touch.",
+      "button": "Contact Us"
+    }
+  },
+  "contact": {
+    "badge": "Contact",
+    "title": "Get in touch with VastgoedFotoAI.nl",
+    "subtitle": "Have questions about VastgoedFotoAI.nl? Need help with your property photos? Our team is here to help.",
+    "form": {
+      "name": "Name",
+      "namePlaceholder": "Your name",
+      "email": "Email",
+      "emailPlaceholder": "you@example.com",
+      "topic": "Topic",
+      "topicPlaceholder": "Select a topic",
+      "message": "Message",
+      "messagePlaceholder": "How can we help you?",
+      "submit": "Send Message"
+    },
+    "topics": {
+      "general": "General Inquiry",
+      "support": "Technical Support",
+      "sales": "Sales & Pricing",
+      "partnership": "Partnership"
+    },
+    "info": {
+      "emailUs": "Email us",
+      "responseTime": "Response time",
+      "responseDescription": "We typically respond within 24 hours during business days."
+    }
+  },
+  "video": {
+    "music": {
+      "aiNativeAudio": {
+        "title": "AI Native Audio Generation",
+        "description": "Our AI can generate cinematic audio and speech directly with the video.",
+        "premium": "Premium Production Quality ($0.14/sec)",
+        "feature1": "Synchronized environmental sounds and atmosphere",
+        "feature2": "Native speech synthesis (lowercase for speech, UPPERCASE for proper nouns)",
+        "feature3": "Professional audio-visual coherence"
+      },
+      "aspectRatio": "Video Aspect Ratio",
+      "backgroundMusic": "Background Music",
+      "optional": "optional",
+      "all": "All",
+      "noMusic": "No Music",
+      "noMusicDescription": "Video will have no background audio",
+      "volumeDescription": "Adjust the background music volume relative to the video"
+    }
   }
 }

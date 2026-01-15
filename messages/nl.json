@@ -111,6 +111,8 @@
       "product": "Product",
       "legal": "Juridisch",
       "allRightsReserved": "Alle rechten voorbehouden",
+      "description": "Transformeer uw vastgoedfoto's met AI-gestuurde verbeteringen. Professionele resultaten in seconden.",
+      "supportedBy": "Ondersteund door",
       "links": {
         "about": "Over Ons",
         "blog": "Blog",
@@ -135,10 +137,12 @@
     "perVideo": "per video",
     "photo": {
       "title": "Foto Verbetering",
-      "price": "€19",
-      "per": "per pand",
+      "price": "€24,50",
+      "originalPrice": "€49",
+      "launchDiscount": "50% lanceringskorting!",
+      "per": "per pand (excl. BTW)",
       "features": {
-        "images": "Tot 20 afbeeldingen per pand",
+        "images": "Tot 30 afbeeldingen per pand",
         "ai": "AI-gestuurde verbetering",
         "templates": "Meerdere stijlsjablonen",
         "downloads": "Downloads in hoge resolutie",
@@ -161,7 +165,7 @@
       "title": "Veelgestelde Vragen",
       "q1": {
         "question": "Hoe werkt de prijsstelling?",
-        "answer": "We rekenen per project, niet per maand. Voor foto verbetering betaalt u €19 per pand (tot 20 afbeeldingen). Voor video creatie betaalt u €19 per video. Geen abonnementen, geen verborgen kosten."
+        "answer": "We rekenen per project, niet per maand. Voor foto verbetering betaalt u €24,50 per pand (tot 30 afbeeldingen) - dat is 50% korting op onze normale prijs van €49 voor ons lanceringsjaar! Prijzen zijn exclusief BTW. Geen abonnementen, geen verborgen kosten."
       },
       "q2": {
         "question": "Welke beeldformaten ondersteunt u?",
@@ -176,8 +180,8 @@
         "answer": "Ja! Nieuwe gebruikers krijgen gratis credits om het platform uit te proberen. U kunt een paar afbeeldingen verbeteren om de kwaliteit te zien voordat u zich committeert aan een volledig vastgoedproject."
       },
       "q5": {
-        "question": "Wat als ik meer dan 20 afbeeldingen heb?",
-        "answer": "Als uw pand meer dan 20 afbeeldingen heeft, kunt u meerdere projecten aanmaken of contact met ons opnemen voor aangepaste prijzen voor grotere shoots."
+        "question": "Wat als ik meer dan 30 afbeeldingen heb?",
+        "answer": "Als uw pand meer dan 30 afbeeldingen heeft, kunt u meerdere projecten aanmaken of contact met ons opnemen voor aangepaste prijzen voor grotere shoots."
       },
       "q6": {
         "question": "Bieden jullie terugbetalingen aan?",
@@ -317,14 +321,14 @@
     "title": "Beheer Dashboard",
     "users": "Gebruikers",
     "workspaces": "Werkruimtes",
-    "billing": "Facturering",
-    "affiliate": "Affiliate",
+    "billingLabel": "Facturering",
+    "affiliateLabel": "Affiliate",
     "revenue": "Omzet",
     "settings": "Instellingen",
     "overview": "Overzicht",
     "billing": {
       "invoiceHistory": "Factuurgeschiedenis",
-      "uninvoiced": "Ongefactureerde Projecten",
+      "uninvoicedLabel": "Ongefactureerde Projecten",
       "noInvoices": "Nog geen facturen",
       "invoicesWillAppear": "Facturen verschijnen hier wanneer u ze aanmaakt",
       "invoiceNumber": "Factuurnr.",
@@ -406,5 +410,93 @@
   "currency": {
     "eur": "EUR",
     "symbol": "€"
+  },
+  "about": {
+    "badge": "Over Ons",
+    "title": "Vastgoedfoto's er prachtig uit laten zien",
+    "subtitle": "VastgoedFotoAI.nl is een AI-gestuurd foto verbeteringsplatform speciaal gebouwd voor vastgoedprofessionals. We helpen makelaars, fotografen en vastgoedbeheerders om verbluffende visuals te creëren die panden sneller verkopen.",
+    "story": {
+      "title": "Ons Verhaal",
+      "p1": "We zijn VastgoedFotoAI.nl gestart omdat we een gat in de markt zagen. Vastgoedprofessionals hadden hoogwaardige fotoverbetering nodig, maar bestaande oplossingen waren te duur, te traag of vereisten technische expertise.",
+      "p2": "Professionele fotografiediensten kunnen honderden euro's per pand kosten en dagen duren om te leveren. DIY-bewerkingstools vereisen uren leren en handmatig werk. Geen van beide opties werkt als je meerdere advertenties en strakke deadlines hebt.",
+      "p3": "VastgoedFotoAI.nl overbrugt deze kloof. Onze AI begrijpt vastgoedfotografie. Het weet hoe kamers op te fleuren, straataantrekkingskracht te verbeteren en panden er op hun best uit te laten zien. Alles automatisch, in seconden.",
+      "p4": "Vandaag hebben we meer dan 50.000 afbeeldingen verwerkt voor vastgoedprofessionals. Onze gebruikers melden tot 85% hogere betrokkenheid op hun advertenties. En we zijn nog maar net begonnen."
+    },
+    "values": {
+      "badge": "Onze Waarden",
+      "title": "Waar we in geloven",
+      "qualityFirst": {
+        "title": "Kwaliteit Eerst",
+        "description": "Elke afbeelding die we verwerken voldoet aan professionele standaarden. We doen nooit concessies aan de uitvoerkwaliteit."
+      },
+      "speedMatters": {
+        "title": "Snelheid Telt",
+        "description": "Vastgoed gaat snel. Onze AI levert resultaten in seconden, niet in uren of dagen."
+      },
+      "builtForYou": {
+        "title": "Gebouwd voor Jou",
+        "description": "Speciaal ontworpen voor vastgoedprofessionals. Elke functie lost een echt probleem op."
+      },
+      "simplePricing": {
+        "title": "Eenvoudige Prijzen",
+        "description": "Geen abonnementen, geen verborgen kosten. Betaal alleen voor wat je gebruikt, wanneer je het gebruikt."
+      }
+    },
+    "mission": {
+      "badge": "Onze Missie",
+      "title": "Vastgoedprofessionals versterken",
+      "description": "Onze missie is om professionele vastgoedfotografie te democratiseren. We geloven dat elk pand op zijn best gepresenteerd verdient te worden, ongeacht budget of technische expertise. Door de kracht van AI te benutten, maken we dit mogelijk voor iedereen."
+    },
+    "cta": {
+      "title": "Wilt u meer weten?",
+      "subtitle": "We horen graag van u. Of u nu vragen heeft over onze service of gewoon hallo wilt zeggen, neem contact op.",
+      "button": "Neem Contact Op"
+    }
+  },
+  "contact": {
+    "badge": "Contact",
+    "title": "Neem contact op met VastgoedFotoAI.nl",
+    "subtitle": "Heeft u vragen over VastgoedFotoAI.nl? Hulp nodig met uw pandfoto's? Ons team staat voor u klaar.",
+    "form": {
+      "name": "Naam",
+      "namePlaceholder": "Uw naam",
+      "email": "E-mail",
+      "emailPlaceholder": "u@voorbeeld.nl",
+      "topic": "Onderwerp",
+      "topicPlaceholder": "Selecteer een onderwerp",
+      "message": "Bericht",
+      "messagePlaceholder": "Hoe kunnen we u helpen?",
+      "submit": "Bericht Versturen"
+    },
+    "topics": {
+      "general": "Algemene Vraag",
+      "support": "Technische Ondersteuning",
+      "sales": "Verkoop & Prijzen",
+      "partnership": "Samenwerking"
+    },
+    "info": {
+      "emailUs": "E-mail ons",
+      "responseTime": "Reactietijd",
+      "responseDescription": "We reageren meestal binnen 24 uur op werkdagen."
+    }
+  },
+  "video": {
+    "music": {
+      "aiNativeAudio": {
+        "title": "AI Native Audio Generatie",
+        "description": "Onze AI kan filmische audio en spraak direct met de video genereren.",
+        "premium": "Premium Productie Kwaliteit ($0,14/sec)",
+        "feature1": "Gesynchroniseerde omgevingsgeluiden en atmosfeer",
+        "feature2": "Native spraaksynthese (kleine letters voor spraak, HOOFDLETTERS voor eigennamen)",
+        "feature3": "Professionele audio-visuele coherentie"
+      },
+      "aspectRatio": "Video Beeldverhouding",
+      "backgroundMusic": "Achtergrondmuziek",
+      "optional": "optioneel",
+      "all": "Alles",
+      "noMusic": "Geen Muziek",
+      "noMusicDescription": "Video heeft geen achtergrondaudio",
+      "volumeDescription": "Pas het volume van de achtergrondmuziek aan ten opzichte van de video"
+    }
   }
 }

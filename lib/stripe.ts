@@ -9,10 +9,10 @@ export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 export const STRIPE_CONFIG = {
   // Product and Price IDs (created via Stripe MCP)
   PRICE_PROJECT_EUR:
-    process.env.STRIPE_PRICE_PROJECT_EUR || "price_1SneD7KOzkjqB2nyMT5KWVAb",
+    process.env.STRIPE_PRICE_PROJECT_EUR || process.env.STRIPE_PRICE_PROJECT_USD || "price_1SpNvKDYyMjWDXQGKyx2Hkno",
 
   // Pricing (in cents)
-  PROJECT_PRICE_EUR_CENTS: 1900, // €19 EUR
+  PROJECT_PRICE_EUR_CENTS: 9900, // $99 USD (variable name kept for compatibility)
 
   // URLs
   SUCCESS_URL: `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/dashboard`,

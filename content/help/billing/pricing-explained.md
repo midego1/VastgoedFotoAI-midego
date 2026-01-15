@@ -5,77 +5,67 @@ order: 1
 popular: true
 ---
 
-VastgoedFotoAI.nl uses a simple, transparent credit-based pricing system. Here's everything you need to know about how pricing works.
+VastgoedFotoAI.nl uses a simple, transparent pay-per-property pricing system. Here's everything you need to know about how pricing works.
 
-## How Credits Work
+## 🎉 Launch Offer - 50% Off All of 2026!
 
-Credits are the currency of VastgoedFotoAI.nl. Each photo enhancement costs **1 credit**. Credits are:
+To celebrate our launch, we're offering **50% off** for the entire year of 2026! 
 
-- **Simple** – One credit equals one enhanced photo
-- **Flexible** – Use credits whenever you need them
-- **Persistent** – Unused credits roll over monthly
+| Service | Launch Price | Regular Price (2027+) |
+|---------|--------------|----------------------|
+| Photo Enhancement | **€24.50** per property | €49 per property |
+
+*All prices are excluding 21% VAT*
 
 <div class="callout-info">
 
-**New users get 10 free credits** to try VastgoedFotoAI.nl. No credit card required to start.
+**New users get free credits** to try VastgoedFotoAI.nl. No credit card required to start.
 
 </div>
 
-## Plans Overview
+## What's Included
 
-| Plan | Price | Credits | Best For |
-|------|-------|---------|----------|
-| Starter | €19/mo | 50/month | Individual agents |
-| Professional | €49/mo | 200/month | Active agents & small teams |
-| Business | €99/mo | 500/month | Teams & high-volume users |
+Each property enhancement includes:
 
-### Starter – €19/month
-- 50 credits per month
-- All style templates
-- Standard processing speed
-- Email support
+- **Up to 30 images** per property
+- AI-powered enhancement
+- Multiple style templates
+- High-resolution downloads
+- Ready in under 30 seconds
 
-### Professional – €49/month
-- 200 credits per month
-- All style templates
-- Priority processing
-- Email & chat support
-- Team collaboration (up to 3 members)
+## How It Works
 
-### Business – €99/month
-- 500 credits per month
-- All style templates
-- Fastest processing
-- Priority support
-- Team collaboration (up to 10 members)
-- API access
-
-## Pay-As-You-Go Credits
-
-Need more credits? Purchase additional credits anytime:
-
-| Credits | Price | Per Credit |
-|---------|-------|------------|
-| 25      | €10   | €0.40      |
-| 100     | €35   | €0.35      |
-| 250     | €75   | €0.30      |
+1. **Upload your photos** - Drag and drop up to 30 property photos
+2. **AI enhancement** - Our AI automatically enhances each image
+3. **Download & share** - Get your professional photos ready for listing
 
 <div class="callout-tip">
 
-Pay-as-you-go credits never expire – buy them once, use them whenever you need them.
+No subscriptions, no hidden fees. Just pay per property when you need it.
 
 </div>
 
-## Annual Billing
+## Pay-As-You-Go
 
-Save 20% with annual billing on any plan. Annual subscribers also receive:
-- 2 months free (compared to monthly)
-- Priority feature access
-- Dedicated account manager (Business plan)
+Need to enhance a property? Simply:
 
-## Changing Plans
+1. Create a new project
+2. Upload your photos (up to 30 per property)
+3. Pay €24.50 (launch price) and get your enhanced photos
 
-Upgrade or downgrade anytime:
-- **Upgrades** take effect immediately
-- **Downgrades** take effect at next billing cycle
-- **Unused credits** carry over when upgrading
+## Large Shoots
+
+If your property has more than 30 images, you can:
+- Create multiple projects
+- Contact us for custom pricing on larger shoots
+
+## Changing or Cancelling
+
+Since we use a pay-per-property model:
+- **No subscriptions** to manage
+- **No cancelation** needed
+- Pay only when you use the service
+
+## Refund Policy
+
+If you're not satisfied with the results, contact us within 24 hours of processing and we'll work with you to make it right or provide a refund.

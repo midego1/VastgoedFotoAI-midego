@@ -1,6 +1,12 @@
 "use client";
 
-import { IconCheck, IconLoader, IconLock } from "@tabler/icons-react";
+import {
+  IconCheck,
+  IconEye,
+  IconEyeOff,
+  IconLoader,
+  IconLock,
+} from "@tabler/icons-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
@@ -26,6 +32,8 @@ function ResetPasswordForm() {
 
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
@@ -124,27 +132,55 @@ function ResetPasswordForm() {
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div className="space-y-2">
             <Label htmlFor="password">New password</Label>
-            <Input
-              autoComplete="new-password"
-              disabled={isLoading}
-              id="password"
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter new password"
-              type="password"
-              value={password}
-            />
+            <div className="relative">
+              <Input
+                autoComplete="new-password"
+                disabled={isLoading}
+                id="password"
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter new password"
+                type={showPassword ? "text" : "password"}
+                value={password}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                tabIndex={-1}
+              >
+                {showPassword ? (
+                  <IconEyeOff className="size-4" />
+                ) : (
+                  <IconEye className="size-4" />
+                )}
+              </button>
+            </div>
           </div>
           <div className="space-y-2">
             <Label htmlFor="confirmPassword">Confirm password</Label>
-            <Input
-              autoComplete="new-password"
-              disabled={isLoading}
-              id="confirmPassword"
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              placeholder="Confirm new password"
-              type="password"
-              value={confirmPassword}
-            />
+            <div className="relative">
+              <Input
+                autoComplete="new-password"
+                disabled={isLoading}
+                id="confirmPassword"
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                placeholder="Confirm new password"
+                type={showConfirmPassword ? "text" : "password"}
+                value={confirmPassword}
+              />
+              <button
+                type="button"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                tabIndex={-1}
+              >
+                {showConfirmPassword ? (
+                  <IconEyeOff className="size-4" />
+                ) : (
+                  <IconEye className="size-4" />
+                )}
+              </button>
+            </div>
           </div>
           <Button className="w-full" disabled={isLoading} type="submit">
             {isLoading ? (

@@ -36,7 +36,7 @@ const navItems = [
   },
   {
     href: "/admin/billing",
-    label: "Betalinger",
+    label: "Billing",
     icon: IconFileInvoice,
     exact: false as const,
   },
@@ -122,7 +122,7 @@ export function AdminHeader() {
           {/* Right side: Admin info + Sign out */}
           <div className="flex items-center gap-3">
             <span className="hidden max-w-[200px] truncate text-sm text-zinc-400 md:block">
-              admin@vastgoedfotoai.nl
+              Admin Portal
             </span>
             <Button
               asChild

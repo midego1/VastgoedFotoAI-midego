@@ -19,6 +19,8 @@ function PricingCard({
   icon: Icon,
   titleKey,
   priceKey,
+  originalPriceKey,
+  launchDiscountKey,
   perKey,
   featuresKeys,
   popular,
@@ -26,6 +28,8 @@ function PricingCard({
   icon: typeof IconPhoto;
   titleKey: string;
   priceKey: string;
+  originalPriceKey?: string;
+  launchDiscountKey?: string;
   perKey: string;
   featuresKeys: string[];
   popular?: boolean;
@@ -54,6 +58,19 @@ function PricingCard({
           }}
         >
           {t("popular")}
+        </div>
+      )}
+
+      {/* Launch Discount Banner */}
+      {launchDiscountKey && (
+        <div
+          className="mb-4 rounded-lg px-3 py-2 text-center text-sm font-semibold"
+          style={{
+            background: "linear-gradient(135deg, #22c55e 0%, #16a34a 100%)",
+            color: "white",
+          }}
+        >
+          🎉 {t(launchDiscountKey)}
         </div>
       )}
 
@@ -86,13 +103,23 @@ function PricingCard({
       </h3>
 
       {/* Price */}
-      <div className="mt-4 flex items-baseline gap-2">
-        <span
-          className="font-bold text-4xl tabular-nums"
-          style={{ color: "var(--landing-text)" }}
-        >
-          {t(priceKey)}
-        </span>
+      <div className="mt-4 flex flex-col gap-1">
+        <div className="flex items-baseline gap-2">
+          {originalPriceKey && (
+            <span
+              className="text-xl line-through"
+              style={{ color: "var(--landing-text-muted)" }}
+            >
+              {t(originalPriceKey)}
+            </span>
+          )}
+          <span
+            className="font-bold text-4xl tabular-nums"
+            style={{ color: popular ? "var(--landing-accent)" : "var(--landing-text)" }}
+          >
+            {t(priceKey)}
+          </span>
+        </div>
         <span
           className="text-sm"
           style={{ color: "var(--landing-text-muted)" }}
@@ -262,6 +289,8 @@ export function PricingPage() {
               perKey="photo.per"
               popular
               priceKey="photo.price"
+              originalPriceKey="photo.originalPrice"
+              launchDiscountKey="photo.launchDiscount"
               titleKey="photo.title"
             />
             <PricingCard

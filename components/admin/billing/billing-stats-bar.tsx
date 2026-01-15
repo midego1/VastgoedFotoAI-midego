@@ -31,7 +31,7 @@ export function BillingStatsBar({ stats }: BillingStatsBarProps) {
             />
           </div>
           <div>
-            <p className="text-muted-foreground text-sm">Ikke fakturert</p>
+            <p className="text-muted-foreground text-sm">Uninvoiced</p>
             <div className="flex items-baseline gap-2">
               <span
                 className="font-bold text-2xl tabular-nums"
@@ -39,7 +39,7 @@ export function BillingStatsBar({ stats }: BillingStatsBarProps) {
               >
                 {stats.uninvoicedCount}
               </span>
-              <span className="text-muted-foreground text-sm">prosjekter</span>
+              <span className="text-muted-foreground text-sm">projects</span>
             </div>
             <p
               className="font-medium text-sm"
@@ -67,7 +67,7 @@ export function BillingStatsBar({ stats }: BillingStatsBarProps) {
             />
           </div>
           <div>
-            <p className="text-muted-foreground text-sm">Venter betaling</p>
+            <p className="text-muted-foreground text-sm">Pending Payment</p>
             <div className="flex items-baseline gap-2">
               <span
                 className="font-bold text-2xl tabular-nums"
@@ -75,7 +75,7 @@ export function BillingStatsBar({ stats }: BillingStatsBarProps) {
               >
                 {stats.pendingPayment}
               </span>
-              <span className="text-muted-foreground text-sm">fakturaer</span>
+              <span className="text-muted-foreground text-sm">invoices</span>
             </div>
             <p
               className="font-medium text-sm"
@@ -103,7 +103,7 @@ export function BillingStatsBar({ stats }: BillingStatsBarProps) {
             />
           </div>
           <div>
-            <p className="text-muted-foreground text-sm">Denne måneden</p>
+            <p className="text-muted-foreground text-sm">This Month</p>
             <div className="flex items-baseline gap-2">
               <span
                 className="font-bold text-2xl tabular-nums"
@@ -111,7 +111,7 @@ export function BillingStatsBar({ stats }: BillingStatsBarProps) {
               >
                 {stats.invoicedThisMonth}
               </span>
-              <span className="text-muted-foreground text-sm">fakturaer</span>
+              <span className="text-muted-foreground text-sm">invoices</span>
             </div>
             <p
               className="font-medium text-sm"
@@ -139,7 +139,7 @@ export function BillingStatsBar({ stats }: BillingStatsBarProps) {
             />
           </div>
           <div>
-            <p className="text-muted-foreground text-sm">Totalt fakturert</p>
+            <p className="text-muted-foreground text-sm">Total Invoiced</p>
             <div className="flex items-baseline gap-2">
               <span
                 className="font-bold text-2xl tabular-nums"
@@ -147,7 +147,7 @@ export function BillingStatsBar({ stats }: BillingStatsBarProps) {
               >
                 {stats.invoicedCount}
               </span>
-              <span className="text-muted-foreground text-sm">fakturaer</span>
+              <span className="text-muted-foreground text-sm">invoices</span>
             </div>
             <p
               className="font-medium text-sm"

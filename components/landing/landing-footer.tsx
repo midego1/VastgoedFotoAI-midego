@@ -48,8 +48,7 @@ export function LandingFooter() {
               className="mt-4 max-w-xs text-sm leading-relaxed"
               style={{ color: "var(--landing-text-muted)" }}
             >
-              Transform your real estate photos with AI-powered enhancements.
-              Professional results in seconds.
+              {t("description")}
             </p>
 
             {/* Social Links */}
@@ -168,7 +167,7 @@ export function LandingFooter() {
             &copy; {currentYear} VastgoedFotoAI.nl. {t("allRightsReserved")}.
           </p>
           <p className="text-sm" style={{ color: "var(--landing-text-muted)" }}>
-            Supported by{" "}
+            {t("supportedBy")}{" "}
             <a
               className="underline transition-colors hover:text-white"
               href="https://www.midego.net"

@@ -1031,6 +1031,124 @@ export async function getVideoProjectStats(workspaceId: string): Promise<{
 }
 
 // ============================================================================
+// Admin Overview Stats (Real Database Queries)
+// ============================================================================
+
+export interface AdminOverviewStats {
+  totalWorkspaces: number;
+  activeWorkspaces: number;
+  suspendedWorkspaces: number;
+  trialWorkspaces: number;
+  totalUsers: number;
+  activeUsers: number;
+  pendingUsers: number;
+  inactiveUsers: number;
+  totalImages: number;
+  totalRevenue: number;
+  activeSessions: number;
+  imagesThisMonth: number;
+  revenueThisMonth: number;
+}
+
+export async function getAdminOverviewStats(): Promise<AdminOverviewStats> {
+  // Start of current month
+  const now = new Date();
+  const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+  const thirtyDaysAgo = new Date(now);
+  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+  // Workspace counts
+  const [totalWs] = await db.select({ count: count() }).from(workspace);
+  const [activeWs] = await db
+    .select({ count: count() })
+    .from(workspace)
+    .where(eq(workspace.status, "active"));
+  const [suspendedWs] = await db
+    .select({ count: count() })
+    .from(workspace)
+    .where(eq(workspace.status, "suspended"));
+  const [trialWs] = await db
+    .select({ count: count() })
+    .from(workspace)
+    .where(eq(workspace.status, "trial"));
+
+  // User counts
+  const [totalUsers] = await db.select({ count: count() }).from(user);
+
+  // Active users: verified email and updated in last 30 days
+  const [activeUsersCount] = await db
+    .select({ count: count() })
+    .from(user)
+    .where(
+      and(
+        eq(user.emailVerified, true),
+        gt(user.updatedAt, thirtyDaysAgo)
+      )
+    );
+
+  // Pending users: unverified email
+  const [pendingUsersCount] = await db
+    .select({ count: count() })
+    .from(user)
+    .where(eq(user.emailVerified, false));
+
+  // Inactive users: verified but not active in 30 days
+  const inactiveCount =
+    (totalUsers?.count || 0) -
+    (activeUsersCount?.count || 0) -
+    (pendingUsersCount?.count || 0);
+
+  // Total images
+  const [totalImagesResult] = await db
+    .select({ count: count() })
+    .from(imageGeneration);
+
+  // Images this month
+  const [imagesThisMonthResult] = await db
+    .select({ count: count() })
+    .from(imageGeneration)
+    .where(gt(imageGeneration.createdAt, startOfMonth));
+
+  // Revenue from paid invoices
+  const [totalRevenueResult] = await db
+    .select({ amount: sum(invoice.totalAmountOre) })
+    .from(invoice)
+    .where(eq(invoice.status, "paid"));
+
+  // Revenue this month
+  const [revenueThisMonthResult] = await db
+    .select({ amount: sum(invoice.totalAmountOre) })
+    .from(invoice)
+    .where(
+      and(eq(invoice.status, "paid"), gt(invoice.createdAt, startOfMonth))
+    );
+
+  // Active sessions: approximate by counting users active in last hour
+  const oneHourAgo = new Date(now);
+  oneHourAgo.setHours(oneHourAgo.getHours() - 1);
+  const [activeSessionsResult] = await db
+    .select({ count: count() })
+    .from(user)
+    .where(gt(user.updatedAt, oneHourAgo));
+
+  return {
+    totalWorkspaces: totalWs?.count || 0,
+    activeWorkspaces: activeWs?.count || 0,
+    suspendedWorkspaces: suspendedWs?.count || 0,
+    trialWorkspaces: trialWs?.count || 0,
+    totalUsers: totalUsers?.count || 0,
+    activeUsers: activeUsersCount?.count || 0,
+    pendingUsers: pendingUsersCount?.count || 0,
+    inactiveUsers: Math.max(0, inactiveCount),
+    totalImages: totalImagesResult?.count || 0,
+    totalRevenue: (Number(totalRevenueResult?.amount) || 0) / 100,
+    activeSessions: activeSessionsResult?.count || 0,
+    imagesThisMonth: imagesThisMonthResult?.count || 0,
+    revenueThisMonth: (Number(revenueThisMonthResult?.amount) || 0) / 100,
+  };
+}
+
+// ============================================================================
 // Admin Queries (System Admin Only)
 // ============================================================================
 
