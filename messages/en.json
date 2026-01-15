@@ -1,0 +1,410 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "update": "Update",
+    "search": "Search",
+    "filter": "Filter",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "continue": "Continue",
+    "confirm": "Confirm",
+    "yes": "Yes",
+    "no": "No",
+    "or": "or"
+  },
+  "nav": {
+    "features": "Features",
+    "howItWorks": "How It Works",
+    "pricing": "Pricing",
+    "blog": "Blog",
+    "help": "Help",
+    "dashboard": "Dashboard",
+    "getStarted": "Get Started",
+    "signIn": "Sign In",
+    "signOut": "Sign Out",
+    "admin": "Admin",
+    "settings": "Settings"
+  },
+  "landing": {
+    "hero": {
+      "badge": "#1 AI Photo Editor for Real Estate",
+      "title": "Create Stunning",
+      "titleAccent": "Property Photos",
+      "titleEnd": "Instantly with AI",
+      "subtitle": "Transform photos 10x faster. No design skills needed.",
+      "cta": "Start for Free",
+      "goToDashboard": "Go to Dashboard",
+      "watchDemo": "Watch Demo",
+      "stats": {
+        "photosEnhanced": "Photos enhanced",
+        "averageTime": "Average time",
+        "listingEngagement": "Listing engagement"
+      },
+      "appPreview": "App Preview"
+    },
+    "features": {
+      "badge": "Features",
+      "title": "Everything you need to create stunning listings",
+      "subtitle": "Powerful features designed specifically for real estate professionals who want to save time and impress clients.",
+      "items": {
+        "aiEnhancement": {
+          "title": "AI-Powered Enhancement",
+          "description": "Our advanced AI transforms ordinary photos into stunning, professional-quality images automatically."
+        },
+        "templates": {
+          "title": "Multiple Style Templates",
+          "description": "Choose from a variety of professionally designed styles to match your brand and property type."
+        },
+        "fast": {
+          "title": "Results in Seconds",
+          "description": "No waiting around. Get your enhanced photos back in seconds, not hours or days."
+        },
+        "batch": {
+          "title": "Batch Processing",
+          "description": "Upload multiple photos at once and process entire property shoots in one go."
+        },
+        "noSoftware": {
+          "title": "No Software Required",
+          "description": "Everything runs in your browser. No downloads, no installations, no technical skills needed."
+        },
+        "secure": {
+          "title": "Secure & Private",
+          "description": "Your photos are encrypted and automatically deleted after processing. Your data stays yours."
+        }
+      }
+    },
+    "howItWorks": {
+      "badge": "How It Works",
+      "title": "Three simple steps",
+      "subtitle": "Get professional results in minutes",
+      "steps": {
+        "upload": {
+          "title": "Upload Your Photos",
+          "description": "Drag and drop your property photos or select them from your device. We support all common image formats."
+        },
+        "enhance": {
+          "title": "AI Enhancement",
+          "description": "Our AI analyzes each photo and automatically applies professional enhancements - lighting, color correction, and more."
+        },
+        "download": {
+          "title": "Download & Share",
+          "description": "Preview your enhanced photos and download them in high resolution. Ready to impress your clients immediately."
+        }
+      }
+    },
+    "cta": {
+      "title": "Ready to transform your property photos?",
+      "subtitle": "Join thousands of real estate professionals using Proppi",
+      "button": "Get Started for Free"
+    },
+    "footer": {
+      "company": "Company",
+      "product": "Product",
+      "legal": "Legal",
+      "allRightsReserved": "All rights reserved",
+      "links": {
+        "about": "About",
+        "blog": "Blog",
+        "contact": "Contact",
+        "features": "Features",
+        "pricing": "Pricing",
+        "help": "Help",
+        "privacy": "Privacy Policy",
+        "terms": "Terms of Service"
+      }
+    }
+  },
+  "pricing": {
+    "title": "Simple, Transparent Pricing",
+    "subtitle": "Pay per project. No subscriptions, no surprises.",
+    "monthly": "Monthly",
+    "yearly": "Yearly",
+    "popular": "Most Popular",
+    "getStarted": "Get Started",
+    "perProject": "per project",
+    "perProperty": "per property",
+    "perVideo": "per video",
+    "photo": {
+      "title": "Photo Enhancement",
+      "price": "€99",
+      "per": "per property",
+      "features": {
+        "images": "Up to 20 images per property",
+        "ai": "AI-powered enhancement",
+        "templates": "Multiple style templates",
+        "downloads": "High-resolution downloads",
+        "fast": "Ready in under 30 seconds"
+      }
+    },
+    "video": {
+      "title": "Property Video",
+      "price": "€99",
+      "per": "per video",
+      "features": {
+        "professional": "Professional property video",
+        "ai": "AI-powered editing",
+        "music": "Music and transitions included",
+        "format": "Portrait or landscape format",
+        "fast": "Ready in minutes"
+      }
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "q1": {
+        "question": "How does the pricing work?",
+        "answer": "We charge per project, not per month. For photo enhancement, you pay €99 per property (up to 20 images). For video creation, you pay €99 per video. No subscriptions, no hidden fees."
+      },
+      "q2": {
+        "question": "What image formats do you support?",
+        "answer": "We support all common image formats including JPG, PNG, and WEBP. Maximum file size is 10MB per image. Enhanced images are delivered in high-resolution JPG format."
+      },
+      "q3": {
+        "question": "How long does processing take?",
+        "answer": "Photo enhancement typically takes under 30 seconds per image. Video creation usually takes 5-10 minutes depending on the number of images and selected options."
+      },
+      "q4": {
+        "question": "Can I try before I buy?",
+        "answer": "Yes! New users get free credits to try out the platform. You can enhance a few images to see the quality before committing to a full property project."
+      },
+      "q5": {
+        "question": "What if I have more than 20 images?",
+        "answer": "If your property has more than 20 images, you can create multiple projects or contact us for custom pricing on larger shoots."
+      },
+      "q6": {
+        "question": "Do you offer refunds?",
+        "answer": "If you're not satisfied with the results, contact us within 24 hours of processing and we'll work with you to make it right or provide a refund."
+      }
+    }
+  },
+  "auth": {
+    "signIn": {
+      "title": "Welcome back",
+      "subtitle": "Sign in to your account",
+      "email": "Email address",
+      "password": "Password",
+      "forgotPassword": "Forgot your password?",
+      "noAccount": "Don't have an account?",
+      "signUp": "Sign up",
+      "button": "Sign in",
+      "withGoogle": "Continue with Google",
+      "withGitHub": "Continue with GitHub",
+      "orDivider": "Or continue with"
+    },
+    "signUp": {
+      "title": "Create your account",
+      "subtitle": "Start transforming your property photos",
+      "name": "Full name",
+      "email": "Email address",
+      "password": "Password",
+      "confirmPassword": "Confirm password",
+      "hasAccount": "Already have an account?",
+      "signIn": "Sign in",
+      "button": "Create account",
+      "withGoogle": "Continue with Google",
+      "withGitHub": "Continue with GitHub",
+      "terms": "By creating an account, you agree to our",
+      "termsLink": "Terms of Service",
+      "and": "and",
+      "privacyLink": "Privacy Policy"
+    },
+    "forgotPassword": {
+      "title": "Forgot your password?",
+      "subtitle": "Enter your email and we'll send you a reset link",
+      "email": "Email address",
+      "button": "Send reset link",
+      "backToSignIn": "Back to sign in",
+      "successMessage": "Check your email for a password reset link"
+    },
+    "resetPassword": {
+      "title": "Reset your password",
+      "subtitle": "Enter your new password",
+      "password": "New password",
+      "confirmPassword": "Confirm new password",
+      "button": "Reset password",
+      "successMessage": "Password reset successfully"
+    },
+    "verifyEmail": {
+      "title": "Verify your email",
+      "subtitle": "We sent a verification link to your email",
+      "resend": "Resend verification email",
+      "backToSignIn": "Back to sign in"
+    },
+    "onboarding": {
+      "title": "Welcome to Proppi!",
+      "subtitle": "Let's set up your account",
+      "workspaceName": "Workspace name",
+      "continue": "Continue",
+      "skip": "Skip for now"
+    }
+  },
+  "dashboard": {
+    "title": "Projects",
+    "subtitle": "Transform your real estate photos with AI",
+    "newProject": "New Project",
+    "myProjects": "My Projects",
+    "recentProjects": "Recent Projects",
+    "noProjects": "No projects yet",
+    "createFirstProject": "Create your first project to get started",
+    "viewAll": "View All",
+    "filter": {
+      "all": "All projects",
+      "photos": "Photos",
+      "videos": "Videos",
+      "recent": "Recent",
+      "oldest": "Oldest"
+    }
+  },
+  "project": {
+    "name": "Project Name",
+    "description": "Description",
+    "status": "Status",
+    "created": "Created",
+    "updated": "Updated",
+    "images": "Images",
+    "videos": "Videos",
+    "settings": "Settings",
+    "delete": "Delete Project",
+    "deleteConfirm": "Are you sure you want to delete this project?",
+    "upload": "Upload Images",
+    "processing": "Processing...",
+    "download": "Download",
+    "downloadAll": "Download All",
+    "statuses": {
+      "draft": "Draft",
+      "processing": "Processing",
+      "completed": "Completed",
+      "failed": "Failed"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "profile": "Profile",
+    "workspace": "Workspace",
+    "billing": "Billing",
+    "notifications": "Notifications",
+    "security": "Security",
+    "language": "Language",
+    "theme": "Theme",
+    "lightMode": "Light",
+    "darkMode": "Dark",
+    "systemMode": "System",
+    "save": "Save changes",
+    "cancel": "Cancel",
+    "profileSettings": {
+      "title": "Profile Settings",
+      "name": "Full name",
+      "email": "Email address",
+      "avatar": "Profile picture",
+      "updateProfile": "Update profile"
+    },
+    "workspaceSettings": {
+      "title": "Workspace Settings",
+      "name": "Workspace name",
+      "members": "Team members",
+      "inviteMembers": "Invite members"
+    }
+  },
+  "admin": {
+    "title": "Admin Dashboard",
+    "users": "Users",
+    "workspaces": "Workspaces",
+    "billing": "Billing",
+    "affiliate": "Affiliate",
+    "revenue": "Revenue",
+    "settings": "Settings",
+    "overview": "Overview",
+    "billing": {
+      "invoiceHistory": "Invoice History",
+      "uninvoiced": "Uninvoiced Projects",
+      "noInvoices": "No invoices yet",
+      "invoicesWillAppear": "Invoices will appear here when you create them",
+      "invoiceNumber": "Invoice No.",
+      "customer": "Customer",
+      "projects": "Projects",
+      "amount": "Amount",
+      "withVAT": "With VAT",
+      "status": "Status",
+      "issued": "Issued",
+      "due": "Due",
+      "markAsPaid": "Mark as paid",
+      "openInFiken": "Open in Fiken",
+      "statuses": {
+        "paid": "Paid",
+        "sent": "Sent",
+        "draft": "Draft",
+        "overdue": "Overdue",
+        "cancelled": "Cancelled",
+        "pending": "Pending"
+      },
+      "uninvoiced": {
+        "missingOrgNumber": "Missing org.nr",
+        "allInvoiced": "Everything is invoiced!",
+        "selectProjects": "Select projects",
+        "clickRow": "Click on a row to select projects for invoicing",
+        "error": "Error",
+        "invoicesSent": "Invoices sent",
+        "customers": "Customer(s)",
+        "amount": "Amount",
+        "created": "Created",
+        "projectsAwaiting": "projects awaiting invoicing"
+      }
+    },
+    "affiliate": {
+      "awaitingPayout": "Awaiting payout",
+      "totalPaidOut": "Total paid out",
+      "activeAffiliates": "Active affiliates",
+      "pendingPayouts": "Pending payouts",
+      "affiliateRelationships": "Affiliate relationships",
+      "commissions": "Commissions",
+      "noAffiliates": "No affiliates yet",
+      "referredCustomer": "Referred customer",
+      "commission": "Commission",
+      "active": "Active",
+      "inactive": "Inactive",
+      "selectCommissions": "Select commissions...",
+      "commissionsPaidOut": "Commissions paid out",
+      "couldNotMarkAsPaid": "Could not mark as paid out"
+    }
+  },
+  "rooms": {
+    "exterior": "Exterior",
+    "entrance": "Entrance",
+    "living-room": "Living Room",
+    "kitchen": "Kitchen",
+    "dining-room": "Dining Room",
+    "bedroom": "Bedroom",
+    "bathroom": "Bathroom",
+    "office": "Office",
+    "laundry": "Laundry",
+    "garage": "Garage",
+    "basement": "Basement",
+    "attic": "Attic",
+    "hallway": "Hallway",
+    "staircase": "Staircase",
+    "balcony": "Balcony",
+    "terrace": "Terrace",
+    "patio": "Patio",
+    "garden": "Garden",
+    "pool": "Pool",
+    "gym": "Gym",
+    "sauna": "Sauna",
+    "wine-cellar": "Wine Cellar",
+    "closet": "Closet",
+    "pantry": "Pantry",
+    "utility-room": "Utility Room",
+    "other": "Other"
+  },
+  "currency": {
+    "eur": "EUR",
+    "symbol": "€"
+  }
+}
