@@ -4,8 +4,6 @@ import {
   IconArrowRight,
   IconCheck,
   IconMinus,
-  IconMovie,
-  IconPhoto,
   IconPlus,
 } from "@tabler/icons-react";
 import Link from "next/link";
@@ -16,7 +14,6 @@ import { LandingNav } from "./landing-nav";
 
 
 function PricingCard({
-  icon: Icon,
   titleKey,
   priceKey,
   originalPriceKey,
@@ -24,8 +21,8 @@ function PricingCard({
   perKey,
   featuresKeys,
   popular,
+  comingSoon,
 }: {
-  icon: typeof IconPhoto;
   titleKey: string;
   priceKey: string;
   originalPriceKey?: string;
@@ -33,12 +30,15 @@ function PricingCard({
   perKey: string;
   featuresKeys: string[];
   popular?: boolean;
+  comingSoon?: boolean;
 }) {
   const t = useTranslations("pricing");
 
   return (
     <div
-      className="relative flex flex-col rounded-2xl p-8 transition-all duration-300 hover:-translate-y-1"
+      className={`relative flex flex-col rounded-2xl p-8 transition-all duration-300 ${
+        comingSoon ? "opacity-75" : "hover:-translate-y-1"
+      }`}
       style={{
         backgroundColor: popular ? "var(--landing-card)" : "var(--landing-bg)",
         boxShadow: popular
@@ -73,26 +73,6 @@ function PricingCard({
           🎉 {t(launchDiscountKey)}
         </div>
       )}
-
-      {/* Icon */}
-      <div
-        className="relative mb-6 inline-flex size-14 items-center justify-center rounded-xl"
-        style={{
-          backgroundColor: popular
-            ? "var(--landing-accent)"
-            : "var(--landing-bg-alt)",
-          border: popular ? "none" : "1px solid var(--landing-border)",
-        }}
-      >
-        <Icon
-          className="size-7"
-          style={{
-            color: popular
-              ? "var(--landing-accent-foreground)"
-              : "var(--landing-accent)",
-          }}
-        />
-      </div>
 
       {/* Title */}
       <h3
@@ -148,8 +128,13 @@ function PricingCard({
 
       {/* CTA */}
       <Link
-        className="mt-8 inline-flex h-12 items-center justify-center gap-2 rounded-full font-medium text-base transition-all duration-200 hover:scale-[1.02]"
-        href="/sign-in"
+        aria-disabled={comingSoon}
+        className={`mt-8 inline-flex h-12 items-center justify-center gap-2 rounded-full font-medium text-base transition-all duration-200 ${
+          comingSoon
+            ? "cursor-not-allowed opacity-50"
+            : "hover:scale-[1.02]"
+        }`}
+        href={comingSoon ? "#" : "/sign-in"}
         style={{
           backgroundColor: popular
             ? "var(--landing-accent)"
@@ -160,14 +145,14 @@ function PricingCard({
           border: popular ? "none" : "1px solid var(--landing-border-strong)",
         }}
       >
-        {t("getStarted")}
-        <IconArrowRight className="size-5" />
+        {comingSoon ? t("comingSoon") : t("getStarted")}
+        {!comingSoon && <IconArrowRight className="size-5" />}
       </Link>
     </div>
   );
 }
 
-function FaqItem({ questionKey, answerKey }: { questionKey: string; answerKey: string }) {
+function FaqItem({ questionKey }: { questionKey: string }) {
   const [isOpen, setIsOpen] = useState(false);
   const t = useTranslations("pricing.faq");
 
@@ -229,6 +214,8 @@ function FaqItem({ questionKey, answerKey }: { questionKey: string; answerKey: s
 
 export function PricingPage() {
   const t = useTranslations("pricing");
+  const tNav = useTranslations("nav");
+  const tCta = useTranslations("landing.cta");
 
   const photoFeatures = [
     "photo.features.images",
@@ -263,7 +250,7 @@ export function PricingPage() {
               className="font-semibold text-sm uppercase tracking-wider"
               style={{ color: "var(--landing-accent)" }}
             >
-              {t("nav.pricing")}
+              {tNav("pricing")}
             </p>
             <h1
               className="mt-3 font-bold text-4xl tracking-tight sm:text-5xl md:text-6xl"
@@ -285,7 +272,6 @@ export function PricingPage() {
           <div className="mx-auto grid max-w-4xl gap-8 md:grid-cols-2">
             <PricingCard
               featuresKeys={photoFeatures}
-              icon={IconPhoto}
               perKey="photo.per"
               popular
               priceKey="photo.price"
@@ -294,8 +280,8 @@ export function PricingPage() {
               titleKey="photo.title"
             />
             <PricingCard
+              comingSoon
               featuresKeys={videoFeatures}
-              icon={IconMovie}
               perKey="video.per"
               priceKey="video.price"
               titleKey="video.title"
@@ -327,7 +313,6 @@ export function PricingPage() {
             <div className="mt-12 space-y-4">
               {faqKeys.map((faqKey) => (
                 <FaqItem
-                  answerKey={faqKey}
                   key={faqKey}
                   questionKey={faqKey}
                 />
@@ -350,13 +335,13 @@ export function PricingPage() {
               className="font-bold text-3xl tracking-tight sm:text-4xl"
               style={{ color: "var(--landing-text)" }}
             >
-              {t("../landing.cta.title")}
+              {tCta("title")}
             </h2>
             <p
               className="mx-auto mt-4 max-w-lg text-lg leading-relaxed"
               style={{ color: "var(--landing-text-muted)" }}
             >
-              {t("../landing.cta.subtitle")}
+              {tCta("subtitle")}
             </p>
             <div className="mt-8">
               <Link
@@ -367,7 +352,7 @@ export function PricingPage() {
                   color: "var(--landing-accent-foreground)",
                 }}
               >
-                {t("../landing.cta.button")}
+                {tCta("button")}
                 <IconArrowRight className="size-5" />
               </Link>
             </div>

@@ -1,12 +1,23 @@
 import { LegalPage, LegalSection } from "@/components/landing/legal-page";
 import { constructMetadata } from "@/lib/constructMetadata";
 
-export const metadata = constructMetadata({
-  title: "Terms of Service - VastgoedFotoAI.nl",
-  description: "Terms and conditions for using VastgoedFotoAI.nl services.",
-  canonical: "/terms",
-  noIndex: true,
-});
+import { getTranslations } from "next-intl/server";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "metadata.terms" });
+
+  return constructMetadata({
+    title: t("title"),
+    description: t("description"),
+    canonical: "/terms",
+    noIndex: true,
+  });
+}
 
 export default function TermsPage() {
   return (

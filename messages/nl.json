@@ -126,39 +126,40 @@
     }
   },
   "pricing": {
-    "title": "Eenvoudige, Transparante Prijzen",
-    "subtitle": "Betaal per project. Geen abonnementen, geen verrassingen.",
+    "title": "Topkwaliteit Vastgoedfoto's, Zonder Vast Contract",
+    "subtitle": "Stop met te veel betalen voor abonnementen. Betaal per woning en krijg direct resultaat. Profiteer nu van onze 50% lanceringskorting!",
     "monthly": "Maandelijks",
     "yearly": "Jaarlijks",
-    "popular": "Meest Populair",
-    "getStarted": "Aan de slag",
+    "popular": "Meest Gekozen",
+    "comingSoon": "Binnenkort Beschikbaar",
+    "getStarted": "Start Direct",
     "perProject": "per project",
-    "perProperty": "per pand",
+    "perProperty": "per woning",
     "perVideo": "per video",
     "photo": {
-      "title": "Foto Verbetering",
+      "title": "Premium Foto Pakket",
       "price": "€24,50",
       "originalPrice": "€49",
-      "launchDiscount": "50% lanceringskorting!",
-      "per": "per pand (excl. BTW)",
+      "launchDiscount": "🔥 TIJDELIJKE ACTIE: 50% KORTING!",
+      "per": "per woning (excl. BTW)",
       "features": {
-        "images": "Tot 30 afbeeldingen per pand",
-        "ai": "AI-gestuurde verbetering",
-        "templates": "Meerdere stijlsjablonen",
-        "downloads": "Downloads in hoge resolutie",
-        "fast": "Klaar in minder dan 30 seconden"
+        "images": "Alles-in-één: tot 30 foto's per woning",
+        "ai": "Geavanceerde AI: Perfecte belichting & kleuren",
+        "templates": "Professionele stijlen voor elke woning",
+        "downloads": "Direct downloaden in print-kwaliteit",
+        "fast": "Klaar terwijl u een koffie drinkt"
       }
     },
     "video": {
-      "title": "Vastgoed Video",
+      "title": "Cinematische Video",
       "price": "€19",
       "per": "per video",
       "features": {
-        "professional": "Professionele vastgoed video",
-        "ai": "AI-gestuurde bewerking",
-        "music": "Muziek en overgangen inbegrepen",
-        "format": "Portret of landschap formaat",
-        "fast": "Klaar in minuten"
+        "professional": "Professionele rondleiding video",
+        "ai": "Vloeiende AI-transities & effecten",
+        "music": "Inclusief rechtenvrije muziek",
+        "format": "Geschikt voor Funda, Instagram & TikTok",
+        "fast": "Gegenereerd in enkele minuten"
       }
     },
     "faq": {
@@ -497,6 +498,20 @@
       "noMusic": "Geen Muziek",
       "noMusicDescription": "Video heeft geen achtergrondaudio",
       "volumeDescription": "Pas het volume van de achtergrondmuziek aan ten opzichte van de video"
+    }
+  },
+  "metadata": {
+    "default": {
+      "title": "VastgoedFotoAI.nl - AI-Aangedreven Vastgoed Foto Editor",
+      "description": "Transformeer uw vastgoedfoto's met AI. Professionele virtuele staging, luchtvervanging en fotoverbetering voor vastgoedadvertenties."
+    },
+    "pricing": {
+      "title": "Prijzen - VastgoedFotoAI.nl",
+      "description": "Eenvoudige, transparante prijzen. Betaal per project, geen abonnementen."
+    },
+    "terms": {
+      "title": "Gebruiksvoorwaarden - VastgoedFotoAI.nl",
+      "description": "Algemene voorwaarden voor het gebruik van VastgoedFotoAI.nl diensten."
     }
   }
 }

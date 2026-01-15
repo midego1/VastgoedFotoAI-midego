@@ -62,7 +62,7 @@ export function LandingNav() {
         borderBottom: "1px solid var(--landing-border)",
       }}
     >
-      <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
+      <nav className="relative mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
         {/* Logo */}
         <Link
           className="font-semibold tracking-tight transition-opacity hover:opacity-80"
@@ -73,7 +73,7 @@ export function LandingNav() {
         </Link>
 
         {/* Navigation Links */}
-        <div className="hidden items-center gap-8 md:flex">
+        <div className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-8 md:flex">
           <Link
             className="font-medium text-sm transition-colors hover:opacity-70"
             href="#features"

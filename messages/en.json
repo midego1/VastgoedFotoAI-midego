@@ -126,39 +126,40 @@
     }
   },
   "pricing": {
-    "title": "Simple, Transparent Pricing",
-    "subtitle": "Pay per project. No subscriptions, no surprises.",
+    "title": "Top Quality Real Estate Photos, No Contracts",
+    "subtitle": "Stop overpaying for subscriptions. Pay per property and get instant results. Get 50% off with our launch offer!",
     "monthly": "Monthly",
     "yearly": "Yearly",
     "popular": "Most Popular",
+    "comingSoon": "Coming Soon",
     "getStarted": "Get Started",
     "perProject": "per project",
     "perProperty": "per property",
     "perVideo": "per video",
     "photo": {
-      "title": "Photo Enhancement",
+      "title": "Premium Photo Package",
       "price": "€24.50",
       "originalPrice": "€49",
-      "launchDiscount": "50% off launch price!",
+      "launchDiscount": "🔥 LIMITED TIME: 50% OFF!",
       "per": "per property (excl. VAT)",
       "features": {
-        "images": "Up to 30 images per property",
-        "ai": "AI-powered enhancement",
-        "templates": "Multiple style templates",
-        "downloads": "High-resolution downloads",
-        "fast": "Ready in under 30 seconds"
+        "images": "All-in-one: up to 30 photos per property",
+        "ai": "Advanced AI: Perfect lighting & colors",
+        "templates": "Professional styles for every home",
+        "downloads": "Instant high-res downloads",
+        "fast": "Ready while you grab a coffee"
       }
     },
     "video": {
-      "title": "Property Video",
-      "price": "€19",
-      "per": "per video",
+      "title": "Cinematic Video",
+      "price": "Coming Soon",
+      "per": "Arriving later this year",
       "features": {
         "professional": "Professional property video",
-        "ai": "AI-powered editing",
-        "music": "Music and transitions included",
-        "format": "Portrait or landscape format",
-        "fast": "Ready in minutes"
+        "ai": "Smooth AI transitions & effects",
+        "music": "Includes royalty-free music",
+        "format": "Perfect for Zillow, Instagram & TikTok",
+        "fast": "Generated in minutes"
       }
     },
     "faq": {
@@ -497,6 +498,20 @@
       "noMusic": "No Music",
       "noMusicDescription": "Video will have no background audio",
       "volumeDescription": "Adjust the background music volume relative to the video"
+    }
+  },
+  "metadata": {
+    "default": {
+      "title": "VastgoedFotoAI.nl - AI-Powered Real Estate Photo Editor",
+      "description": "Transform your real estate photos with AI. Professional virtual staging, sky replacement, and photo enhancement for property listings."
+    },
+    "pricing": {
+      "title": "Pricing - VastgoedFotoAI.nl",
+      "description": "Simple, transparent pricing. Pay per project, no subscriptions."
+    },
+    "terms": {
+      "title": "Terms of Service - VastgoedFotoAI.nl",
+      "description": "Terms and conditions for using VastgoedFotoAI.nl services."
     }
   }
 }
