@@ -499,24 +499,17 @@ export async function startProjectProcessing(projectId: string): Promise<
         return { success: false, error: "Failed to create invoice" };
       }
 
-      // Trigger processing (invoice path)
-      console.log("[startProjectProcessing] Invoice eligible, triggering tasks...");
+      // Trigger processing
       for (const image of pendingImages) {
-        try {
-          console.log(`[startProjectProcessing] [Invoice] Triggering task for image ${image.id}`);
-          const handle = await processImageTask.trigger({ imageId: image.id });
-          console.log(`[startProjectProcessing] [Invoice] Task triggered, handle: ${handle.id}`);
+        const handle = await processImageTask.trigger({ imageId: image.id });
 
-          await updateImageGeneration(image.id, {
-            status: "processing",
-            metadata: {
-              ...(image.metadata as object),
-              runId: handle.id,
-            },
-          });
-        } catch (err) {
-          console.error(`[startProjectProcessing] [Invoice] Failed to trigger task for image ${image.id}:`, err);
-        }
+        await updateImageGeneration(image.id, {
+          status: "processing",
+          metadata: {
+            ...(image.metadata as object),
+            runId: handle.id,
+          },
+        });
       }
 
       await updateProject(projectId, { status: "processing" });
@@ -532,23 +525,16 @@ export async function startProjectProcessing(projectId: string): Promise<
 
     if (paymentStatus.isPaid) {
       // Already paid - trigger processing
-      console.log("[startProjectProcessing] Already paid, triggering tasks...");
       for (const image of pendingImages) {
-        try {
-          console.log(`[startProjectProcessing] [Paid] Triggering task for image ${image.id}`);
-          const handle = await processImageTask.trigger({ imageId: image.id });
-          console.log(`[startProjectProcessing] [Paid] Task triggered, handle: ${handle.id}`);
+        const handle = await processImageTask.trigger({ imageId: image.id });
 
-          await updateImageGeneration(image.id, {
-            status: "processing",
-            metadata: {
-              ...(image.metadata as object),
-              runId: handle.id,
-            },
-          });
-        } catch (err) {
-          console.error(`[startProjectProcessing] [Paid] Failed to trigger task for image ${image.id}:`, err);
-        }
+        await updateImageGeneration(image.id, {
+          status: "processing",
+          metadata: {
+            ...(image.metadata as object),
+            runId: handle.id,
+          },
+        });
       }
 
       await updateProject(projectId, { status: "processing" });
@@ -573,25 +559,17 @@ export async function startProjectProcessing(projectId: string): Promise<
       );
 
       if (chargeResult.success) {
-        console.log("[startProjectProcessing] Payment successful, triggering tasks...");
         // Payment succeeded - trigger processing
         for (const image of pendingImages) {
-          try {
-            console.log(`[startProjectProcessing] Triggering task for image ${image.id}`);
-            const handle = await processImageTask.trigger({ imageId: image.id });
-            console.log(`[startProjectProcessing] Task triggered, handle: ${handle.id}`);
+          const handle = await processImageTask.trigger({ imageId: image.id });
 
-            await updateImageGeneration(image.id, {
-              status: "processing",
-              metadata: {
-                ...(image.metadata as object),
-                runId: handle.id,
-              },
-            });
-          } catch (err) {
-            console.error(`[startProjectProcessing] Failed to trigger task for image ${image.id}:`, err);
-            // Continue with other images even if one fails
-          }
+          await updateImageGeneration(image.id, {
+            status: "processing",
+            metadata: {
+              ...(image.metadata as object),
+              runId: handle.id,
+            },
+          });
         }
 
         await updateProject(projectId, { status: "processing" });
