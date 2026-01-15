@@ -5,7 +5,7 @@ import { requireSystemAdmin } from "@/lib/admin-auth";
 import { constructMetadata } from "@/lib/constructMetadata";
 
 export const metadata = constructMetadata({
-  title: "Admin | Proppi",
+  title: "Admin | VastgoedFotoAI.nl",
   description: "Platform administration",
   noIndex: true,
 });

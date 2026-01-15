@@ -1,16 +1,16 @@
 # Billing & Affiliate System Workflow
 
-This document explains the billing workflow for Proppi, from project creation to affiliate payouts.
+This document explains the billing workflow for VastgoedFotoAI.nl, from project creation to affiliate payouts.
 
 ---
 
 ## Overview
 
-The billing system tracks revenue from image and video projects, integrates with Fiken (Norwegian accounting software) for invoicing, and supports an affiliate program with commission tracking.
+The billing system tracks revenue from image and video projects, integrates with Fiken (Dutch accounting software) for invoicing, and supports an affiliate program with commission tracking.
 
 **Default Pricing:**
-- Image projects: 1000 NOK (per project, up to 20 images)
-- Video projects: 1000 NOK (per video)
+- Image projects: €19 (per project, up to 20 images)
+- Video projects: €19 (per video)
 - Custom pricing can be set per workspace via `workspacePricing` table
 
 ---
@@ -201,4 +201,4 @@ The affiliates page shows:
 - **Org.nr Required**: Workspaces must have an organization number before invoices can be sent to Fiken
 - **Idempotency**: The system prevents duplicate invoice line items for the same project/video
 - **Error Handling**: Billing operations are wrapped in try/catch to not fail core operations if billing has issues
-- **Currency**: All amounts stored in øre (Norwegian cents). 100000 øre = 1000 NOK
+- **Currency**: All amounts stored in cents (Dutch cents). 1900 cents = €19

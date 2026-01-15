@@ -103,7 +103,7 @@
     },
     "cta": {
       "title": "Klaar om uw vastgoedfoto's te transformeren?",
-      "subtitle": "Sluit u aan bij duizenden vastgoedprofessionals die Proppi gebruiken",
+      "subtitle": "Sluit u aan bij duizenden vastgoedprofessionals die VastgoedFotoAI.nl gebruiken",
       "button": "Gratis Beginnen"
     },
     "footer": {
@@ -135,7 +135,7 @@
     "perVideo": "per video",
     "photo": {
       "title": "Foto Verbetering",
-      "price": "€99",
+      "price": "€19",
       "per": "per pand",
       "features": {
         "images": "Tot 20 afbeeldingen per pand",
@@ -147,7 +147,7 @@
     },
     "video": {
       "title": "Vastgoed Video",
-      "price": "€99",
+      "price": "€19",
       "per": "per video",
       "features": {
         "professional": "Professionele vastgoed video",
@@ -161,7 +161,7 @@
       "title": "Veelgestelde Vragen",
       "q1": {
         "question": "Hoe werkt de prijsstelling?",
-        "answer": "We rekenen per project, niet per maand. Voor foto verbetering betaalt u €99 per pand (tot 20 afbeeldingen). Voor video creatie betaalt u €99 per video. Geen abonnementen, geen verborgen kosten."
+        "answer": "We rekenen per project, niet per maand. Voor foto verbetering betaalt u €19 per pand (tot 20 afbeeldingen). Voor video creatie betaalt u €19 per video. Geen abonnementen, geen verborgen kosten."
       },
       "q2": {
         "question": "Welke beeldformaten ondersteunt u?",
@@ -239,7 +239,7 @@
       "backToSignIn": "Terug naar inloggen"
     },
     "onboarding": {
-      "title": "Welkom bij Proppi!",
+      "title": "Welkom bij VastgoedFotoAI.nl!",
       "subtitle": "Laten we uw account instellen",
       "workspaceName": "Werkruimte naam",
       "continue": "Doorgaan",

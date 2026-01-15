@@ -19,7 +19,7 @@ export default async function AdminBillingPage() {
     getInvoiceHistory(),
   ]);
 
-  // Transform stats for the stats bar component (convert ore to NOK)
+  // Transform stats for the stats bar component (convert cents to EUR)
   const formattedStats = {
     uninvoicedCount: stats.uninvoicedCount,
     uninvoicedAmount: stats.uninvoicedAmountOre / 100,

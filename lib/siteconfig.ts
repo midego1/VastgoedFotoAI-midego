@@ -1,13 +1,13 @@
 export const siteConfig = {
-  name: "Proppi",
-  title: "Proppi - AI-Powered Real Estate Photo Editor",
+  name: "VastgoedFotoAI.nl",
+  title: "VastgoedFotoAI.nl - AI-Powered Real Estate Photo Editor",
   description:
     "Transform your real estate photos with AI. Professional virtual staging, sky replacement, and photo enhancement for property listings.",
-  url: process.env.NEXT_PUBLIC_APP_URL || "https://www.proppi.tech",
+  url: process.env.NEXT_PUBLIC_APP_URL || "https://www.vastgoedfotoai.nl",
 
   // SEO
   ogImage: "/og-image.png",
-  locale: "en",
+  locale: "nl",
   keywords: [
     "real estate",
     "AI photo editor",
@@ -16,15 +16,17 @@ export const siteConfig = {
     "real estate photography",
     "property listing photos",
     "AI image enhancement",
+    "vastgoed",
+    "vastgoed foto",
   ],
-  authors: [{ name: "Proppi", url: "https://www.proppi.tech" }],
-  creator: "Proppi",
-  twitterHandle: "@codehagen",
+  authors: [{ name: "VastgoedFotoAI.nl", url: "https://www.vastgoedfotoai.nl" }],
+  creator: "VastgoedFotoAI.nl",
+  twitterHandle: "@vastgoedfotoai",
 
   // Email settings
   email: {
-    from: "noreply@updates.proppi.tech",
-    replyTo: "christer@proppi.tech",
+    from: "noreply@vastgoedfotoai.nl",
+    replyTo: "info@vastgoedfotoai.nl",
   },
 
   // Links

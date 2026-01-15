@@ -28,13 +28,13 @@ export async function generateMetadata({
 
   if (!category) {
     return constructMetadata({
-      title: "Category Not Found | Proppi Help",
+      title: "Category Not Found | VastgoedFotoAI.nl Help",
       noIndex: true,
     });
   }
 
   return constructMetadata({
-    title: `${category.title} | Proppi Help`,
+    title: `${category.title} | VastgoedFotoAI.nl Help`,
     description: category.description,
     canonical: `/help/${categorySlug}`,
   });

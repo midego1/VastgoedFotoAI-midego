@@ -18,7 +18,7 @@ export const workspace = pgTable("workspace", {
   slug: text("slug").notNull().unique(),
 
   // Company details (collected during onboarding)
-  organizationNumber: text("organization_number"), // Norwegian org number (9 digits)
+  organizationNumber: text("organization_number"), // KVK/BTW number (Netherlands)
   contactEmail: text("contact_email"),
   contactPerson: text("contact_person"),
 
@@ -36,7 +36,7 @@ export const workspace = pgTable("workspace", {
   suspendedAt: timestamp("suspended_at"),
   suspendedReason: text("suspended_reason"),
 
-  // Invoice eligibility (for Norwegian B2B customers)
+  // Invoice eligibility (for B2B customers)
   invoiceEligible: boolean("invoice_eligible").notNull().default(false),
   invoiceEligibleAt: timestamp("invoice_eligible_at"),
   invitedByAdmin: boolean("invited_by_admin").notNull().default(false),
@@ -484,7 +484,7 @@ export type VideoRoomType = RoomType; // Unified with RoomType for consistency
 
 /**
  * Workspace Pricing - Custom pricing per workspace
- * If null, defaults to BILLING_DEFAULTS in fiken-client.ts (1000 NOK)
+ * If null, defaults to BILLING_DEFAULTS in fiken-client.ts (€19)
  */
 export const workspacePricing = pgTable(
   "workspace_pricing",
@@ -495,9 +495,9 @@ export const workspacePricing = pgTable(
       .unique()
       .references(() => workspace.id, { onDelete: "cascade" }),
 
-    // Custom pricing (null = use defaults: 100000 ore = 1000 NOK)
-    imageProjectPriceOre: integer("image_project_price_ore"), // in ore (100000 = 1000 NOK)
-    videoProjectPriceOre: integer("video_project_price_ore"), // in ore
+    // Custom pricing (null = use defaults: 1900 cents = €19)
+    imageProjectPriceOre: integer("image_project_price_ore"), // in cents (1900 = €19)
+    videoProjectPriceOre: integer("video_project_price_ore"), // in cents
 
     // Cached Fiken contact ID for faster invoice creation
     fikenContactId: integer("fiken_contact_id"),
@@ -526,7 +526,7 @@ export const invoice = pgTable(
 
     // Invoice totals
     totalAmountOre: integer("total_amount_ore").notNull(), // Sum of line items in ore
-    currency: text("currency").notNull().default("NOK"),
+    currency: text("currency").notNull().default("EUR"),
 
     // Status: draft | sent | paid | cancelled | overdue
     status: text("status").notNull().default("draft"),
@@ -755,8 +755,8 @@ export const projectPayment = pgTable(
     ),
 
     // Amounts
-    amountCents: integer("amount_cents").notNull(), // 9900 = $99 USD or 100000 = 1000 NOK
-    currency: text("currency").notNull(), // 'usd' | 'nok'
+    amountCents: integer("amount_cents").notNull(), // 1900 = €19
+    currency: text("currency").notNull(), // 'eur'
 
     // Status: 'pending' | 'completed' | 'failed' | 'refunded'
     status: text("status").notNull().default("pending"),

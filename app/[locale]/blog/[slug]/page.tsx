@@ -24,13 +24,13 @@ export async function generateMetadata({
 
   if (!post) {
     return constructMetadata({
-      title: "Post Not Found | Proppi",
+      title: "Post Not Found | VastgoedFotoAI.nl",
       noIndex: true,
     });
   }
 
   return constructMetadata({
-    title: `${post.title} | Proppi Blog`,
+    title: `${post.title} | VastgoedFotoAI.nl Blog`,
     description: post.description,
     canonical: `/blog/${slug}`,
     type: "article",

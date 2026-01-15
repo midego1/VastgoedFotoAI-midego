@@ -26,7 +26,7 @@ export function getMetadataBaseUrl(): string {
 
   // Default fallbacks.
   if (vercelEnv === "production" || process.env.NODE_ENV === "production") {
-    return "https://www.proppi.tech";
+    return "https://www.vastgoedfotoai.nl";
   }
 
   return "http://localhost:3000";

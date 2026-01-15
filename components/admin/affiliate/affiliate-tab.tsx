@@ -43,14 +43,14 @@ import type {
 } from "@/lib/db/queries";
 
 // Format Norwegian currency
-function formatNOK(amountOre: number): string {
-  const nok = amountOre / 100;
+function formatEUR(amountOre: number): string {
+  const eur = amountCents / 100;
   return new Intl.NumberFormat("nb-NO", {
     style: "currency",
-    currency: "NOK",
+    currency: "EUR",
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
-  }).format(nok);
+  }).format(eur);
 }
 
 interface AffiliateTabProps {
@@ -114,7 +114,7 @@ function AffiliateStatsBar({ stats }: { stats: AffiliateStats }) {
               className="font-semibold text-lg tabular-nums"
               style={{ color: "var(--accent-amber)" }}
             >
-              {formatNOK(stats.totalPendingEarningsOre)}
+              {formatEUR(stats.totalPendingEarningsOre)}
             </p>
           </div>
         </div>
@@ -140,7 +140,7 @@ function AffiliateStatsBar({ stats }: { stats: AffiliateStats }) {
               className="font-semibold text-lg tabular-nums"
               style={{ color: "var(--accent-green)" }}
             >
-              {formatNOK(stats.totalPaidOutEarningsOre)}
+              {formatEUR(stats.totalPaidOutEarningsOre)}
             </p>
           </div>
         </div>
@@ -454,7 +454,7 @@ function AffiliateEarningsTable({
                   {selectedIds.size} provisjon
                   {selectedIds.size !== 1 ? "er" : ""} valgt
                   <Badge className="font-mono font-normal" variant="outline">
-                    {formatNOK(selectedTotal)}
+                    {formatEUR(selectedTotal)}
                   </Badge>
                 </AlertTitle>
                 <AlertDescription>
@@ -555,7 +555,7 @@ function AffiliateEarningsTable({
                     </TableCell>
                     <TableCell className="text-right">
                       <span className="font-mono text-sm">
-                        {formatNOK(earning.invoiceAmountOre)}
+                        {formatEUR(earning.invoiceAmountOre)}
                       </span>
                     </TableCell>
                     <TableCell className="text-center">
@@ -568,7 +568,7 @@ function AffiliateEarningsTable({
                         className="font-mono font-semibold"
                         style={{ color: "var(--accent-amber)" }}
                       >
-                        {formatNOK(earning.earningAmountOre)}
+                        {formatEUR(earning.earningAmountOre)}
                       </span>
                     </TableCell>
                     <TableCell>

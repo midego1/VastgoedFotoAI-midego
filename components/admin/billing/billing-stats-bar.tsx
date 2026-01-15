@@ -6,7 +6,7 @@ import {
   IconFileInvoice,
   IconReceipt,
 } from "@tabler/icons-react";
-import { type BillingStats, formatNOK } from "@/lib/mock/admin-billing";
+import { type BillingStats, formatEUR } from "@/lib/mock/admin-billing";
 
 interface BillingStatsBarProps {
   stats: BillingStats;
@@ -45,7 +45,7 @@ export function BillingStatsBar({ stats }: BillingStatsBarProps) {
               className="font-medium text-sm"
               style={{ color: "var(--accent-amber)" }}
             >
-              {formatNOK(stats.uninvoicedAmount)}
+              {formatEUR(stats.uninvoicedAmount)}
             </p>
           </div>
         </div>
@@ -81,7 +81,7 @@ export function BillingStatsBar({ stats }: BillingStatsBarProps) {
               className="font-medium text-sm"
               style={{ color: "var(--accent-teal)" }}
             >
-              {formatNOK(stats.pendingPaymentAmount)}
+              {formatEUR(stats.pendingPaymentAmount)}
             </p>
           </div>
         </div>
@@ -117,7 +117,7 @@ export function BillingStatsBar({ stats }: BillingStatsBarProps) {
               className="font-medium text-sm"
               style={{ color: "var(--accent-green)" }}
             >
-              {formatNOK(stats.invoicedAmountThisMonth)}
+              {formatEUR(stats.invoicedAmountThisMonth)}
             </p>
           </div>
         </div>
@@ -153,7 +153,7 @@ export function BillingStatsBar({ stats }: BillingStatsBarProps) {
               className="font-medium text-sm"
               style={{ color: "var(--accent-violet)" }}
             >
-              {formatNOK(stats.invoicedAmount)}
+              {formatEUR(stats.invoicedAmount)}
             </p>
           </div>
         </div>

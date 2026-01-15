@@ -2,18 +2,17 @@ import Stripe from "stripe";
 
 // Stripe client singleton
 export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2025-05-28.basil",
+  apiVersion: "2025-12-15.clover",
 });
 
 // Stripe configuration constants
 export const STRIPE_CONFIG = {
   // Product and Price IDs (created via Stripe MCP)
-  PRICE_PROJECT_USD:
-    process.env.STRIPE_PRICE_PROJECT_USD || "price_1SneD7KOzkjqB2nyMT5KWVAb",
+  PRICE_PROJECT_EUR:
+    process.env.STRIPE_PRICE_PROJECT_EUR || "price_1SneD7KOzkjqB2nyMT5KWVAb",
 
-  // Pricing (in cents/minor units)
-  PROJECT_PRICE_USD_CENTS: 9900, // $99 USD
-  PROJECT_PRICE_EUR_CENTS: 9900, // €99 EUR
+  // Pricing (in cents)
+  PROJECT_PRICE_EUR_CENTS: 1900, // €19 EUR
 
   // URLs
   SUCCESS_URL: `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/dashboard`,

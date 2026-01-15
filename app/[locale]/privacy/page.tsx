@@ -2,7 +2,7 @@ import { LegalPage, LegalSection } from "@/components/landing/legal-page";
 import { constructMetadata } from "@/lib/constructMetadata";
 
 export const metadata = constructMetadata({
-  title: "Privacy Policy - Proppi",
+  title: "Privacy Policy - VastgoedFotoAI.nl",
   description: "How we collect, use, and protect your personal information.",
   canonical: "/privacy",
   noIndex: true,
@@ -17,13 +17,13 @@ export default function PrivacyPage() {
     >
       <LegalSection title="1. Introduction">
         <p>
-          Proppi (&quot;we&quot;, &quot;our&quot;, or &quot;us&quot;) is
+          VastgoedFotoAI.nl (&quot;we&quot;, &quot;our&quot;, or &quot;us&quot;) is
           committed to protecting your privacy. This Privacy Policy explains how
           we collect, use, disclose, and safeguard your information when you use
           our AI-powered real estate photo enhancement service.
         </p>
         <p>
-          By using Proppi, you agree to the collection and use of information in
+          By using VastgoedFotoAI.nl, you agree to the collection and use of information in
           accordance with this policy. If you do not agree with our policies,
           please do not use our service.
         </p>
@@ -137,8 +137,8 @@ export default function PrivacyPage() {
         </ul>
         <p>
           To exercise any of these rights, please contact us at{" "}
-          <a className="underline" href="mailto:privacy@proppi.tech">
-            privacy@proppi.tech
+          <a className="underline" href="mailto:privacy@vastgoedfotoai.nl">
+            privacy@vastgoedfotoai.nl
           </a>
           .
         </p>
@@ -176,16 +176,16 @@ export default function PrivacyPage() {
           practices, please contact us at:
         </p>
         <p className="mt-2">
-          <strong>Proppi</strong>
+          <strong>VastgoedFotoAI.nl</strong>
           <br />
           Email:{" "}
-          <a className="underline" href="mailto:privacy@proppi.tech">
-            privacy@proppi.tech
+          <a className="underline" href="mailto:privacy@vastgoedfotoai.nl">
+            privacy@vastgoedfotoai.nl
           </a>
           <br />
           General inquiries:{" "}
-          <a className="underline" href="mailto:hello@proppi.tech">
-            hello@proppi.tech
+          <a className="underline" href="mailto:hello@vastgoedfotoai.nl">
+            hello@vastgoedfotoai.nl
           </a>
         </p>
       </LegalSection>

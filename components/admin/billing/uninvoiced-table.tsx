@@ -42,14 +42,14 @@ import {
 import type { UninvoicedLineItemRow } from "@/lib/db/queries";
 
 // Format Norwegian currency
-function formatNOK(amountOre: number): string {
-  const nok = amountOre / 100;
+function formatEUR(amountOre: number): string {
+  const eur = amountCents / 100;
   return new Intl.NumberFormat("nb-NO", {
     style: "currency",
-    currency: "NOK",
+    currency: "EUR",
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
-  }).format(nok);
+  }).format(eur);
 }
 
 interface UninvoicedTableProps {
@@ -159,7 +159,7 @@ export function UninvoicedTable({ items }: UninvoicedTableProps) {
       }
 
       toast.success("Fakturaer sendt", {
-        description: `${sentCount} faktura(er) til ${selectedByWorkspace.size} kunde(r) for totalt ${formatNOK(selectedTotal)}`,
+        description: `${sentCount} faktura(er) til ${selectedByWorkspace.size} kunde(r) for totalt ${formatEUR(selectedTotal)}`,
       });
 
       setSelectedIds(new Set());
@@ -203,7 +203,7 @@ export function UninvoicedTable({ items }: UninvoicedTableProps) {
       }
 
       toast.success("Faktura sendt", {
-        description: `${item.workspaceName} – ${formatNOK(item.amountOre)}`,
+        description: `${item.workspaceName} – ${formatEUR(item.amountOre)}`,
       });
 
       router.refresh();
@@ -250,7 +250,7 @@ export function UninvoicedTable({ items }: UninvoicedTableProps) {
               {selectedIds.size} prosjekt{selectedIds.size !== 1 ? "er" : ""}{" "}
               valgt
               <Badge className="font-mono font-normal" variant="outline">
-                {formatNOK(selectedTotal)}
+                {formatEUR(selectedTotal)}
               </Badge>
             </AlertTitle>
             <AlertDescription>
@@ -392,7 +392,7 @@ export function UninvoicedTable({ items }: UninvoicedTableProps) {
                         className="font-mono font-semibold"
                         style={{ color: "var(--accent-amber)" }}
                       >
-                        {formatNOK(item.amountOre)}
+                        {formatEUR(item.amountOre)}
                       </span>
                     </TableCell>
                     <TableCell>

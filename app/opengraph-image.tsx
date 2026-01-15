@@ -2,12 +2,12 @@ import { ImageResponse } from "next/og";
 import { loadOutfitFont } from "@/lib/og-fonts";
 import { OG_COLORS, OG_FONTS, OG_SIZE } from "@/lib/og-styles";
 
-export const alt = "Proppi - AI-Powered Real Estate Photo Editor";
+export const alt = "VastgoedFotoAI.nl - AI-Powered Real Estate Photo Editor";
 export const size = OG_SIZE;
 export const contentType = "image/png";
 
 export default async function Image() {
-  const title = "Proppi";
+  const title = "VastgoedFotoAI.nl";
   const tagline = "AI-Powered Real Estate Photo Editor";
 
   const [fontBold, fontRegular] = await Promise.all([
@@ -157,7 +157,7 @@ export default async function Image() {
             color: OG_COLORS.accent,
           }}
         >
-          Proppi
+          VastgoedFotoAI.nl
         </div>
         <div
           style={{
@@ -165,7 +165,7 @@ export default async function Image() {
             color: OG_COLORS.textMuted,
           }}
         >
-          proppi.tech
+          vastgoedfotoai.nl
         </div>
       </div>
     </div>,

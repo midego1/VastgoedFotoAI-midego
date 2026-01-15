@@ -69,7 +69,7 @@ export function LandingNav() {
           href="/"
           style={{ color: "var(--landing-text)" }}
         >
-          Proppi
+          VastgoedFotoAI.nl
         </Link>
 
         {/* Navigation Links */}

@@ -2,8 +2,8 @@ import { LegalPage, LegalSection } from "@/components/landing/legal-page";
 import { constructMetadata } from "@/lib/constructMetadata";
 
 export const metadata = constructMetadata({
-  title: "Terms of Service - Proppi",
-  description: "Terms and conditions for using Proppi services.",
+  title: "Terms of Service - VastgoedFotoAI.nl",
+  description: "Terms and conditions for using VastgoedFotoAI.nl services.",
   canonical: "/terms",
   noIndex: true,
 });
@@ -17,7 +17,7 @@ export default function TermsPage() {
     >
       <LegalSection title="1. Acceptance of Terms">
         <p>
-          By accessing or using Proppi (&quot;the Service&quot;), you agree to
+          By accessing or using VastgoedFotoAI.nl (&quot;the Service&quot;), you agree to
           be bound by these Terms of Service. If you disagree with any part of
           these terms, you may not access the Service.
         </p>
@@ -29,7 +29,7 @@ export default function TermsPage() {
 
       <LegalSection title="2. Description of Service">
         <p>
-          Proppi provides AI-powered photo enhancement and video creation
+          VastgoedFotoAI.nl provides AI-powered photo enhancement and video creation
           services for real estate professionals. Our service allows you to
           upload property images, apply AI enhancements, and generate
           professional marketing materials.
@@ -52,15 +52,15 @@ export default function TermsPage() {
 
       <LegalSection title="4. Payment and Pricing">
         <p>
-          Proppi operates on a pay-per-use model. Current pricing is as follows:
+          VastgoedFotoAI.nl operates on a pay-per-use model. Current pricing is as follows:
         </p>
         <ul className="ml-4 list-disc space-y-2">
           <li>
-            <strong>Photo Enhancement:</strong> 1000&nbsp;NOK per property (up
+            <strong>Photo Enhancement:</strong> €19 per property (up
             to 20 images)
           </li>
           <li>
-            <strong>Video Creation:</strong> 1000&nbsp;NOK per video
+            <strong>Video Creation:</strong> €19 per video
           </li>
         </ul>
         <p>
@@ -75,8 +75,8 @@ export default function TermsPage() {
           If you are not satisfied with the results of our AI processing, you
           may request a refund within 24 hours of the processing completion.
           Refund requests should be submitted to{" "}
-          <a className="underline" href="mailto:support@proppi.tech">
-            support@proppi.tech
+          <a className="underline" href="mailto:support@vastgoedfotoai.nl">
+            support@vastgoedfotoai.nl
           </a>{" "}
           with your order details and reason for dissatisfaction.
         </p>
@@ -104,10 +104,10 @@ export default function TermsPage() {
         </p>
       </LegalSection>
 
-      <LegalSection title="7. Intellectual Property">
+      <LegalSection title="Intellectual Property">
         <p>
           The Service, including its original content, features, and
-          functionality, is owned by Proppi and is protected by international
+          functionality, is owned by VastgoedFotoAI.nl and is protected by international
           copyright, trademark, and other intellectual property laws.
         </p>
         <p>
@@ -132,7 +132,7 @@ export default function TermsPage() {
 
       <LegalSection title="9. Limitation of Liability">
         <p>
-          To the maximum extent permitted by law, Proppi shall not be liable for
+          To the maximum extent permitted by law, VastgoedFotoAI.nl shall not be liable for
           any indirect, incidental, special, consequential, or punitive damages,
           including loss of profits, data, or other intangible losses, resulting
           from:
@@ -183,9 +183,9 @@ export default function TermsPage() {
       <LegalSection title="12. Governing Law">
         <p>
           These Terms shall be governed by and construed in accordance with the
-          laws of Norway, without regard to its conflict of law provisions. Any
+          laws of the Netherlands, without regard to its conflict of law provisions. Any
           disputes arising from these Terms shall be resolved in the courts of
-          Norway.
+          the Netherlands.
         </p>
       </LegalSection>
 
@@ -206,16 +206,16 @@ export default function TermsPage() {
           If you have any questions about these Terms, please contact us at:
         </p>
         <p className="mt-2">
-          <strong>Proppi</strong>
+          <strong>VastgoedFotoAI.nl</strong>
           <br />
           Email:{" "}
-          <a className="underline" href="mailto:legal@proppi.tech">
-            legal@proppi.tech
+          <a className="underline" href="mailto:legal@vastgoedfotoai.nl">
+            legal@vastgoedfotoai.nl
           </a>
           <br />
           General inquiries:{" "}
-          <a className="underline" href="mailto:hello@proppi.tech">
-            hello@proppi.tech
+          <a className="underline" href="mailto:hello@vastgoedfotoai.nl">
+            hello@vastgoedfotoai.nl
           </a>
         </p>
       </LegalSection>

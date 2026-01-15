@@ -2,8 +2,8 @@ import { Toaster } from "@/components/ui/sonner";
 import { constructMetadata } from "@/lib/constructMetadata";
 
 export const metadata = constructMetadata({
-  title: "Sign In | Proppi",
-  description: "Sign in to your Proppi account",
+  title: "VastgoedFotoAI.nl",
+  description: "Transform property photos with AI",
   noIndex: true,
 });
 

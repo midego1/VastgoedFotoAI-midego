@@ -14,6 +14,7 @@ import { useTranslations } from "next-intl";
 import { LandingFooter } from "./landing-footer";
 import { LandingNav } from "./landing-nav";
 
+
 function PricingCard({
   icon: Icon,
   titleKey,

@@ -172,7 +172,7 @@ export class FikenClient {
         organizationNumber: contact.organizationNumber,
         customer: contact.customer ?? true,
         language: contact.language ?? "Norwegian",
-        currency: contact.currency ?? "NOK",
+        currency: contact.currency ?? "EUR",
       }),
     });
 

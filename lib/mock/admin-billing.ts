@@ -14,7 +14,7 @@ export interface UninvoicedProject {
   workspaceName: string;
   workspaceOrgNumber: string;
   imageCount: number;
-  amount: number; // 1000 kr per project
+  amount: number; // 19 kr per project
   completedAt: Date;
 }
 
@@ -51,35 +51,35 @@ export interface BillingStats {
 // =============================================================================
 
 const projectNames = [
-  "Storgata 15 - Leilighet",
-  "Parkveien 8 - Enebolig",
-  "Sjøgata 22 - Rekkehus",
-  "Industrigata 5 - Kontor",
-  "Havnegata 12 - Næringsbygg",
-  "Fjordveien 3 - Hytte",
-  "Bergveien 45 - Villa",
-  "Sentrumsgate 1 - Butikklokale",
-  "Skogstien 9 - Tomannsbolig",
-  "Elvebakken 7 - Fritidsbolig",
-  "Solsiden 18 - Penthouse",
-  "Nordre gate 33 - Rekkehus",
-  "Brygga 4 - Sjøhus",
-  "Gamle vei 21 - Gårdsbruk",
-  "Utsikten 11 - Moderne villa",
+  "Keizersgracht 15 - Appartement",
+  "Vondelpark 8 - Vrijstaand",
+  "Stationsstraat 22 - Tussenwoning",
+  "Industrieweg 5 - Kantoor",
+  "Havengebied 12 - Bedrijfspand",
+  "Duinweg 3 - Bungalow",
+  "Heuvelstraat 45 - Villa",
+  "Centrumplein 1 - Winkelpand",
+  "Boslaan 9 - Twee-onder-een-kap",
+  "Rivierkade 7 - Vakantiewoning",
+  "Zonnelaan 18 - Penthouse",
+  "Noordkade 33 - Herenhuis",
+  "Havenkade 4 - Watervilla",
+  "Dorpsstraat 21 - Boerderij",
+  "Uitzichtweg 11 - Moderne villa",
 ];
 
-// Norwegian organization numbers (9 digits)
+// Dutch KVK numbers (8 digits)
 const orgNumbers = [
-  "912345678",
-  "987654321",
-  "923456789",
-  "934567890",
-  "945678901",
-  "956789012",
-  "967890123",
-  "978901234",
-  "989012345",
-  "990123456",
+  "12345678",
+  "87654321",
+  "23456789",
+  "34567890",
+  "45678901",
+  "56789012",
+  "67890123",
+  "78901234",
+  "89012345",
+  "90123456",
 ];
 
 function seededRandom(seed: number): () => number {
@@ -118,7 +118,7 @@ function generateUninvoicedProjects(): UninvoicedProject[] {
           workspaceName: workspace.name,
           workspaceOrgNumber: orgNumbers[wsIndex % orgNumbers.length],
           imageCount,
-          amount: 1000, // Fixed 1000 kr per project
+          amount: 19, // Fixed 19 kr per project
           completedAt,
         });
       }
@@ -151,7 +151,7 @@ function generateInvoiceHistory(): InvoiceRecord[] {
       );
     }
 
-    const amount = projectCount * 1000; // 1000 kr per project
+    const amount = projectCount * 19; // 19 kr per project
     const amountWithVat = amount * 1.25; // 25% VAT
 
     // Status distribution: 60% paid, 30% sent, 10% pending
@@ -279,11 +279,11 @@ export function getUninvoicedByWorkspace(): Map<
   return grouped;
 }
 
-// Format amount in NOK
-export function formatNOK(amount: number): string {
-  return new Intl.NumberFormat("nb-NO", {
+// Format amount in EUR
+export function formatEUR(amount: number): string {
+  return new Intl.NumberFormat("nl-NL", {
     style: "currency",
-    currency: "NOK",
+    currency: "EUR",
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(amount);

@@ -103,7 +103,7 @@
     },
     "cta": {
       "title": "Ready to transform your property photos?",
-      "subtitle": "Join thousands of real estate professionals using Proppi",
+      "subtitle": "Join thousands of real estate professionals using VastgoedFotoAI.nl",
       "button": "Get Started for Free"
     },
     "footer": {
@@ -135,7 +135,7 @@
     "perVideo": "per video",
     "photo": {
       "title": "Photo Enhancement",
-      "price": "€99",
+      "price": "€19",
       "per": "per property",
       "features": {
         "images": "Up to 20 images per property",
@@ -147,7 +147,7 @@
     },
     "video": {
       "title": "Property Video",
-      "price": "€99",
+      "price": "€19",
       "per": "per video",
       "features": {
         "professional": "Professional property video",
@@ -161,7 +161,7 @@
       "title": "Frequently Asked Questions",
       "q1": {
         "question": "How does the pricing work?",
-        "answer": "We charge per project, not per month. For photo enhancement, you pay €99 per property (up to 20 images). For video creation, you pay €99 per video. No subscriptions, no hidden fees."
+        "answer": "We charge per project, not per month. For photo enhancement, you pay €19 per property (up to 20 images). For video creation, you pay €19 per video. No subscriptions, no hidden fees."
       },
       "q2": {
         "question": "What image formats do you support?",
@@ -239,7 +239,7 @@
       "backToSignIn": "Back to sign in"
     },
     "onboarding": {
-      "title": "Welcome to Proppi!",
+      "title": "Welcome to VastgoedFotoAI.nl!",
       "subtitle": "Let's set up your account",
       "workspaceName": "Workspace name",
       "continue": "Continue",

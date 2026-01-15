@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 import { loadOutfitFont } from "@/lib/og-fonts";
 import { OG_COLORS, OG_FONTS, OG_SIZE } from "@/lib/og-styles";
 
-export const alt = "Pricing - Proppi";
+export const alt = "Pricing - VastgoedFotoAI.nl";
 export const size = OG_SIZE;
 export const contentType = "image/png";
 
@@ -230,7 +230,7 @@ export default async function Image() {
             color: OG_COLORS.accent,
           }}
         >
-          Proppi
+          VastgoedFotoAI.nl
         </div>
         <div
           style={{
@@ -238,7 +238,7 @@ export default async function Image() {
             color: OG_COLORS.textMuted,
           }}
         >
-          proppi.tech
+          vastgoedfotoai.nl
         </div>
       </div>
     </div>,

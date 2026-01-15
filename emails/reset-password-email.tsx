@@ -18,7 +18,7 @@ export function ResetPasswordEmail({
       <Text style={paragraph}>Hi {name},</Text>
 
       <Text style={paragraph}>
-        We received a request to reset your password for your Proppi account.
+        We received a request to reset your password for your VastgoedFotoAI.nl account.
         Click the button below to choose a new password.
       </Text>
 
@@ -37,7 +37,7 @@ export function ResetPasswordEmail({
       <Text style={signature}>
         Best,
         <br />
-        The Proppi Team
+        The VastgoedFotoAI.nl Team
       </Text>
     </EmailLayout>
   );

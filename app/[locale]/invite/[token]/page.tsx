@@ -9,8 +9,8 @@ import { user } from "@/lib/db/schema";
 import { InviteAcceptForm } from "./invite-accept-form";
 
 export const metadata = constructMetadata({
-  title: "Accept Invitation | Proppi",
-  description: "Join a workspace on Proppi",
+  title: "Accept Invitation | VastgoedFotoAI.nl",
+  description: "Join a workspace on VastgoedFotoAI.nl",
   noIndex: true,
 });
 

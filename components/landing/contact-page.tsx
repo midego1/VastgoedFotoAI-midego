@@ -44,16 +44,19 @@ export function ContactPage() {
               Contact
             </p>
             <h1
-              className="mt-3 font-bold text-4xl tracking-tight sm:text-5xl"
+              className="mt-3 font-bold text-4xl tracking-tight sm:text-5xl md:text-6xl"
               style={{ color: "var(--landing-text)" }}
             >
-              Get in touch
+              Get in touch with
+              <br />
+              VastgoedFotoAI.nl
             </h1>
             <p
-              className="mt-4 text-lg leading-relaxed"
+              className="mt-6 text-lg leading-relaxed md:text-xl"
               style={{ color: "var(--landing-text-muted)" }}
             >
-              Have questions? We&apos;d love to hear from you.
+              Have questions about VastgoedFotoAI.nl? Need help with your property
+              photos? Our team is here to help.
             </p>
           </div>
         </section>
@@ -238,7 +241,7 @@ export function ContactPage() {
                   className="mt-1 text-sm"
                   style={{ color: "var(--landing-text-muted)" }}
                 >
-                  hello@proppi.tech
+                  hello@vastgoedfotoai.nl
                 </p>
               </div>
 

@@ -71,10 +71,10 @@ function formatUSD(amount: number): string {
   }).format(amount);
 }
 
-function formatNOK(amountOre: number): string {
+function formatEUR(amountOre: number): string {
   return new Intl.NumberFormat("nb-NO", {
     style: "currency",
-    currency: "NOK",
+    currency: "EUR",
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(amountOre / 100);
@@ -165,7 +165,7 @@ export function RevenueContent({
     }, 0) ?? 0;
 
   const revenueOre = getRevenueForPeriod(initialRevenueStats, period);
-  const revenueUSD = revenueOre / 100 / 10; // Rough NOK to USD conversion (1 USD ≈ 10 NOK)
+  const revenueUSD = revenueOre / 100 / 10; // Rough EUR to USD conversion (1 USD ≈ 0.95 EUR)
   const profit = revenueUSD - falCost;
   const margin = revenueUSD > 0 ? (profit / revenueUSD) * 100 : 0;
 
@@ -264,7 +264,7 @@ export function RevenueContent({
                   className="font-bold text-2xl tabular-nums"
                   style={{ color: "var(--accent-green)" }}
                 >
-                  {formatNOK(revenueOre)}
+                  {formatEUR(revenueOre)}
                 </span>
                 <p className="text-muted-foreground text-xs">
                   ~{formatUSD(revenueUSD)}
@@ -431,13 +431,13 @@ export function RevenueContent({
           <span>
             Paid revenue:{" "}
             <strong className="text-foreground">
-              {formatNOK(initialRevenueStats.paidRevenueOre)}
+              {formatEUR(initialRevenueStats.paidRevenueOre)}
             </strong>
           </span>
           <span>
             Total revenue (all time):{" "}
             <strong className="text-foreground">
-              {formatNOK(initialRevenueStats.totalRevenueOre)}
+              {formatEUR(initialRevenueStats.totalRevenueOre)}
             </strong>
           </span>
         </div>

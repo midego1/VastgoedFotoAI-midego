@@ -10,7 +10,9 @@ import { getProjectById, getWorkspaceById } from "@/lib/db/queries";
 import {
   type PaymentMethod,
   type PaymentStatus,
+  project,
   projectPayment,
+  user,
   stripeCustomer,
   workspace,
 } from "@/lib/db/schema";
@@ -192,7 +194,7 @@ export async function createStripeCheckoutSession(
       },
       line_items: [
         {
-          price: STRIPE_CONFIG.PRICE_PROJECT_USD,
+          price: STRIPE_CONFIG.PRICE_PROJECT_EUR,
           quantity: 1,
         },
       ],
@@ -222,8 +224,8 @@ export async function createStripeCheckoutSession(
         workspaceId: projectData.project.workspaceId,
         paymentMethod: "stripe",
         stripeCheckoutSessionId: checkoutSession.id,
-        amountCents: STRIPE_CONFIG.PROJECT_PRICE_USD_CENTS,
-        currency: "usd",
+        amountCents: STRIPE_CONFIG.PROJECT_PRICE_EUR_CENTS,
+        currency: "eur",
         status: "pending",
       });
     }
@@ -300,8 +302,8 @@ export async function createInvoicePayment(
       workspaceId: projectData.project.workspaceId,
       paymentMethod: "invoice",
       invoiceLineItemId: lineItemResult.data.id,
-      amountCents: STRIPE_CONFIG.PROJECT_PRICE_NOK_ORE, // In ore (same as cents concept)
-      currency: "nok",
+      amountCents: STRIPE_CONFIG.PROJECT_PRICE_EUR_CENTS,
+      currency: "eur",
       status: "completed", // Invoice customers pay later, but can process immediately
       paidAt: new Date(),
     });
@@ -518,8 +520,8 @@ export async function chargeWithSavedPaymentMethod(
 
     // Create PaymentIntent with saved payment method
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: STRIPE_CONFIG.PROJECT_PRICE_USD_CENTS,
-      currency: "usd",
+      amount: STRIPE_CONFIG.PROJECT_PRICE_EUR_CENTS,
+      currency: "eur",
       customer: customerRecord.stripeCustomerId,
       payment_method: paymentMethodId,
       off_session: true,
@@ -551,8 +553,8 @@ export async function chargeWithSavedPaymentMethod(
         workspaceId: projectData.project.workspaceId,
         paymentMethod: "stripe",
         stripePaymentIntentId: paymentIntent.id,
-        amountCents: STRIPE_CONFIG.PROJECT_PRICE_USD_CENTS,
-        currency: "usd",
+        amountCents: STRIPE_CONFIG.PROJECT_PRICE_EUR_CENTS,
+        currency: "eur",
         status: isSucceeded ? "completed" : "pending",
         paidAt: isSucceeded ? new Date() : null,
       });
@@ -601,7 +603,14 @@ export async function createBillingPortalSession(): Promise<
       return { success: false, error: "Not authenticated" };
     }
 
-    const workspaceId = session.user.workspaceId;
+    // Get user with workspace
+    const [currentUser] = await db
+      .select({ workspaceId: user.workspaceId })
+      .from(user)
+      .where(eq(user.id, session.user.id))
+      .limit(1);
+    
+    const workspaceId = currentUser?.workspaceId;
     if (!workspaceId) {
       return { success: false, error: "No workspace found" };
     }

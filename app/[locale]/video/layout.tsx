@@ -6,9 +6,9 @@ import { constructMetadata } from "@/lib/constructMetadata";
 import { getUserWithWorkspace } from "@/lib/db/queries";
 
 export const metadata = constructMetadata({
-  title: "Videos | Proppi",
-  description: "Create and manage property tour videos",
-  noIndex: true,
+  title: "Video - VastgoedFotoAI.nl",
+  description: "Coming soon: AI-powered real estate video creation.",
+  canonical: "/video",
 });
 
 export default async function VideoLayout({

@@ -2,14 +2,14 @@ import { ImageResponse } from "next/og";
 import { loadOutfitFont } from "@/lib/og-fonts";
 import { OG_COLORS, OG_FONTS, OG_SIZE } from "@/lib/og-styles";
 
-export const alt = "Help Center - Proppi";
+export const alt = "Help Center - VastgoedFotoAI.nl";
 export const size = OG_SIZE;
 export const contentType = "image/png";
 
 export default async function Image() {
   const title = "Help Center";
   const description =
-    "Guides, tutorials, and answers to help you get the most out of Proppi";
+    "Guides, tutorials, and answers to help you get the most out of VastgoedFotoAI.nl";
 
   const [fontBold, fontRegular] = await Promise.all([
     loadOutfitFont(title, 700),
@@ -219,7 +219,7 @@ export default async function Image() {
             color: OG_COLORS.accent,
           }}
         >
-          Proppi
+          VastgoedFotoAI.nl
         </div>
         <div
           style={{
@@ -227,7 +227,7 @@ export default async function Image() {
             color: OG_COLORS.textMuted,
           }}
         >
-          proppi.tech
+          vastgoedfotoai.nl
         </div>
       </div>
     </div>,

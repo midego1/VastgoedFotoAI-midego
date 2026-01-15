@@ -42,7 +42,7 @@ export function LandingFooter() {
               href="/"
               style={{ color: "var(--landing-text)" }}
             >
-              Proppi
+              VastgoedFotoAI.nl
             </Link>
             <p
               className="mt-4 max-w-xs text-sm leading-relaxed"
@@ -165,7 +165,18 @@ export function LandingFooter() {
           style={{ borderColor: "var(--landing-border)" }}
         >
           <p className="text-sm" style={{ color: "var(--landing-text-muted)" }}>
-            &copy; {currentYear} Proppi. {t("allRightsReserved")}.
+            &copy; {currentYear} VastgoedFotoAI.nl. {t("allRightsReserved")}.
+          </p>
+          <p className="text-sm" style={{ color: "var(--landing-text-muted)" }}>
+            Supported by{" "}
+            <a
+              className="underline transition-colors hover:text-white"
+              href="https://www.midego.net"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Midego
+            </a>
           </p>
         </div>
       </div>

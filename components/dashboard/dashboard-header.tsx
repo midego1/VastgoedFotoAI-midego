@@ -43,7 +43,7 @@ export function DashboardHeader({ userLabel }: DashboardHeaderProps) {
               className="truncate font-semibold text-foreground tracking-tight transition-colors hover:text-foreground/80"
               href="/"
             >
-              Proppi
+              VastgoedFotoAI.nl
             </Link>
 
             <Separator className="h-6" orientation="vertical" />
