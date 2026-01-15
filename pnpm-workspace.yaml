@@ -10,3 +10,6 @@ onlyBuiltDependencies:
   - esbuild
   - msw
   - protobufjs
+
+patchedDependencies:
+  prebuild-install@7.1.3: patches/prebuild-install@7.1.3.patch
