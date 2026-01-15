@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  prebuild-install@7.1.3:
+    hash: fb81b28b812621ed5b6efa301978996efe8e2831142174db26331b9de2647e67
+    path: patches/prebuild-install@7.1.3.patch
+
 importers:
 
   .:
@@ -9426,7 +9431,7 @@ snapshots:
   canvas@3.2.1:
     dependencies:
       node-addon-api: 7.1.1
-      prebuild-install: 7.1.3
+      prebuild-install: 7.1.3(patch_hash=fb81b28b812621ed5b6efa301978996efe8e2831142174db26331b9de2647e67)
 
   ccount@2.0.1: {}
 
@@ -11943,7 +11948,7 @@ snapshots:
 
   powershell-utils@0.1.0: {}
 
-  prebuild-install@7.1.3:
+  prebuild-install@7.1.3(patch_hash=fb81b28b812621ed5b6efa301978996efe8e2831142174db26331b9de2647e67):
     dependencies:
       detect-libc: 2.1.2
       expand-template: 2.0.3
