@@ -559,17 +559,25 @@ export async function startProjectProcessing(projectId: string): Promise<
       );
 
       if (chargeResult.success) {
+        console.log("[startProjectProcessing] Payment successful, triggering tasks...");
         // Payment succeeded - trigger processing
         for (const image of pendingImages) {
-          const handle = await processImageTask.trigger({ imageId: image.id });
+          try {
+            console.log(`[startProjectProcessing] Triggering task for image ${image.id}`);
+            const handle = await processImageTask.trigger({ imageId: image.id });
+            console.log(`[startProjectProcessing] Task triggered, handle: ${handle.id}`);
 
-          await updateImageGeneration(image.id, {
-            status: "processing",
-            metadata: {
-              ...(image.metadata as object),
-              runId: handle.id,
-            },
-          });
+            await updateImageGeneration(image.id, {
+              status: "processing",
+              metadata: {
+                ...(image.metadata as object),
+                runId: handle.id,
+              },
+            });
+          } catch (err) {
+            console.error(`[startProjectProcessing] Failed to trigger task for image ${image.id}:`, err);
+            // Continue with other images even if one fails
+          }
         }
 
         await updateProject(projectId, { status: "processing" });
