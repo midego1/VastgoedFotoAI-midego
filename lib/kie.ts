@@ -9,50 +9,70 @@
 // Configuration
 // ============================================================================
 
-const KIE_API_BASE_URL = "https://api.kie.ai/v1";
-const KIE_NANO_BANANA_PRO_ENDPOINT = "/nano-banana-pro/edit";
+const KIE_API_BASE_URL = "https://api.kie.ai/api/v1";
+const KIE_CREATE_TASK_ENDPOINT = "/jobs/createTask";
+const KIE_GET_TASK_ENDPOINT = "/jobs/getTask";
+
+// Polling configuration
+const POLL_INTERVAL_MS = 2000; // 2 seconds
+const MAX_POLL_ATTEMPTS = 90; // 3 minutes max wait
 
 // ============================================================================
 // Types
 // ============================================================================
 
-export interface KieNanoBananaProInput {
-  prompt: string;
-  image_urls: string[]; // Array of image URLs to edit
-  num_images?: number; // 1-4, default 1
-  aspect_ratio?:
-    | "21:9"
-    | "16:9"
-    | "3:2"
-    | "4:3"
-    | "5:4"
-    | "1:1"
-    | "4:5"
-    | "3:4"
-    | "2:3"
-    | "9:16";
-  resolution?: "1K" | "2K" | "4K";
-  output_format?: "jpeg" | "png" | "webp";
+export interface KieCreateTaskInput {
+  model: string;
+  task_type: "img2img" | "txt2img";
+  input: {
+    prompt: string;
+    image_url?: string; // For img2img
+    aspect_ratio?: string;
+    output_format?: "jpeg" | "png" | "webp";
+  };
+}
+
+export interface KieCreateTaskResponse {
+  code: number;
+  message: string;
+  data?: {
+    task_id: string;
+  };
+}
+
+export interface KieGetTaskResponse {
+  code: number;
+  message: string;
+  data?: {
+    task_id: string;
+    status: "pending" | "processing" | "completed" | "failed";
+    output?: {
+      images: Array<{
+        url: string;
+        width?: number;
+        height?: number;
+      }>;
+    };
+    error?: string;
+  };
 }
 
 export interface KieNanoBananaProOutput {
   images: Array<{
     url: string;
-    file_name?: string;
     content_type: string;
-    file_size?: number;
     width?: number;
     height?: number;
   }>;
-  description?: string;
 }
 
 export interface KieErrorResponse {
-  error: {
+  error?: {
     message: string;
     code?: string;
-    status?: number;
   };
+  message?: string;
+  code?: number;
 }
 
 // ============================================================================
@@ -67,12 +87,10 @@ class KieClient {
   }
 
   /**
-   * Generate/edit images using Nano Banana Pro model
+   * Create a task for image generation/editing
    */
-  async nanoBananaPro(
-    input: KieNanoBananaProInput
-  ): Promise<KieNanoBananaProOutput> {
-    const url = `${KIE_API_BASE_URL}${KIE_NANO_BANANA_PRO_ENDPOINT}`;
+  private async createTask(input: KieCreateTaskInput): Promise<string> {
+    const url = `${KIE_API_BASE_URL}${KIE_CREATE_TASK_ENDPOINT}`;
 
     const response = await fetch(url, {
       method: "POST",
@@ -85,27 +103,104 @@ class KieClient {
 
     if (!response.ok) {
       let errorMessage = `Kie.ai API error: ${response.status}`;
-
       try {
         const errorBody = (await response.json()) as KieErrorResponse;
-        if (errorBody.error?.message) {
-          errorMessage = `Kie.ai API error: ${errorBody.error.message}`;
-        }
+        errorMessage = `Kie.ai API error: ${errorBody.message || errorBody.error?.message || response.status}`;
       } catch {
-        // Ignore JSON parsing errors, use default message
+        // Ignore JSON parsing errors
       }
-
       throw new Error(errorMessage);
     }
 
-    const result = (await response.json()) as KieNanoBananaProOutput;
+    const result = (await response.json()) as KieCreateTaskResponse;
 
-    // Validate response has images
-    if (!result.images || result.images.length === 0) {
+    if (result.code !== 0 && result.code !== 200) {
+      throw new Error(`Kie.ai task creation failed: ${result.message}`);
+    }
+
+    if (!result.data?.task_id) {
+      throw new Error("Kie.ai returned no task_id");
+    }
+
+    return result.data.task_id;
+  }
+
+  /**
+   * Poll for task completion
+   */
+  private async waitForTask(taskId: string): Promise<KieGetTaskResponse["data"]> {
+    const url = `${KIE_API_BASE_URL}${KIE_GET_TASK_ENDPOINT}`;
+
+    for (let attempt = 0; attempt < MAX_POLL_ATTEMPTS; attempt++) {
+      const response = await fetch(`${url}?task_id=${taskId}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${this.apiKey}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Kie.ai getTask error: ${response.status}`);
+      }
+
+      const result = (await response.json()) as KieGetTaskResponse;
+
+      if (!result.data) {
+        throw new Error(`Kie.ai getTask returned no data`);
+      }
+
+      switch (result.data.status) {
+        case "completed":
+          return result.data;
+        case "failed":
+          throw new Error(`Kie.ai task failed: ${result.data.error || "Unknown error"}`);
+        case "pending":
+        case "processing":
+          // Wait and retry
+          await new Promise((resolve) => setTimeout(resolve, POLL_INTERVAL_MS));
+          break;
+        default:
+          throw new Error(`Unknown task status: ${result.data.status}`);
+      }
+    }
+
+    throw new Error("Kie.ai task timed out after 3 minutes");
+  }
+
+  /**
+   * Generate/edit images using Nano Banana Pro model
+   */
+  async nanoBananaPro(input: {
+    prompt: string;
+    image_url: string;
+    output_format?: "jpeg" | "png" | "webp";
+  }): Promise<KieNanoBananaProOutput> {
+    // Create the task
+    const taskId = await this.createTask({
+      model: "nano banana pro",
+      task_type: "img2img",
+      input: {
+        prompt: input.prompt,
+        image_url: input.image_url,
+        output_format: input.output_format || "jpeg",
+      },
+    });
+
+    // Wait for completion
+    const taskResult = await this.waitForTask(taskId);
+
+    if (!taskResult?.output?.images?.length) {
       throw new Error("Kie.ai returned no images");
     }
 
-    return result;
+    return {
+      images: taskResult.output.images.map((img) => ({
+        url: img.url,
+        content_type: `image/${input.output_format || "jpeg"}`,
+        width: img.width,
+        height: img.height,
+      })),
+    };
   }
 }
 

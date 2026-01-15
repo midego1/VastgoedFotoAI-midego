@@ -48,8 +48,7 @@ async function enhanceWithKie(input: ImageEnhanceInput): Promise<EnhancedImage[]
 
   const result = await kie.nanoBananaPro({
     prompt: input.prompt,
-    image_urls: [input.imageUrl],
-    num_images: input.numImages ?? 1,
+    image_url: input.imageUrl,
     output_format: input.outputFormat ?? "jpeg",
   });
 
@@ -58,7 +57,6 @@ async function enhanceWithKie(input: ImageEnhanceInput): Promise<EnhancedImage[]
     contentType: img.content_type || "image/jpeg",
     width: img.width,
     height: img.height,
-    fileSize: img.file_size,
   }));
 }
 
