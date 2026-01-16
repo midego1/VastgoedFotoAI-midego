@@ -33,6 +33,7 @@ function VirtualStagingPreview() {
       case "industrial":
         return "/images/comparison-after-industrial.jpg";
       case "modern":
+        return "/images/comparison-after-modern.jpg";
       default:
         return "/images/comparison-after-scandinavian.jpg"; // placeholder for now
     }
@@ -323,7 +324,7 @@ export default function Page() {
                 {/* Center content */}
                 <div className="absolute inset-0 flex flex-col items-center justify-center">
                   <span className="font-bold text-6xl text-[#221E68]">
-                    30<span className="text-2xl text-[#ccc]">s</span>
+                    60<span className="text-2xl text-[#ccc]">s</span>
                   </span>
                   <span className="mt-2 font-bold text-gray-400 text-sm">
                     {t("section2.perImage")}

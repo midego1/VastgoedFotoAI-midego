@@ -229,7 +229,7 @@ export async function createStripeCheckoutSession(
         paymentMethod: "stripe",
         stripeCheckoutSessionId: checkoutSession.id,
         amountCents: STRIPE_CONFIG.PROJECT_PRICE_EUR_CENTS,
-        currency: "usd",
+        currency: "eur",
         status: "pending",
       });
     }
@@ -307,7 +307,7 @@ export async function createInvoicePayment(
       paymentMethod: "invoice",
       invoiceLineItemId: lineItemResult.data.id,
       amountCents: STRIPE_CONFIG.PROJECT_PRICE_EUR_CENTS,
-      currency: "usd",
+      currency: "eur",
       status: "completed", // Invoice customers pay later, but can process immediately
       paidAt: new Date(),
     });
@@ -525,7 +525,7 @@ export async function chargeWithSavedPaymentMethod(
     // Create PaymentIntent with saved payment method
     const paymentIntent = await stripe.paymentIntents.create({
       amount: STRIPE_CONFIG.PROJECT_PRICE_EUR_CENTS,
-      currency: "usd",
+      currency: "eur",
       customer: customerRecord.stripeCustomerId,
       payment_method: paymentMethodId,
       off_session: true,
@@ -558,7 +558,7 @@ export async function chargeWithSavedPaymentMethod(
         paymentMethod: "stripe",
         stripePaymentIntentId: paymentIntent.id,
         amountCents: STRIPE_CONFIG.PROJECT_PRICE_EUR_CENTS,
-        currency: "usd",
+        currency: "eur",
         status: isSucceeded ? "completed" : "pending",
         paidAt: isSucceeded ? new Date() : null,
       });

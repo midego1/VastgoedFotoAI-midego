@@ -123,10 +123,10 @@ export default function SignUpPage() {
             <Label className="font-medium text-[#221E68]" htmlFor="password">
               Password
             </Label>
-            <InputGroup>
+            <InputGroup className="h-11 border-gray-200 bg-gray-50 focus-within:border-[#F16529] focus-within:ring-[#F16529]/20">
               <InputGroupInput
                 autoComplete="new-password"
-                className="h-11 border-gray-200 bg-gray-50 text-[#221E68] focus:border-[#F16529] focus:ring-[#F16529]/20"
+                className="text-[#221E68]"
                 disabled={isLoading}
                 id="password"
                 onChange={(e) => setPassword(e.target.value)}

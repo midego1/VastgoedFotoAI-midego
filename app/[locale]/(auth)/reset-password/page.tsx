@@ -125,21 +125,22 @@ function ResetPasswordForm() {
   };
 
   return (
-    <Card>
-      <CardHeader className="text-center">
-        <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
-          <IconLock className="h-7 w-7 text-primary" />
+    <Card className="border-0 bg-white shadow-2xl">
+      <CardHeader className="space-y-1 text-center">
+        <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-[#F16529]/10">
+          <IconLock className="h-7 w-7 text-[#F16529]" />
         </div>
-        <CardTitle className="text-2xl">Reset your password</CardTitle>
-        <CardDescription>Enter your new password below</CardDescription>
+        <CardTitle className="font-bold text-2xl text-[#221E68]">Reset your password</CardTitle>
+        <CardDescription className="text-[#221E68]/70">Enter your new password below</CardDescription>
       </CardHeader>
       <CardContent>
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div className="space-y-2">
-            <Label htmlFor="password">New password</Label>
-            <InputGroup>
+            <Label className="font-medium text-[#221E68]" htmlFor="password">New password</Label>
+            <InputGroup className="h-11 border-gray-200 bg-gray-50 focus-within:border-[#F16529] focus-within:ring-[#F16529]/20">
               <InputGroupInput
                 autoComplete="new-password"
+                className="text-[#221E68]"
                 disabled={isLoading}
                 id="password"
                 onChange={(e) => setPassword(e.target.value)}
@@ -149,6 +150,7 @@ function ResetPasswordForm() {
               />
               <InputGroupAddon align="inline-end">
                 <InputGroupButton
+                  className="text-[#221E68]/60 hover:text-[#221E68]"
                   onClick={() => setShowPassword(!showPassword)}
                   size="icon-xs"
                   type="button"
@@ -163,10 +165,11 @@ function ResetPasswordForm() {
             </InputGroup>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="confirmPassword">Confirm password</Label>
-            <InputGroup>
+            <Label className="font-medium text-[#221E68]" htmlFor="confirmPassword">Confirm password</Label>
+            <InputGroup className="h-11 border-gray-200 bg-gray-50 focus-within:border-[#F16529] focus-within:ring-[#F16529]/20">
               <InputGroupInput
                 autoComplete="new-password"
+                className="text-[#221E68]"
                 disabled={isLoading}
                 id="confirmPassword"
                 onChange={(e) => setConfirmPassword(e.target.value)}
@@ -176,6 +179,7 @@ function ResetPasswordForm() {
               />
               <InputGroupAddon align="inline-end">
                 <InputGroupButton
+                  className="text-[#221E68]/60 hover:text-[#221E68]"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                   size="icon-xs"
                   type="button"
@@ -189,7 +193,7 @@ function ResetPasswordForm() {
               </InputGroupAddon>
             </InputGroup>
           </div>
-          <Button className="w-full" disabled={isLoading} type="submit">
+          <Button className="h-11 w-full rounded-lg bg-[#221E68] font-bold text-base text-white shadow-[#221E68]/20 shadow-lg transition-all duration-200 hover:scale-[1.02] hover:bg-[#221E68]/90 active:scale-[0.98]" disabled={isLoading} type="submit">
             {isLoading ? (
               <>
                 <IconLoader className="mr-2 size-4 animate-spin" />
@@ -202,12 +206,12 @@ function ResetPasswordForm() {
         </form>
       </CardContent>
       <CardFooter className="justify-center">
-        <Link
-          className="text-muted-foreground text-sm underline underline-offset-4 hover:text-foreground"
-          href="/sign-in"
-        >
-          Back to sign in
-        </Link>
+          <Link
+            className="font-medium text-[#F16529] underline underline-offset-4 hover:opacity-80"
+            href="/sign-in"
+          >
+            Back to sign in
+          </Link>
       </CardFooter>
     </Card>
   );

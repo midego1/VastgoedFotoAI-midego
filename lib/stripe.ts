@@ -11,7 +11,7 @@ export const STRIPE_CONFIG = {
   PRICE_PROJECT_EUR:
     process.env.STRIPE_PRICE_PROJECT_EUR ||
     process.env.STRIPE_PRICE_PROJECT_USD ||
-    "price_1SpNvKDYyMjWDXQGKyx2Hkno",
+    process.env.STRIPE_PRICE_PROJECT_EUR!,
 
   // Pricing (in cents)
   // Launch price 2026: €24.50 (50% off €49 regular price)
