@@ -1,6 +1,11 @@
 "use client";
 
-import { IconEye, IconEyeOff, IconLoader } from "@tabler/icons-react";
+import {
+  IconArrowRight,
+  IconEye,
+  IconEyeOff,
+  IconLoader,
+} from "@tabler/icons-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -23,7 +28,6 @@ import {
 } from "@/components/ui/input-group";
 import { Label } from "@/components/ui/label";
 import { authClient } from "@/lib/auth-client";
-import { IconArrowRight } from "@tabler/icons-react";
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -73,12 +77,10 @@ export default function SignUpPage() {
     );
   };
 
-
-
   return (
-    <Card className="border-0 shadow-2xl bg-white">
-      <CardHeader className="text-center space-y-1">
-        <CardTitle className="text-2xl font-bold text-[#221E68]">
+    <Card className="border-0 bg-white shadow-2xl">
+      <CardHeader className="space-y-1 text-center">
+        <CardTitle className="font-bold text-2xl text-[#221E68]">
           Create an account
         </CardTitle>
         <CardDescription className="text-[#221E68]/70">
@@ -88,12 +90,12 @@ export default function SignUpPage() {
       <CardContent>
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div className="space-y-2">
-            <Label htmlFor="name" className="text-[#221E68] font-medium">
+            <Label className="font-medium text-[#221E68]" htmlFor="name">
               Name
             </Label>
             <Input
               autoComplete="name"
-              className="h-11 bg-gray-50 border-gray-200 focus:border-[#F16529] focus:ring-[#F16529]/20 text-[#221E68]"
+              className="h-11 border-gray-200 bg-gray-50 text-[#221E68] focus:border-[#F16529] focus:ring-[#F16529]/20"
               disabled={isLoading}
               id="name"
               onChange={(e) => setName(e.target.value)}
@@ -103,12 +105,12 @@ export default function SignUpPage() {
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="email" className="text-[#221E68] font-medium">
+            <Label className="font-medium text-[#221E68]" htmlFor="email">
               Email
             </Label>
             <Input
               autoComplete="email"
-              className="h-11 bg-gray-50 border-gray-200 focus:border-[#F16529] focus:ring-[#F16529]/20 text-[#221E68]"
+              className="h-11 border-gray-200 bg-gray-50 text-[#221E68] focus:border-[#F16529] focus:ring-[#F16529]/20"
               disabled={isLoading}
               id="email"
               onChange={(e) => setEmail(e.target.value)}
@@ -118,13 +120,13 @@ export default function SignUpPage() {
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="password" className="text-[#221E68] font-medium">
+            <Label className="font-medium text-[#221E68]" htmlFor="password">
               Password
             </Label>
             <InputGroup>
               <InputGroupInput
                 autoComplete="new-password"
-                className="h-11 bg-gray-50 border-gray-200 focus:border-[#F16529] focus:ring-[#F16529]/20 text-[#221E68]"
+                className="h-11 border-gray-200 bg-gray-50 text-[#221E68] focus:border-[#F16529] focus:ring-[#F16529]/20"
                 disabled={isLoading}
                 id="password"
                 onChange={(e) => setPassword(e.target.value)}
@@ -134,9 +136,9 @@ export default function SignUpPage() {
               />
               <InputGroupAddon align="inline-end">
                 <InputGroupButton
+                  className="text-[#221E68]/60 hover:text-[#221E68]"
                   onClick={() => setShowPassword(!showPassword)}
                   size="icon-xs"
-                  className="text-[#221E68]/60 hover:text-[#221E68]"
                   type="button"
                 >
                   {showPassword ? (
@@ -149,7 +151,7 @@ export default function SignUpPage() {
             </InputGroup>
           </div>
           <Button
-            className="w-full h-11 text-base font-bold rounded-lg transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] bg-[#221E68] hover:bg-[#221E68]/90 text-white shadow-lg shadow-[#221E68]/20"
+            className="h-11 w-full rounded-lg bg-[#221E68] font-bold text-base text-white shadow-[#221E68]/20 shadow-lg transition-all duration-200 hover:scale-[1.02] hover:bg-[#221E68]/90 active:scale-[0.98]"
             disabled={isLoading}
             type="submit"
           >
@@ -168,10 +170,10 @@ export default function SignUpPage() {
         </form>
       </CardContent>
       <CardFooter className="justify-center">
-        <p className="text-sm text-[#221E68]/70">
+        <p className="text-[#221E68]/70 text-sm">
           Already have an account?{" "}
           <Link
-            className="underline underline-offset-4 hover:opacity-80 font-medium text-[#F16529]"
+            className="font-medium text-[#F16529] underline underline-offset-4 hover:opacity-80"
             href="/sign-in"
           >
             Sign in

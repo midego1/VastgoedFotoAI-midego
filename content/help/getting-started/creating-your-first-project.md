@@ -93,7 +93,7 @@ Preview how each style looks on your photos before committing.
 
 ## Step 4: Process & Review
 
-Click **Start Processing** to begin. VastgoedFotoAI.nl will enhance each photo using your selected style. Processing typically takes 30–60 seconds per image.
+Click **Start Processing** to begin. VastgoedFotoAI.nl will enhance each photo using your selected style. Processing typically takes around 60 seconds per image.
 
 Once complete, review each enhanced photo and download your results in high resolution.
 

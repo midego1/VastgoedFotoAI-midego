@@ -18,8 +18,8 @@ export function ResetPasswordEmail({
       <Text style={paragraph}>Hi {name},</Text>
 
       <Text style={paragraph}>
-        We received a request to reset your password for your VastgoedFotoAI.nl account.
-        Click the button below to choose a new password.
+        We received a request to reset your password for your VastgoedFotoAI.nl
+        account. Click the button below to choose a new password.
       </Text>
 
       <Section style={buttonContainer}>

@@ -1010,7 +1010,7 @@ export function ImageMaskEditor({
               <IconLoader2 className="mx-auto mb-2 h-8 w-8 animate-spin" />
               <p className="text-sm">Starting edit...</p>
               <p className="mt-1 text-white/70 text-xs">
-                This may take 20-30 seconds
+                This may take 30-60 seconds
               </p>
             </div>
           </div>

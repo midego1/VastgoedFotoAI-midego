@@ -16,13 +16,13 @@ export function WelcomeEmail({ name }: WelcomeEmailProps) {
       <Text style={paragraph}>Hi {name},</Text>
 
       <Text style={paragraph}>
-        Thanks for signing up for VastgoedFotoAI.nl. We&apos;re excited to have you on
-        board!
+        Thanks for signing up for VastgoedFotoAI.nl. We&apos;re excited to have
+        you on board!
       </Text>
 
       <Text style={paragraph}>
-        With VastgoedFotoAI.nl, you can transform your real estate photos with AI-powered
-        enhancements:
+        With VastgoedFotoAI.nl, you can transform your real estate photos with
+        AI-powered enhancements:
       </Text>
 
       <Section style={features}>

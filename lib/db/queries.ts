@@ -173,7 +173,7 @@ export async function consumeFreeImages(
 ): Promise<{ success: boolean; remaining: number; consumed: number }> {
   const ws = await getWorkspaceById(workspaceId);
   const available = ws?.freeImagesRemaining ?? 0;
-  
+
   if (!ws || available <= 0) {
     return { success: false, remaining: 0, consumed: 0 };
   }
@@ -1150,10 +1150,7 @@ export async function getAdminOverviewStats(): Promise<AdminOverviewStats> {
     .select({ count: count() })
     .from(user)
     .where(
-      and(
-        eq(user.emailVerified, true),
-        gt(user.updatedAt, thirtyDaysAgo)
-      )
+      and(eq(user.emailVerified, true), gt(user.updatedAt, thirtyDaysAgo))
     );
 
   // Pending users: unverified email

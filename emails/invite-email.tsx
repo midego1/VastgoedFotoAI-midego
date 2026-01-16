@@ -31,9 +31,9 @@ export function InviteEmail({
       </Section>
 
       <Text style={paragraph}>
-        VastgoedFotoAI.nl is an AI-powered real estate photo editor that helps teams create
-        stunning property listings with virtual staging, lighting enhancements,
-        and more.
+        VastgoedFotoAI.nl is an AI-powered real estate photo editor that helps
+        teams create stunning property listings with virtual staging, lighting
+        enhancements, and more.
       </Text>
 
       <Section style={buttonContainer}>

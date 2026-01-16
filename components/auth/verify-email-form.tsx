@@ -2,9 +2,9 @@
 
 import { IconLoader, IconMail, IconRefresh } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl"; // Added import from next-intl
 import { useState } from "react";
 import { toast } from "sonner";
-import { useTranslations } from "next-intl"; // Added import from next-intl
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -48,23 +48,27 @@ export function VerifyEmailForm({ email, isNewSignup }: VerifyEmailFormProps) {
   };
 
   return (
-    <Card className="w-full max-w-md mx-auto">
+    <Card className="mx-auto w-full max-w-md">
       <CardHeader className="text-center">
         {isNewSignup && (
           <>
             <div className="mb-6 flex justify-center">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img 
-                src="/success.gif" 
-                alt="Success Celebration" 
-                className="rounded-lg shadow-md max-h-96"
+              <img
+                alt="Success Celebration"
+                className="max-h-96 rounded-lg shadow-md"
+                src="/success.gif"
               />
             </div>
-            <CardTitle className="text-2xl mb-2">{t("congratulations")}</CardTitle>
-            <p className="text-foreground font-medium mb-6">{t("successMessage")}</p>
+            <CardTitle className="mb-2 text-2xl">
+              {t("congratulations")}
+            </CardTitle>
+            <p className="mb-6 font-medium text-foreground">
+              {t("successMessage")}
+            </p>
           </>
         )}
-        
+
         {!isNewSignup && (
           <>
             <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
@@ -75,7 +79,8 @@ export function VerifyEmailForm({ email, isNewSignup }: VerifyEmailFormProps) {
         )}
 
         <CardDescription>
-          {t("subtitle")} <span className="font-medium text-foreground">{email}</span>
+          {t("subtitle")}{" "}
+          <span className="font-medium text-foreground">{email}</span>
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">

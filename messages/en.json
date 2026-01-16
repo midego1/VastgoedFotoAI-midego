@@ -126,7 +126,7 @@
     },
     "newHero": {
       "title": "Sell Properties Faster with AI-Enhanced Photos",
-      "subtitle": "Turn any smartphone photo into a professional listing in 30 seconds.",
+      "subtitle": "Turn any smartphone photo into a professional listing in 60 seconds.",
       "socialProof": "Used by 500+ Dutch real estate agents. Join the future of property marketing.",
       "ctaPrimary": "Start Free Trial",
       "ctaSecondary": "Only €24.50/property",
@@ -166,7 +166,7 @@
       "title": "The Smart Choice for Modern Agents",
       "subtitle": "Traditional photo editing was built for a slower market. VastgoedFotoAI is built for agents who win.",
       "card1Title": "From Upload to Done",
-      "card1Value": "30s",
+      "card1Value": "60s",
       "card1Comparison": "vs 48-72h",
       "card1Description": "Your listings go live while competitors are still waiting.",
       "card2Badge": "Best Value",
@@ -244,7 +244,7 @@
       },
       "q3": {
         "question": "How long does processing take?",
-        "answer": "Photo enhancement typically takes under 30 seconds per image. Video creation usually takes 5-10 minutes depending on the number of images and selected options."
+        "answer": "Photo enhancement typically takes under 60 seconds per image. Video creation usually takes 5-10 minutes depending on the number of images and selected options."
       },
       "q4": {
         "question": "Can I try before I buy?",

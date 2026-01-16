@@ -19,7 +19,9 @@ export const siteConfig = {
     "vastgoed",
     "vastgoed foto",
   ],
-  authors: [{ name: "VastgoedFotoAI.nl", url: "https://www.vastgoedfotoai.nl" }],
+  authors: [
+    { name: "VastgoedFotoAI.nl", url: "https://www.vastgoedfotoai.nl" },
+  ],
   creator: "VastgoedFotoAI.nl",
   twitterHandle: "@vastgoedfotoai",
 

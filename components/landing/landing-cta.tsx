@@ -2,9 +2,9 @@
 
 import { IconArrowRight } from "@tabler/icons-react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { Suspense } from "react";
 import { useSession } from "@/lib/auth-client";
-import { useTranslations } from "next-intl";
 
 function CtaAuthButton() {
   const { data: session, isPending } = useSession();

@@ -31,7 +31,7 @@ Each property enhancement includes:
 - AI-powered enhancement
 - Multiple style templates
 - High-resolution downloads
-- Ready in under 30 seconds
+- Ready in under 60 seconds
 
 ## How It Works
 

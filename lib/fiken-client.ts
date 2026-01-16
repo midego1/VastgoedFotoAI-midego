@@ -66,7 +66,7 @@ export const FIKEN_CONFIG = {
 /**
  * Default billing prices (in cents - minor currency units)
  * These are used when workspace doesn't have custom pricing set
- * 
+ *
  * Launch pricing (2026): 50% off for the entire year
  * - Normal price: €49 per property (4900 cents) starting 2027
  * - Launch price: €24.50 per property (2450 cents) during 2026

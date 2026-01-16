@@ -227,8 +227,8 @@ export function BlogPostPage({ post, relatedPosts }: BlogPostPageProps) {
               className="mx-auto mt-4 max-w-lg text-lg leading-relaxed"
               style={{ color: "var(--landing-text-muted)" }}
             >
-              Join thousands of real estate professionals who use VastgoedFotoAI.nl to
-              create stunning property photos.
+              Join thousands of real estate professionals who use
+              VastgoedFotoAI.nl to create stunning property photos.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Link

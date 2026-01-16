@@ -37,7 +37,8 @@ export function EmailLayout({ preview, children }: EmailLayoutProps) {
               VastgoedFotoAI.nl - AI-gestuurde vastgoedfoto editor
             </Text>
             <Text style={footerText}>
-              © {new Date().getFullYear()} VastgoedFotoAI.nl. Alle rechten voorbehouden.
+              © {new Date().getFullYear()} VastgoedFotoAI.nl. Alle rechten
+              voorbehouden.
             </Text>
           </Section>
         </Container>

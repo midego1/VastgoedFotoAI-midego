@@ -16,26 +16,26 @@ export function LanguageSelector() {
   };
 
   return (
-    <div className="flex items-center gap-1 text-sm font-medium">
+    <div className="flex items-center gap-1 font-medium text-sm">
       <button
-        onClick={() => handleLocaleChange("nl")}
-        className={`px-2 py-0.5 rounded transition-colors ${
+        className={`rounded px-2 py-0.5 transition-colors ${
           currentLocale === "nl"
-            ? "text-[var(--landing-text)] font-semibold"
+            ? "font-semibold text-[var(--landing-text)]"
             : "text-[var(--landing-text-muted)] hover:text-[var(--landing-text)]"
         }`}
+        onClick={() => handleLocaleChange("nl")}
         type="button"
       >
         NL
       </button>
       <span className="text-[var(--landing-text-muted)]">/</span>
       <button
-        onClick={() => handleLocaleChange("en")}
-        className={`px-2 py-0.5 rounded transition-colors ${
+        className={`rounded px-2 py-0.5 transition-colors ${
           currentLocale === "en"
-            ? "text-[var(--landing-text)] font-semibold"
+            ? "font-semibold text-[var(--landing-text)]"
             : "text-[var(--landing-text-muted)] hover:text-[var(--landing-text)]"
         }`}
+        onClick={() => handleLocaleChange("en")}
         type="button"
       >
         EN

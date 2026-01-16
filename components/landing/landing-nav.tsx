@@ -1,18 +1,18 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { LanguageSelector } from "@/components/language-selector";
 import { Link as LocalizedLink } from "@/i18n/routing";
-import { useTranslations } from "next-intl";
 
 export function LandingNav() {
   const t = useTranslations("nav");
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 w-full bg-white/80 backdrop-blur-md border-b border-gray-100/50">
-      <div className="w-full max-w-[1400px] mx-auto px-6 py-4 flex justify-between items-center text-[#221E68] text-sm font-medium">
+    <nav className="fixed top-0 right-0 left-0 z-50 w-full border-gray-100/50 border-b bg-white/80 backdrop-blur-md">
+      <div className="mx-auto flex w-full max-w-[1400px] items-center justify-between px-6 py-4 font-medium text-[#221E68] text-sm">
         <LocalizedLink
+          className="font-bold text-[#221E68] text-xl transition-opacity hover:opacity-80"
           href="/"
-          className="text-xl font-bold text-[#221E68] hover:opacity-80 transition-opacity"
         >
           VastgoedFotoAI.nl
         </LocalizedLink>
@@ -21,20 +21,20 @@ export function LandingNav() {
             <LanguageSelector />
           </div>
           <LocalizedLink
+            className="transition-opacity hover:opacity-70"
             href="/#pricing"
-            className="hover:opacity-70 transition-opacity"
           >
             {t("pricing")}
           </LocalizedLink>
           <LocalizedLink
+            className="transition-opacity hover:opacity-70"
             href="/#features"
-            className="hover:opacity-70 transition-opacity"
           >
             {t("features")}
           </LocalizedLink>
           <LocalizedLink
+            className="transition-opacity hover:opacity-70"
             href="/sign-in"
-            className="hover:opacity-70 transition-opacity"
           >
             {t("signIn")}
           </LocalizedLink>

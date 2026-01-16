@@ -501,7 +501,7 @@ function ComparisonView({
       </button>
 
       <div
-        className="relative aspect-[4/3] w-full max-w-4xl cursor-col-resize overflow-hidden rounded-2xl select-none"
+        className="relative aspect-[4/3] w-full max-w-4xl cursor-col-resize select-none overflow-hidden rounded-2xl"
         onMouseDown={(e) => {
           e.preventDefault();
           handleMove(e.clientX);
@@ -1572,15 +1572,15 @@ export function ProjectDetailContent({
                       setLightboxIndex(index);
                     }
                   }}
-                  onOpenComparison={() => {
-                    if (group.latestVersion.status === "completed") {
-                      setSelectedImage(group.latestVersion);
-                    }
-                  }}
                   onDownload={() => handleDownloadSingle(group.latestVersion)}
                   onEdit={() => {
                     if (group.latestVersion.status === "completed") {
                       startEditing(group.latestVersion);
+                    }
+                  }}
+                  onOpenComparison={() => {
+                    if (group.latestVersion.status === "completed") {
+                      setSelectedImage(group.latestVersion);
                     }
                   }}
                   onProcessingComplete={() => {

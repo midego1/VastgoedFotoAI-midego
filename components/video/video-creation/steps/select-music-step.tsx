@@ -239,7 +239,9 @@ export function SelectMusicStep({
         <h3 className="mb-3 flex items-center gap-2 font-medium text-sm">
           <IconMusic className="h-4 w-4" />
           {t("backgroundMusic")}
-          <span className="font-normal text-muted-foreground">({t("optional")})</span>
+          <span className="font-normal text-muted-foreground">
+            ({t("optional")})
+          </span>
         </h3>
 
         {/* Category Tabs */}

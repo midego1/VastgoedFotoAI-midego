@@ -9,7 +9,9 @@ export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 export const STRIPE_CONFIG = {
   // Product and Price IDs (created via Stripe MCP)
   PRICE_PROJECT_EUR:
-    process.env.STRIPE_PRICE_PROJECT_EUR || process.env.STRIPE_PRICE_PROJECT_USD || "price_1SpNvKDYyMjWDXQGKyx2Hkno",
+    process.env.STRIPE_PRICE_PROJECT_EUR ||
+    process.env.STRIPE_PRICE_PROJECT_USD ||
+    "price_1SpNvKDYyMjWDXQGKyx2Hkno",
 
   // Pricing (in cents)
   // Launch price 2026: €24.50 (50% off €49 regular price)

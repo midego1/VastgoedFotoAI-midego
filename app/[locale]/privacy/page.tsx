@@ -17,15 +17,15 @@ export default function PrivacyPage() {
     >
       <LegalSection title="1. Introduction">
         <p>
-          VastgoedFotoAI.nl (&quot;we&quot;, &quot;our&quot;, or &quot;us&quot;) is
-          committed to protecting your privacy. This Privacy Policy explains how
-          we collect, use, disclose, and safeguard your information when you use
-          our AI-powered real estate photo enhancement service.
+          VastgoedFotoAI.nl (&quot;we&quot;, &quot;our&quot;, or &quot;us&quot;)
+          is committed to protecting your privacy. This Privacy Policy explains
+          how we collect, use, disclose, and safeguard your information when you
+          use our AI-powered real estate photo enhancement service.
         </p>
         <p>
-          By using VastgoedFotoAI.nl, you agree to the collection and use of information in
-          accordance with this policy. If you do not agree with our policies,
-          please do not use our service.
+          By using VastgoedFotoAI.nl, you agree to the collection and use of
+          information in accordance with this policy. If you do not agree with
+          our policies, please do not use our service.
         </p>
       </LegalSection>
 

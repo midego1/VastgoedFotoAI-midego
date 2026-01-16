@@ -20,7 +20,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import {
   InputGroup,
   InputGroupAddon,
@@ -150,9 +149,9 @@ function ResetPasswordForm() {
               />
               <InputGroupAddon align="inline-end">
                 <InputGroupButton
-                  type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   size="icon-xs"
+                  type="button"
                 >
                   {showPassword ? (
                     <IconEyeOff className="size-4" />
@@ -177,9 +176,9 @@ function ResetPasswordForm() {
               />
               <InputGroupAddon align="inline-end">
                 <InputGroupButton
-                  type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                   size="icon-xs"
+                  type="button"
                 >
                   {showConfirmPassword ? (
                     <IconEyeOff className="size-4" />

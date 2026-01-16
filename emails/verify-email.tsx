@@ -15,8 +15,8 @@ export function VerifyEmail({ name, verifyLink }: VerifyEmailProps) {
       <Text style={paragraph}>Hi {name},</Text>
 
       <Text style={paragraph}>
-        Thanks for signing up for VastgoedFotoAI.nl! Please verify your email address to
-        get started with AI-powered real estate photo editing.
+        Thanks for signing up for VastgoedFotoAI.nl! Please verify your email
+        address to get started with AI-powered real estate photo editing.
       </Text>
 
       <Section style={buttonContainer}>
@@ -27,7 +27,8 @@ export function VerifyEmail({ name, verifyLink }: VerifyEmailProps) {
 
       <Text style={note}>
         This verification link will expire in 24 hours. If you didn&apos;t
-        create an account with VastgoedFotoAI.nl, you can safely ignore this email.
+        create an account with VastgoedFotoAI.nl, you can safely ignore this
+        email.
       </Text>
 
       <Text style={signature}>

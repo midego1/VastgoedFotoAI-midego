@@ -1,7 +1,6 @@
+import { getTranslations } from "next-intl/server";
 import { LegalPage, LegalSection } from "@/components/landing/legal-page";
 import { constructMetadata } from "@/lib/constructMetadata";
-
-import { getTranslations } from "next-intl/server";
 
 export async function generateMetadata({
   params,
@@ -28,9 +27,9 @@ export default function TermsPage() {
     >
       <LegalSection title="1. Acceptance of Terms">
         <p>
-          By accessing or using VastgoedFotoAI.nl (&quot;the Service&quot;), you agree to
-          be bound by these Terms of Service. If you disagree with any part of
-          these terms, you may not access the Service.
+          By accessing or using VastgoedFotoAI.nl (&quot;the Service&quot;), you
+          agree to be bound by these Terms of Service. If you disagree with any
+          part of these terms, you may not access the Service.
         </p>
         <p>
           These terms apply to all visitors, users, and others who access or use
@@ -40,9 +39,9 @@ export default function TermsPage() {
 
       <LegalSection title="2. Description of Service">
         <p>
-          VastgoedFotoAI.nl provides AI-powered photo enhancement and video creation
-          services for real estate professionals. Our service allows you to
-          upload property images, apply AI enhancements, and generate
+          VastgoedFotoAI.nl provides AI-powered photo enhancement and video
+          creation services for real estate professionals. Our service allows
+          you to upload property images, apply AI enhancements, and generate
           professional marketing materials.
         </p>
       </LegalSection>
@@ -63,12 +62,13 @@ export default function TermsPage() {
 
       <LegalSection title="4. Payment and Pricing">
         <p>
-          VastgoedFotoAI.nl operates on a pay-per-use model. Current pricing is as follows:
+          VastgoedFotoAI.nl operates on a pay-per-use model. Current pricing is
+          as follows:
         </p>
         <ul className="ml-4 list-disc space-y-2">
           <li>
-            <strong>Photo Enhancement:</strong> €19 per property (up
-            to 20 images)
+            <strong>Photo Enhancement:</strong> €19 per property (up to 20
+            images)
           </li>
           <li>
             <strong>Video Creation:</strong> €19 per video
@@ -118,8 +118,9 @@ export default function TermsPage() {
       <LegalSection title="Intellectual Property">
         <p>
           The Service, including its original content, features, and
-          functionality, is owned by VastgoedFotoAI.nl and is protected by international
-          copyright, trademark, and other intellectual property laws.
+          functionality, is owned by VastgoedFotoAI.nl and is protected by
+          international copyright, trademark, and other intellectual property
+          laws.
         </p>
         <p>
           Enhanced images produced by our Service are owned by you, subject to
@@ -143,10 +144,10 @@ export default function TermsPage() {
 
       <LegalSection title="9. Limitation of Liability">
         <p>
-          To the maximum extent permitted by law, VastgoedFotoAI.nl shall not be liable for
-          any indirect, incidental, special, consequential, or punitive damages,
-          including loss of profits, data, or other intangible losses, resulting
-          from:
+          To the maximum extent permitted by law, VastgoedFotoAI.nl shall not be
+          liable for any indirect, incidental, special, consequential, or
+          punitive damages, including loss of profits, data, or other intangible
+          losses, resulting from:
         </p>
         <ul className="ml-4 list-disc space-y-2">
           <li>Your use or inability to use the Service</li>
@@ -194,9 +195,9 @@ export default function TermsPage() {
       <LegalSection title="12. Governing Law">
         <p>
           These Terms shall be governed by and construed in accordance with the
-          laws of the Netherlands, without regard to its conflict of law provisions. Any
-          disputes arising from these Terms shall be resolved in the courts of
-          the Netherlands.
+          laws of the Netherlands, without regard to its conflict of law
+          provisions. Any disputes arising from these Terms shall be resolved in
+          the courts of the Netherlands.
         </p>
       </LegalSection>
 

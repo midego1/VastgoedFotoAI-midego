@@ -26,5 +26,7 @@ export default async function VerifyEmailPage({ searchParams }: Props) {
   }
 
   // Not verified - show verification form
-  return <VerifyEmailForm email={session.user.email} isNewSignup={isNewSignup} />;
+  return (
+    <VerifyEmailForm email={session.user.email} isNewSignup={isNewSignup} />
+  );
 }

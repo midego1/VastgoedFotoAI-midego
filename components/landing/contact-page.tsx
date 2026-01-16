@@ -3,11 +3,11 @@
 import { IconClock, IconMail, IconSend } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { LandingFooter } from "./landing-footer";
-import { LandingNav } from "./landing-nav";
 import BlueBlob from "@/components/landing/blobs/blue-blob";
 import OrangeBlob from "@/components/landing/blobs/orange-blob";
 import RedBlob from "@/components/landing/blobs/red-blob";
+import { LandingFooter } from "./landing-footer";
+import { LandingNav } from "./landing-nav";
 
 export function ContactPage() {
   const t = useTranslations("contact");
@@ -25,57 +25,57 @@ export function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white flex flex-col pt-[88px] overflow-x-hidden">
+    <div className="flex min-h-screen flex-col overflow-x-hidden bg-white pt-[88px]">
       <LandingNav />
 
       <main className="relative isolate flex-1">
         {/* Background Blobs */}
-        <div className="absolute top-0 right-0 -z-10 translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] opacity-20 pointer-events-none">
-          <OrangeBlob className="w-full h-full animate-spin-slower" />
+        <div className="pointer-events-none absolute top-0 right-0 -z-10 h-[800px] w-[800px] translate-x-1/2 -translate-y-1/2 opacity-20">
+          <OrangeBlob className="h-full w-full animate-spin-slower" />
         </div>
-        <div className="absolute bottom-0 left-0 -z-10 -translate-x-1/2 translate-y-1/4 w-[600px] h-[600px] opacity-20 pointer-events-none">
-          <BlueBlob className="w-full h-full animate-float-slow" />
+        <div className="pointer-events-none absolute bottom-0 left-0 -z-10 h-[600px] w-[600px] -translate-x-1/2 translate-y-1/4 opacity-20">
+          <BlueBlob className="h-full w-full animate-float-slow" />
         </div>
 
         {/* Hero Section */}
-        <section className="px-6 pt-12 pb-12 text-center md:pt-20 md:pb-16 relative z-10">
+        <section className="relative z-10 px-6 pt-12 pb-12 text-center md:pt-20 md:pb-16">
           <div className="mx-auto max-w-3xl animate-fade-in-up">
-            <p className="font-bold text-sm uppercase tracking-wider text-[#E7385E] mb-3">
+            <p className="mb-3 font-bold text-[#E7385E] text-sm uppercase tracking-wider">
               {t("badge")}
             </p>
-            <h1 className="text-[40px] md:text-[60px] font-bold leading-none tracking-tighter mb-6 text-[#221E68]">
+            <h1 className="mb-6 font-bold text-[#221E68] text-[40px] leading-none tracking-tighter md:text-[60px]">
               {t("title")}
             </h1>
-            <p className="text-lg leading-relaxed md:text-xl text-[#221E68]/80">
+            <p className="text-[#221E68]/80 text-lg leading-relaxed md:text-xl">
               {t("subtitle")}
             </p>
           </div>
         </section>
 
         {/* Contact Form & Info */}
-        <section className="px-6 pb-24 relative z-10">
+        <section className="relative z-10 px-6 pb-24">
           <div className="mx-auto grid max-w-5xl gap-12 lg:grid-cols-3">
             {/* Contact Form */}
-            <div className="lg:col-span-2 animate-fade-in-up md:delay-100">
+            <div className="animate-fade-in-up md:delay-100 lg:col-span-2">
               <form
-                className="rounded-[2.5rem] p-8 md:p-12 bg-white shadow-xl border border-gray-100 relative overflow-hidden"
+                className="relative overflow-hidden rounded-[2.5rem] border border-gray-100 bg-white p-8 shadow-xl md:p-12"
                 onSubmit={handleSubmit}
               >
-                 <div className="absolute top-0 right-0 w-[300px] h-[300px] opacity-5 pointer-events-none -translate-y-1/2 translate-x-1/2">
-                    <RedBlob className="w-full h-full" />
-                 </div>
+                <div className="pointer-events-none absolute top-0 right-0 h-[300px] w-[300px] translate-x-1/2 -translate-y-1/2 opacity-5">
+                  <RedBlob className="h-full w-full" />
+                </div>
 
-                <div className="grid gap-6 sm:grid-cols-2 relative z-10">
+                <div className="relative z-10 grid gap-6 sm:grid-cols-2">
                   {/* Name */}
                   <div className="space-y-2">
                     <label
-                      className="text-sm font-bold text-[#221E68] ml-1"
+                      className="ml-1 font-bold text-[#221E68] text-sm"
                       htmlFor="name"
                     >
                       {t("form.name")}
                     </label>
                     <input
-                      className="h-14 w-full rounded-2xl px-5 text-base outline-none transition-all focus:ring-2 focus:ring-[#221E68]/20 bg-[#f8f8fa] border-transparent text-[#221E68] placeholder:text-[#221E68]/40"
+                      className="h-14 w-full rounded-2xl border-transparent bg-[#f8f8fa] px-5 text-[#221E68] text-base outline-none transition-all placeholder:text-[#221E68]/40 focus:ring-2 focus:ring-[#221E68]/20"
                       id="name"
                       onChange={(e) =>
                         setFormData({ ...formData, name: e.target.value })
@@ -90,13 +90,13 @@ export function ContactPage() {
                   {/* Email */}
                   <div className="space-y-2">
                     <label
-                      className="text-sm font-bold text-[#221E68] ml-1"
+                      className="ml-1 font-bold text-[#221E68] text-sm"
                       htmlFor="email"
                     >
                       {t("form.email")}
                     </label>
                     <input
-                      className="h-14 w-full rounded-2xl px-5 text-base outline-none transition-all focus:ring-2 focus:ring-[#221E68]/20 bg-[#f8f8fa] border-transparent text-[#221E68] placeholder:text-[#221E68]/40"
+                      className="h-14 w-full rounded-2xl border-transparent bg-[#f8f8fa] px-5 text-[#221E68] text-base outline-none transition-all placeholder:text-[#221E68]/40 focus:ring-2 focus:ring-[#221E68]/20"
                       id="email"
                       onChange={(e) =>
                         setFormData({ ...formData, email: e.target.value })
@@ -110,16 +110,16 @@ export function ContactPage() {
                 </div>
 
                 {/* Topic */}
-                <div className="mt-6 space-y-2 relative z-10">
+                <div className="relative z-10 mt-6 space-y-2">
                   <label
-                    className="text-sm font-bold text-[#221E68] ml-1"
+                    className="ml-1 font-bold text-[#221E68] text-sm"
                     htmlFor="topic"
                   >
                     {t("form.topic")}
                   </label>
                   <div className="relative">
                     <select
-                      className="h-14 w-full rounded-2xl px-5 text-base outline-none transition-all focus:ring-2 focus:ring-[#221E68]/20 bg-[#f8f8fa] border-transparent text-[#221E68] appearance-none cursor-pointer"
+                      className="h-14 w-full cursor-pointer appearance-none rounded-2xl border-transparent bg-[#f8f8fa] px-5 text-[#221E68] text-base outline-none transition-all focus:ring-2 focus:ring-[#221E68]/20"
                       id="topic"
                       onChange={(e) =>
                         setFormData({ ...formData, topic: e.target.value })
@@ -133,24 +133,38 @@ export function ContactPage() {
                       <option value="general">{t("topics.general")}</option>
                       <option value="support">{t("topics.support")}</option>
                       <option value="sales">{t("topics.sales")}</option>
-                      <option value="partnership">{t("topics.partnership")}</option>
+                      <option value="partnership">
+                        {t("topics.partnership")}
+                      </option>
                     </select>
-                    <div className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-[#221E68]/50">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                    <div className="pointer-events-none absolute top-1/2 right-5 -translate-y-1/2 text-[#221E68]/50">
+                      <svg
+                        fill="none"
+                        height="24"
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        viewBox="0 0 24 24"
+                        width="24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path d="m6 9 6 6 6-6" />
+                      </svg>
                     </div>
                   </div>
                 </div>
 
                 {/* Message */}
-                <div className="mt-6 space-y-2 relative z-10">
+                <div className="relative z-10 mt-6 space-y-2">
                   <label
-                    className="text-sm font-bold text-[#221E68] ml-1"
+                    className="ml-1 font-bold text-[#221E68] text-sm"
                     htmlFor="message"
                   >
                     {t("form.message")}
                   </label>
                   <textarea
-                    className="w-full rounded-2xl px-5 py-4 text-base outline-none transition-all focus:ring-2 focus:ring-[#221E68]/20 bg-[#f8f8fa] border-transparent text-[#221E68] placeholder:text-[#221E68]/40 min-h-[150px] resize-none"
+                    className="min-h-[150px] w-full resize-none rounded-2xl border-transparent bg-[#f8f8fa] px-5 py-4 text-[#221E68] text-base outline-none transition-all placeholder:text-[#221E68]/40 focus:ring-2 focus:ring-[#221E68]/20"
                     id="message"
                     onChange={(e) =>
                       setFormData({ ...formData, message: e.target.value })
@@ -162,41 +176,40 @@ export function ContactPage() {
                 </div>
 
                 {/* Submit */}
-                <div className="mt-8 relative z-10">
-                    <button
-                    className="inline-flex h-14 w-full items-center justify-center gap-2 rounded-full font-bold text-lg transition-all duration-200 hover:scale-[1.02] sm:w-auto sm:px-10 bg-[#F16529] text-white shadow-lg shadow-[#F16529]/20 hover:shadow-[#F16529]/30"
+                <div className="relative z-10 mt-8">
+                  <button
+                    className="inline-flex h-14 w-full items-center justify-center gap-2 rounded-full bg-[#F16529] font-bold text-lg text-white shadow-[#F16529]/20 shadow-lg transition-all duration-200 hover:scale-[1.02] hover:shadow-[#F16529]/30 sm:w-auto sm:px-10"
                     type="submit"
-                    >
+                  >
                     {t("form.submit")}
                     <IconSend className="size-5" />
-                    </button>
+                  </button>
                 </div>
               </form>
             </div>
 
             {/* Contact Info */}
-            <div className="space-y-6 lg:pt-8 animate-fade-in-up md:delay-200">
-              <div
-                className="rounded-[2rem] p-8 bg-white border border-gray-100 shadow-lg transition-transform hover:-translate-y-1 duration-300"
-              >
+            <div className="animate-fade-in-up space-y-6 md:delay-200 lg:pt-8">
+              <div className="rounded-[2rem] border border-gray-100 bg-white p-8 shadow-lg transition-transform duration-300 hover:-translate-y-1">
                 <div className="mb-4 inline-flex size-14 items-center justify-center rounded-2xl bg-[#221E68]/5 text-[#221E68]">
                   <IconMail className="size-7" />
                 </div>
-                <h3 className="font-bold text-xl text-[#221E68] mb-1">
+                <h3 className="mb-1 font-bold text-[#221E68] text-xl">
                   {t("info.emailUs")}
                 </h3>
-                <a href="mailto:hello@vastgoedfotoai.nl" className="text-[#221E68]/70 hover:text-[#F16529] transition-colors">
+                <a
+                  className="text-[#221E68]/70 transition-colors hover:text-[#F16529]"
+                  href="mailto:hello@vastgoedfotoai.nl"
+                >
                   hello@vastgoedfotoai.nl
                 </a>
               </div>
 
-              <div
-                className="rounded-[2rem] p-8 bg-white border border-gray-100 shadow-lg transition-transform hover:-translate-y-1 duration-300"
-              >
+              <div className="rounded-[2rem] border border-gray-100 bg-white p-8 shadow-lg transition-transform duration-300 hover:-translate-y-1">
                 <div className="mb-4 inline-flex size-14 items-center justify-center rounded-2xl bg-[#221E68]/5 text-[#221E68]">
                   <IconClock className="size-7" />
                 </div>
-                <h3 className="font-bold text-xl text-[#221E68] mb-1">
+                <h3 className="mb-1 font-bold text-[#221E68] text-xl">
                   {t("info.responseTime")}
                 </h3>
                 <p className="text-[#221E68]/70 leading-relaxed">

@@ -404,9 +404,9 @@ export function InviteAcceptForm({
             />
             <InputGroupAddon align="inline-end">
               <InputGroupButton
-                type="button"
                 onClick={() => setShowPassword(!showPassword)}
                 size="icon-xs"
+                type="button"
               >
                 {showPassword ? (
                   <IconEyeOff className="size-4" />
@@ -438,9 +438,9 @@ export function InviteAcceptForm({
             />
             <InputGroupAddon align="inline-end">
               <InputGroupButton
-                type="button"
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                 size="icon-xs"
+                type="button"
               >
                 {showConfirmPassword ? (
                   <IconEyeOff className="size-4" />

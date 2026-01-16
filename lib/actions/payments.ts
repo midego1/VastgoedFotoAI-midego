@@ -10,10 +10,9 @@ import { getProjectById, getWorkspaceById } from "@/lib/db/queries";
 import {
   type PaymentMethod,
   type PaymentStatus,
-  project,
   projectPayment,
-  user,
   stripeCustomer,
+  user,
   workspace,
 } from "@/lib/db/schema";
 import { getBaseUrl, STRIPE_CONFIG, stripe } from "@/lib/stripe";
@@ -614,7 +613,7 @@ export async function createBillingPortalSession(): Promise<
       .from(user)
       .where(eq(user.id, session.user.id))
       .limit(1);
-    
+
     const workspaceId = currentUser?.workspaceId;
     if (!workspaceId) {
       return { success: false, error: "No workspace found" };

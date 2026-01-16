@@ -430,8 +430,8 @@ export function UninvoicedTable({ items }: UninvoicedTableProps) {
               style={{ color: "var(--accent-amber)" }}
             >
               {items.length}
-          </span>{" "}
-          projects awaiting invoicing
+            </span>{" "}
+            projects awaiting invoicing
           </div>
         </div>
       </TooltipProvider>
