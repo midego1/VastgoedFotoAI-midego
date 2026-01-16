@@ -501,9 +501,9 @@ export async function getFalUsageStats(
   }
 
   try {
-    const falApiKey = process.env.FAL_API_KEY;
+    const falApiKey = process.env.FAL_ADMIN_KEY || process.env.FAL_API_KEY;
     if (!falApiKey) {
-      return { success: false, error: "FAL_API_KEY not configured" };
+      return { success: false, error: "FAL_ADMIN_KEY not configured" };
     }
 
     // Correct endpoint: /v1/models/usage (per Fal.ai docs)

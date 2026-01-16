@@ -55,7 +55,9 @@ export default function Page() {
             VastgoedFotoAI.nl
           </LocalizedLink>
           <div className="flex items-center gap-8">
-            <LanguageSelector />
+            <div className="mt-[1px]">
+              <LanguageSelector />
+            </div>
             <LocalizedLink href="#pricing" className="hover:opacity-70 transition-opacity">{tNav("pricing")}</LocalizedLink>
             <LocalizedLink href="#features" className="hover:opacity-70 transition-opacity">{tNav("features")}</LocalizedLink>
             <LocalizedLink href="/sign-in" className="hover:opacity-70 transition-opacity">{tNav("signIn")}</LocalizedLink>
