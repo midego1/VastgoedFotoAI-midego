@@ -151,7 +151,6 @@ export function useImageUpload(): UseImageUploadReturn {
           }
         }
 
-        // Step 3: Record successfully uploaded images in database
         if (uploadedImages.length > 0) {
           const recordResult = await recordUploadedImages(
             projectId,
@@ -163,6 +162,12 @@ export function useImageUpload(): UseImageUploadReturn {
             setIsUploading(false);
             return false;
           }
+        } else {
+          // If no images were uploaded, set error from the last failure if available
+          const lastError = progress.find((p) => p.status === "failed")?.error;
+          setError(lastError || "Failed to upload any images");
+          setIsUploading(false);
+          return false;
         }
 
         setIsUploading(false);
