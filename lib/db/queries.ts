@@ -243,6 +243,30 @@ export async function getImageGenerationById(
   return result[0] || null;
 }
 
+// Get the sequence number for an image within its room type in a project
+// Returns the 1-based position of this image among all images with the same room type
+export async function getImageRoomTypeSequence(
+  projectId: string,
+  imageId: string,
+  roomType: string
+): Promise<number> {
+  // Get all images in the project with the same room type, ordered by creation date
+  const images = await db
+    .select({ id: imageGeneration.id, createdAt: imageGeneration.createdAt })
+    .from(imageGeneration)
+    .where(
+      and(
+        eq(imageGeneration.projectId, projectId),
+        sql`${imageGeneration.metadata}->>'roomType' = ${roomType}`
+      )
+    )
+    .orderBy(imageGeneration.createdAt);
+
+  // Find the position of this image (1-based)
+  const index = images.findIndex((img) => img.id === imageId);
+  return index >= 0 ? index + 1 : 1;
+}
+
 export async function getImageGenerationStats(workspaceId: string): Promise<{
   total: number;
   completed: number;

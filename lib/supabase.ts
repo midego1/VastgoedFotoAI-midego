@@ -100,6 +100,16 @@ export function getExtensionFromContentType(contentType: string): string {
   return map[contentType] || "jpg";
 }
 
+// Sanitize a string for use in filenames (lowercase, no spaces/special chars)
+export function sanitizeForFilename(str: string): string {
+  return str
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "") // Remove diacritics (é -> e, ü -> u)
+    .replace(/[^a-z0-9]+/g, "") // Remove all non-alphanumeric chars
+    .replace(/^-+|-+$/g, ""); // Remove leading/trailing dashes
+}
+
 // Create a signed upload URL for client-side direct upload
 export async function createSignedUploadUrl(path: string): Promise<{
   signedUrl: string;

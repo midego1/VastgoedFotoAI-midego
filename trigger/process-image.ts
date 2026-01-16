@@ -1,6 +1,8 @@
 import { logger, metadata, task } from "@trigger.dev/sdk/v3";
 import {
   getImageGenerationById,
+  getImageRoomTypeSequence,
+  getWorkspaceById,
   updateImageGeneration,
   updateProjectCounts,
 } from "@/lib/db/queries";
@@ -8,6 +10,7 @@ import { fal, NANO_BANANA_PRO_EDIT, type NanoBananaProOutput } from "@/lib/fal";
 import {
   getExtensionFromContentType,
   getImagePath,
+  sanitizeForFilename,
   uploadImage,
 } from "@/lib/supabase";
 
@@ -144,10 +147,44 @@ export const processImageTask = task({
       const resultImageBuffer = await resultImageResponse.arrayBuffer();
       const extension = getExtensionFromContentType(contentType);
 
+      // Build descriptive filename: {workspace}_{style}_{roomtype}_{number}.{extension}
+      const imageMetadata = image.metadata as {
+        templateName?: string;
+        roomType?: string;
+      } | null;
+
+      // Get workspace name
+      const workspace = await getWorkspaceById(image.workspaceId);
+      const workspaceName = workspace?.name || "workspace";
+
+      // Get style/template name
+      const styleName = imageMetadata?.templateName || "style";
+
+      // Get room type
+      const roomType = imageMetadata?.roomType || "room";
+
+      // Get sequence number for this room type in the project
+      const sequenceNumber = await getImageRoomTypeSequence(
+        image.projectId,
+        imageId,
+        roomType
+      );
+
+      // Build sanitized filename
+      const filename = `${sanitizeForFilename(workspaceName)}_${sanitizeForFilename(styleName)}_${sanitizeForFilename(roomType)}_${sequenceNumber}.${extension}`;
+
+      logger.info("Generated filename", {
+        filename,
+        workspaceName,
+        styleName,
+        roomType,
+        sequenceNumber,
+      });
+
       const resultPath = getImagePath(
         image.workspaceId,
         image.projectId,
-        `${imageId}.${extension}`,
+        filename,
         "result"
       );
 
