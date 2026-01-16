@@ -91,6 +91,17 @@ export const STYLE_TEMPLATES: StyleTemplate[] = [
       "Transform into a Scandinavian-style interior. Add light wooden furniture, white and neutral tones, natural textures like linen and wool, minimalist decor with clean lines. Include plants for freshness. The space should feel bright, calm, and inviting with excellent natural lighting.",
   },
   {
+    id: "industrial",
+    name: "Industrial",
+    description:
+      "Raw aesthetic with exposed elements, metal accents, and open spaces",
+    category: "staging",
+    thumbnail:
+      "https://images.unsplash.com/photo-1558603668-6570496b66f8?w=400&h=300&fit=crop",
+    prompt:
+      "Transform into an Industrial-style interior. Use raw materials like exposed brick, concrete, and metal. Incorporate loft-style elements, leather furniture, vintage accessories, and open layouts. The atmosphere should be edgy yet sophisticated with a mix of rustic and modern industrial charm.",
+  },
+  {
     id: "coming-soon",
     name: "More Styles Coming Soon",
     description: "New design templates are on the way",
