@@ -102,6 +102,17 @@ export const STYLE_TEMPLATES: StyleTemplate[] = [
       "Transform into an Industrial-style interior. Use raw materials like exposed brick, concrete, and metal. Incorporate loft-style elements, leather furniture, vintage accessories, and open layouts. The atmosphere should be edgy yet sophisticated with a mix of rustic and modern industrial charm.",
   },
   {
+    id: "modern",
+    name: "Modern",
+    description:
+      "Sleek contemporary design with clean lines and sophisticated elegance",
+    category: "staging",
+    thumbnail:
+      "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=400&h=300&fit=crop",
+    prompt:
+      "Transform into a Modern-style interior. Use sleek, contemporary furniture with clean geometric lines. Incorporate a neutral color palette with bold accent pieces, high-quality materials like marble, glass, and polished metals. Add statement lighting fixtures and minimalist artwork. The space should feel sophisticated, uncluttered, and elegantly curated with a focus on form and function.",
+  },
+  {
     id: "coming-soon",
     name: "More Styles Coming Soon",
     description: "New design templates are on the way",
