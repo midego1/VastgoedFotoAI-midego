@@ -5,6 +5,7 @@ import { ArrowRight, Check, Zap, Sofa, ShieldCheck, Sparkles, Clock, DollarSign,
 import OrangeBlob from "@/components/landing/blobs/orange-blob";
 import BlueBlob from "@/components/landing/blobs/blue-blob";
 import RedBlob from "@/components/landing/blobs/red-blob";
+import { BeforeAfterSlider } from "@/components/landing/before-after-slider";
 import { LanguageSelector } from "@/components/language-selector";
 import { useTranslations } from "next-intl";
 import { Link as LocalizedLink } from "@/i18n/routing";
@@ -111,33 +112,8 @@ export default function Page() {
          {/* Mobile version of background */}
           <div className="absolute top-1/2 right-[-50%] w-[80%] h-[150%] bg-[#F7931E] rounded-l-full opacity-10 blur-3xl -z-10 translate-y-[-20%] md:hidden animate-pulse-subtle"></div>
 
-        <div className="flex-1 order-2 md:order-1 relative">
-             <div className="relative w-full max-w-md mx-auto aspect-[4/3]">
-                 {/* Visual: Image Enhancement Mockup */}
-                  <div className="bg-white rounded-[2rem] shadow-2xl p-4 border border-gray-100 relative z-20 h-full flex flex-col">
-                     <div className="flex items-center justify-between mb-4 px-2">
-                         <div className="flex gap-2">
-                             <div className="w-3 h-3 rounded-full bg-red-400"></div>
-                             <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
-                             <div className="w-3 h-3 rounded-full bg-green-400"></div>
-                         </div>
-                         <div className="text-xs font-bold text-[#F16529] bg-[#F16529]/10 px-3 py-1 rounded-full">AI Processing</div>
-                     </div>
-                     <div className="flex-1 bg-gray-100 rounded-xl relative overflow-hidden group">
-                        {/* Placeholder for standard image */}
-                        <div className="absolute inset-0 bg-gray-400 flex items-center justify-center text-white font-bold text-xl">Before</div>
-                         {/* Placeholder for enhanced image with clip-path for slider effect */}
-                         <div className="absolute inset-0 bg-gradient-to-br from-[#221E68] to-[#27A9E1] flex items-center justify-center text-white font-bold text-xl" style={{ clipPath: 'polygon(50% 0, 100% 0, 100% 100%, 50% 100%)' }}>After</div>
-                         
-                         {/* Slider Line */}
-                         <div className="absolute inset-y-0 left-1/2 w-1 bg-white cursor-ew-resize">
-                             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-white rounded-full shadow-lg flex items-center justify-center">
-                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#221E68" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 15l-6-6-6 6"/></svg>
-                             </div>
-                         </div>
-                     </div>
-                  </div>
-             </div>
+         <div className="flex-1 order-2 md:order-1 relative">
+             <BeforeAfterSlider />
         </div>
         <div className="flex-1 order-1 md:order-2">
             <h3 className="text-[32px] md:text-[50px] font-bold mb-6 leading-tight text-[#221E68]">
@@ -260,8 +236,12 @@ export default function Page() {
                               <div className="w-20 h-20 rounded-lg bg-gray-50 flex-shrink-0 flex items-center justify-center text-xs font-bold text-gray-300">Industrial</div>
                         </div>
                         
-                        <div className="h-32 bg-gradient-to-br from-[#f5f0eb] to-[#e8dfd6] rounded-xl w-full flex items-center justify-center border border-gray-200">
-                             <span className="text-sm font-medium text-[#221E68]">{t("section3.scandiActive")}</span>
+                        <div className="h-48 rounded-xl w-full relative overflow-hidden border border-gray-200">
+                             <img 
+                               src="/images/comparison-after-scandinavian.jpg" 
+                               alt="Scandinavian style room" 
+                               className="w-full h-full object-cover"
+                             />
                         </div>
                    </div>
               </div>

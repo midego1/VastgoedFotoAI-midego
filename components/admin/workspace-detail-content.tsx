@@ -237,6 +237,8 @@ export function WorkspaceDetailContent({
     invoiceEligible: workspace.invoiceEligible,
     invoiceEligibleAt: null,
     invitedByAdmin: false,
+    freeImagesRemaining: workspace.freeImagesRemaining ?? 0,
+    freeImagesUsed: workspace.freeImagesUsed ?? 0,
     createdAt: new Date(workspace.createdAt),
     updatedAt: new Date(),
   };

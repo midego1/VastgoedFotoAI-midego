@@ -488,7 +488,7 @@ export async function startProjectProcessing(projectId: string): Promise<
       getWorkspacePaymentMethods,
     } = await import("./payments");
 
-    // Check invoice eligibility
+    // Check invoice eligibility first (B2B customers)
     const invoiceEligibility = await canUseInvoiceBilling(workspaceId);
 
     if (invoiceEligibility.eligible) {
@@ -518,6 +518,53 @@ export async function startProjectProcessing(projectId: string): Promise<
       revalidatePath(`/dashboard/${projectId}`);
 
       return { success: true, data: { processedCount: pendingImages.length } };
+    }
+
+    // Check for free trial (new users get 3 free images)
+    const { getFreeImagesRemaining, consumeFreeImages } = await import(
+      "@/lib/db/queries"
+    );
+    const freeImagesAvailable = await getFreeImagesRemaining(workspaceId);
+
+    if (freeImagesAvailable > 0) {
+      // Check if we can process all images for free or just some
+      const imagesToProcessFree = Math.min(
+        pendingImages.length,
+        freeImagesAvailable
+      );
+
+      // If user has enough free images for all pending images, process them all
+      if (imagesToProcessFree >= pendingImages.length) {
+        // Consume the free images
+        await consumeFreeImages(workspaceId, pendingImages.length);
+
+        // Trigger processing for all pending images
+        for (const image of pendingImages) {
+          const handle = await processImageTask.trigger({ imageId: image.id });
+
+          await updateImageGeneration(image.id, {
+            status: "processing",
+            metadata: {
+              ...(image.metadata as object),
+              runId: handle.id,
+              freeTrialImage: true, // Mark as free trial for tracking
+            },
+          });
+        }
+
+        await updateProject(projectId, { status: "processing" });
+
+        revalidatePath("/dashboard");
+        revalidatePath(`/dashboard/${projectId}`);
+
+        return {
+          success: true,
+          data: { processedCount: pendingImages.length },
+        };
+      }
+
+      // Not enough free images - require payment for the whole project
+      // (We don't want to partially process - user should pay for the extra)
     }
 
     // Non-invoice workspace - check payment status

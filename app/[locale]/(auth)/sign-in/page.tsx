@@ -111,14 +111,15 @@ function SignInForm() {
               <Link
                 className="text-sm underline-offset-4 hover:underline text-[#221E68]/70 hover:text-[#221E68]"
                 href="/forgot-password"
+                tabIndex={-1}
               >
                 Forgot password?
               </Link>
             </div>
-            <InputGroup>
+            <InputGroup className="h-11 bg-gray-50 border-gray-200 focus-within:border-[#F16529] focus-within:ring-[#F16529]/20">
               <InputGroupInput
                 autoComplete="current-password"
-                className="h-11 bg-gray-50 border-gray-200 focus:border-[#F16529] focus:ring-[#F16529]/20 text-[#221E68]"
+                className="text-[#221E68]"
                 disabled={isLoading}
                 id="password"
                 onChange={(e) => setPassword(e.target.value)}

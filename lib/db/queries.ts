@@ -139,6 +139,75 @@ export async function getWorkspaceMembers(
 }
 
 // ============================================================================
+// Free Trial Queries
+// ============================================================================
+
+/**
+ * Check if workspace has any free images remaining
+ */
+export async function hasFreeImagesRemaining(
+  workspaceId: string
+): Promise<boolean> {
+  const ws = await getWorkspaceById(workspaceId);
+  return (ws?.freeImagesRemaining ?? 0) > 0;
+}
+
+/**
+ * Get the number of free images remaining for a workspace
+ */
+export async function getFreeImagesRemaining(
+  workspaceId: string
+): Promise<number> {
+  const ws = await getWorkspaceById(workspaceId);
+  return ws?.freeImagesRemaining ?? 0;
+}
+
+/**
+ * Consume free images (call after successful processing start)
+ * Returns the remaining count and whether consumption was successful
+ * @param imageCount - Number of images to consume
+ */
+export async function consumeFreeImages(
+  workspaceId: string,
+  imageCount: number
+): Promise<{ success: boolean; remaining: number; consumed: number }> {
+  const ws = await getWorkspaceById(workspaceId);
+  const available = ws?.freeImagesRemaining ?? 0;
+  
+  if (!ws || available <= 0) {
+    return { success: false, remaining: 0, consumed: 0 };
+  }
+
+  // Consume up to the available amount
+  const toConsume = Math.min(imageCount, available);
+  const newRemaining = available - toConsume;
+
+  await db
+    .update(workspace)
+    .set({
+      freeImagesRemaining: newRemaining,
+      freeImagesUsed: (ws.freeImagesUsed ?? 0) + toConsume,
+      updatedAt: new Date(),
+    })
+    .where(eq(workspace.id, workspaceId));
+
+  return { success: true, remaining: newRemaining, consumed: toConsume };
+}
+
+/**
+ * Get free trial status for workspace
+ */
+export async function getWorkspaceFreeTrialStatus(
+  workspaceId: string
+): Promise<{ remaining: number; used: number }> {
+  const ws = await getWorkspaceById(workspaceId);
+  return {
+    remaining: ws?.freeImagesRemaining ?? 0,
+    used: ws?.freeImagesUsed ?? 0,
+  };
+}
+
+// ============================================================================
 // Image Generation Queries
 // ============================================================================
 
@@ -1614,6 +1683,8 @@ export interface AdminWorkspaceDetail {
     suspendedAt: Date | null;
     suspendedReason: string | null;
     invoiceEligible: boolean;
+    freeImagesRemaining: number;
+    freeImagesUsed: number;
   };
   owner: {
     id: string;
@@ -1754,6 +1825,8 @@ export async function getAdminWorkspaceDetail(
       suspendedAt: w.suspendedAt,
       suspendedReason: w.suspendedReason,
       invoiceEligible: w.invoiceEligible,
+      freeImagesRemaining: w.freeImagesRemaining,
+      freeImagesUsed: w.freeImagesUsed,
     },
     owner: owner
       ? {

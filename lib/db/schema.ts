@@ -41,6 +41,10 @@ export const workspace = pgTable("workspace", {
   invoiceEligibleAt: timestamp("invoice_eligible_at"),
   invitedByAdmin: boolean("invited_by_admin").notNull().default(false),
 
+  // Free trial tracking (new users get 3 free images)
+  freeImagesRemaining: integer("free_images_remaining").notNull().default(3),
+  freeImagesUsed: integer("free_images_used").notNull().default(0),
+
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
