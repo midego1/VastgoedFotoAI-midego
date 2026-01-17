@@ -12,6 +12,7 @@ import OrangeBlob from "@/components/landing/blobs/orange-blob";
 import RedBlob from "@/components/landing/blobs/red-blob";
 import { LandingFooter } from "./landing-footer";
 import { LandingNav } from "./landing-nav";
+import { Link } from "@/i18n/routing";
 
 export function AboutPage() {
   const t = useTranslations("about");
@@ -151,12 +152,12 @@ export function AboutPage() {
               <p className="mx-auto mb-8 max-w-lg text-lg text-white/80 leading-relaxed">
                 {t("cta.subtitle")}
               </p>
-              <a
+              <Link
                 className="inline-flex h-14 items-center rounded-full bg-white px-10 font-bold text-[#221E68] text-lg shadow-lg transition-all duration-200 hover:scale-[1.03] hover:bg-gray-50"
                 href="/contact"
               >
                 {t("cta.button")}
-              </a>
+              </Link>
             </div>
           </div>
         </section>

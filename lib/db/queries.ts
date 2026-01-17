@@ -660,7 +660,7 @@ export async function getLatestImageVersion(
   if (versions.length === 0) {
     return null;
   }
-  return versions.at(-1);
+  return versions.at(-1) ?? null;
 }
 
 // Get the highest version number for a root image
@@ -1286,7 +1286,10 @@ export async function getRecentActivity(limit = 10): Promise<RecentActivity[]> {
   const candidates: Array<{
     type: RecentActivity["type"];
     timestamp: Date;
-    data: any;
+    data:
+      | (typeof recentUsers)[number]
+      | (typeof recentWorkspaces)[number]
+      | (typeof recentImages)[number];
   }> = [];
 
   recentUsers.forEach((u) => {
@@ -1324,7 +1327,7 @@ export async function getRecentActivity(limit = 10): Promise<RecentActivity[]> {
 
   for (const item of topCandidates) {
     if (item.type === "user_joined") {
-      const u = item.data;
+      const u = item.data as (typeof recentUsers)[number];
       let workspaceName = "Unknown Workspace";
       if (u.workspaceId) {
         const ws = await getWorkspaceById(u.workspaceId);
@@ -1344,7 +1347,7 @@ export async function getRecentActivity(limit = 10): Promise<RecentActivity[]> {
         },
       });
     } else if (item.type === "workspace_created") {
-      const w = item.data;
+      const w = item.data as (typeof recentWorkspaces)[number];
       activities.push({
         id: `ws_${w.id}`,
         type: "workspace_created",
@@ -1356,7 +1359,7 @@ export async function getRecentActivity(limit = 10): Promise<RecentActivity[]> {
         },
       });
     } else if (item.type === "image_generated") {
-      const img = item.data;
+      const img = item.data as (typeof recentImages)[number];
       // We need user and workspace info.
       // ImageGeneration table doesn't explicitly store userId in schema?
       // Let's check schema. User table doesn't link to imageGeneration.
@@ -1567,7 +1570,7 @@ export async function getAdminWorkspaces(options: {
   return {
     data: result,
     meta: {
-      cursor: hasMore && data.length > 0 ? data.at(-1).id : null,
+      cursor: hasMore && data.length > 0 ? data.at(-1)?.id ?? null : null,
       hasMore,
       total: totalResult?.count || 0,
     },
@@ -1632,6 +1635,9 @@ export async function getAdminWorkspaceById(
     ownerImage: owner?.image || null,
     createdAt: w.createdAt,
     lastActivityAt: lastActivity?.lastUpdate || w.updatedAt,
+    videosGenerated: 0, // TODO: Implement video stats
+    videosCompleted: 0,
+    totalVideoSpend: 0,
   };
 }
 
@@ -2019,7 +2025,7 @@ export async function getAdminUsers(options: {
   return {
     data: result,
     meta: {
-      cursor: hasMore && data.length > 0 ? data.at(-1).id : null,
+      cursor: hasMore && data.length > 0 ? data.at(-1)?.id ?? null : null,
       hasMore,
       total: totalResult?.count || 0,
     },
@@ -2185,9 +2191,9 @@ export async function getWorkspacePricing(workspaceId: string): Promise<{
   const pricing = result[0];
   return {
     imageProjectPriceOre:
-      pricing?.imageProjectPriceOre ?? BILLING_DEFAULTS.IMAGE_PROJECT_PRICE_ORE,
+      pricing?.imageProjectPriceOre ?? BILLING_DEFAULTS.IMAGE_PROJECT_PRICE_CENTS,
     videoProjectPriceOre:
-      pricing?.videoProjectPriceOre ?? BILLING_DEFAULTS.VIDEO_PROJECT_PRICE_ORE,
+      pricing?.videoProjectPriceOre ?? BILLING_DEFAULTS.VIDEO_PROJECT_PRICE_CENTS,
     fikenContactId: pricing?.fikenContactId ?? null,
   };
 }

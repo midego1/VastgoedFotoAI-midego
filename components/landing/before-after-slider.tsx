@@ -54,7 +54,7 @@ export function BeforeAfterSlider() {
         </div>
 
         <div
-          className="relative flex-1 cursor-ew-resize select-none overflow-hidden rounded-xl bg-gray-100"
+          className="relative flex-1 cursor-ew-resize select-none overflow-hidden rounded-xl bg-gray-100 touch-none"
           onClick={handleClick}
           onMouseDown={handleMouseDown}
           onMouseLeave={handleMouseUp}

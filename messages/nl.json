@@ -80,6 +80,17 @@
           "title": "Veilig & Privé",
           "description": "Uw foto's worden versleuteld en automatisch verwijderd na verwerking. Uw gegevens blijven van u."
         }
+      },
+      "virtualStagingPreview": {
+        "virtualStaging": "Virtuele Staging",
+        "compare": "Vergelijk",
+        "before": "Voor",
+        "after": "Na",
+        "styles": {
+          "scandi": "Scandi",
+          "modern": "Modern",
+          "industrial": "Industrieel"
+        }
       }
     },
     "howItWorks": {

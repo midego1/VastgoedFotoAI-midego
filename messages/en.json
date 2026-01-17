@@ -80,6 +80,17 @@
           "title": "Secure & Private",
           "description": "Your photos are encrypted and automatically deleted after processing. Your data stays yours."
         }
+      },
+      "virtualStagingPreview": {
+        "virtualStaging": "Virtual Staging",
+        "compare": "Compare",
+        "before": "Before",
+        "after": "After",
+        "styles": {
+          "scandi": "Scandi",
+          "modern": "Modern",
+          "industrial": "Industrial"
+        }
       }
     },
     "howItWorks": {
