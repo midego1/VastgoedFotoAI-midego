@@ -64,7 +64,7 @@ export default function Page() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative z-10 flex w-full max-w-[1400px] flex-col items-center gap-10 px-6 pt-6 pb-24 text-center lg:flex-row-reverse lg:items-center lg:justify-between lg:text-left xl:gap-20">
+      <section className="relative z-10 flex w-full max-w-[1400px] flex-col items-center gap-10 px-6 pt-6 pb-24 text-center lg:flex-row-reverse lg:items-center lg:justify-center lg:gap-16 lg:text-left xl:gap-32">
         <div className="flex-1">
           {/* Logo/Title */}
             <h1 className="relative z-10 mb-6 max-w-4xl bg-gradient-to-r from-[#F16529] via-[#E7385E] to-[#221E68] bg-clip-text font-bold text-[50px] text-transparent leading-none tracking-tighter md:text-[80px]">
