@@ -25,6 +25,7 @@ import { FaqItem } from "@/components/landing/faq-item";
 export default function Page() {
   const t = useTranslations("landing");
   const tNav = useTranslations("nav");
+  const tPricing = useTranslations("pricing");
 
   return (
     <div className="flex w-full flex-col items-center overflow-x-hidden bg-white pt-[88px]">
@@ -285,11 +286,146 @@ export default function Page() {
         </div>
       </section>
 
-      {/* Section 4: Comparison Chart */}
+      {/* Section 4: Pricing Tiers */}
       <section
-        className="w-full bg-[#f8f8fa] pt-24 pb-32 text-center"
+        className="w-full bg-[#f8f8fa] pt-24 pb-16 text-center"
         id="pricing"
       >
+          <h3 className="mb-4 font-bold text-[#221E68] text-[32px] md:text-[50px]">
+            {tPricing("title")}
+          </h3>
+          <p className="mx-auto mb-16 max-w-3xl px-6 text-[#221E68]/80 text-[18px] leading-relaxed md:text-[21px]">
+            {tPricing("subtitle")}
+          </p>
+
+        {/* Pricing Cards */}
+        <div className="mx-auto grid max-w-[900px] grid-cols-1 gap-8 px-6 md:grid-cols-2">
+          {/* Standard Tier */}
+          <div className="relative flex flex-col rounded-3xl border border-gray-200 bg-white p-8 shadow-sm">
+            <div className="mb-4 inline-flex items-center justify-center gap-2 rounded-full bg-blue-100 px-4 py-1 font-bold text-blue-600 text-xs uppercase tracking-wider">
+              {tPricing("standard.badge")}
+            </div>
+            <h4 className="mb-2 font-bold text-[#221E68] text-2xl">
+              {tPricing("standard.title")}
+            </h4>
+            <div className="mb-2 flex items-baseline justify-center gap-2">
+              <span className="font-bold text-4xl text-[#221E68]">{tPricing("standard.price")}</span>
+              <span className="text-gray-400 text-lg line-through">{tPricing("standard.originalPrice")}</span>
+            </div>
+            <p className="mb-4 text-gray-500 text-sm">{tPricing("standard.per")}</p>
+            <div className="mb-6 inline-flex items-center justify-center rounded-full bg-[#E7385E]/10 px-4 py-2 font-bold text-[#E7385E] text-sm">
+              {tPricing("standard.launchDiscount")}
+            </div>
+            <ul className="mb-8 flex-1 space-y-3 text-left">
+              <li className="flex items-center gap-3">
+                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-green-100 text-green-600">
+                  <Check size={14} strokeWidth={3} />
+                </div>
+                <span className="text-[#221E68]">{tPricing("standard.features.images")}</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-green-100 text-green-600">
+                  <Check size={14} strokeWidth={3} />
+                </div>
+                <span className="text-[#221E68]">{tPricing("standard.features.resolution")}</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-green-100 text-green-600">
+                  <Check size={14} strokeWidth={3} />
+                </div>
+                <span className="text-[#221E68]">{tPricing("standard.features.ai")}</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-green-100 text-green-600">
+                  <Check size={14} strokeWidth={3} />
+                </div>
+                <span className="text-[#221E68]">{tPricing("standard.features.templates")}</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-green-100 text-green-600">
+                  <Check size={14} strokeWidth={3} />
+                </div>
+                <span className="text-[#221E68]">{tPricing("standard.features.downloads")}</span>
+              </li>
+            </ul>
+            <LocalizedLink
+              className="flex items-center justify-center gap-2 rounded-full border-2 border-[#221E68] bg-white px-8 py-4 font-bold text-[#221E68] text-lg transition-all hover:bg-[#221E68] hover:text-white active:scale-95"
+              href="/dashboard"
+            >
+              {tPricing("getStarted")}
+            </LocalizedLink>
+          </div>
+
+          {/* Premium Tier */}
+          <div className="relative flex flex-col rounded-3xl border-2 border-[#F16529] bg-white p-8 shadow-lg">
+            <div className="absolute top-0 right-1/2 translate-x-1/2 -translate-y-1/2 rounded-full bg-[#F16529] px-4 py-1 font-bold text-white text-xs uppercase tracking-wider">
+              {tPricing("premium.popular")}
+            </div>
+            <div className="mb-4 inline-flex items-center justify-center gap-2 rounded-full bg-[#F16529]/10 px-4 py-1 font-bold text-[#F16529] text-xs uppercase tracking-wider">
+              {tPricing("premium.badge")}
+            </div>
+            <h4 className="mb-2 font-bold text-[#221E68] text-2xl">
+              {tPricing("premium.title")}
+            </h4>
+            <div className="mb-2 flex items-baseline justify-center gap-2">
+              <span className="font-bold text-4xl text-[#221E68]">{tPricing("premium.price")}</span>
+              <span className="text-gray-400 text-lg line-through">{tPricing("premium.originalPrice")}</span>
+            </div>
+            <p className="mb-4 text-gray-500 text-sm">{tPricing("premium.per")}</p>
+            <div className="mb-6 inline-flex items-center justify-center rounded-full bg-[#E7385E]/10 px-4 py-2 font-bold text-[#E7385E] text-sm">
+              {tPricing("premium.launchDiscount")}
+            </div>
+            <ul className="mb-8 flex-1 space-y-3 text-left">
+              <li className="flex items-center gap-3">
+                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-green-100 text-green-600">
+                  <Check size={14} strokeWidth={3} />
+                </div>
+                <span className="text-[#221E68]">{tPricing("premium.features.images")}</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-[#F16529]/10 text-[#F16529]">
+                  <Sparkles size={14} strokeWidth={3} />
+                </div>
+                <span className="font-bold text-[#221E68]">{tPricing("premium.features.resolution")}</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-green-100 text-green-600">
+                  <Check size={14} strokeWidth={3} />
+                </div>
+                <span className="text-[#221E68]">{tPricing("premium.features.ai")}</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-green-100 text-green-600">
+                  <Check size={14} strokeWidth={3} />
+                </div>
+                <span className="text-[#221E68]">{tPricing("premium.features.templates")}</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-green-100 text-green-600">
+                  <Check size={14} strokeWidth={3} />
+                </div>
+                <span className="text-[#221E68]">{tPricing("premium.features.downloads")}</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-[#F16529]/10 text-[#F16529]">
+                  <Check size={14} strokeWidth={3} />
+                </div>
+                <span className="font-bold text-[#221E68]">{tPricing("premium.features.print")}</span>
+              </li>
+            </ul>
+            <LocalizedLink
+              className="flex items-center justify-center gap-2 rounded-full bg-[#F16529] px-8 py-4 font-bold text-lg text-white shadow-lg transition-all hover:bg-[#E7385E] active:scale-95"
+              href="/dashboard"
+            >
+              <Sparkles size={20} />
+              {tPricing("getStarted")}
+            </LocalizedLink>
+          </div>
+        </div>
+      </section>
+
+      {/* Section 5: Comparison Chart */}
+      <section className="w-full bg-[#f8f8fa] pt-16 pb-32 text-center">
           <h3 className="mb-4 font-bold text-[#221E68] text-[32px] md:text-[50px]">
             {t("comparison.title")}
           </h3>

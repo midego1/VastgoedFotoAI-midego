@@ -217,18 +217,36 @@
     "perProject": "per project",
     "perProperty": "per property",
     "perVideo": "per video",
-    "photo": {
-      "title": "Premium Photo Package",
+    "standard": {
+      "title": "Standard Package",
+      "badge": "2K Resolution",
       "price": "€24.50",
       "originalPrice": "€49",
-      "launchDiscount": "🔥 LIMITED TIME: 50% OFF!",
+      "launchDiscount": "🔥 50% OFF LAUNCH OFFER!",
       "per": "per property (excl. VAT)",
       "features": {
-        "images": "All-in-one: up to 30 photos per property",
-        "ai": "Advanced AI: Perfect lighting & colors",
-        "templates": "Professional styles for every home",
-        "downloads": "Instant high-res downloads",
-        "fast": "Ready while you grab a coffee"
+        "images": "Up to 30 photos per property",
+        "resolution": "2K resolution output",
+        "ai": "AI-powered enhancement",
+        "templates": "All professional styles",
+        "downloads": "Instant downloads"
+      }
+    },
+    "premium": {
+      "title": "Premium Package",
+      "badge": "4K Resolution",
+      "price": "€39.50",
+      "originalPrice": "€79",
+      "launchDiscount": "🔥 50% OFF LAUNCH OFFER!",
+      "per": "per property (excl. VAT)",
+      "popular": "BEST VALUE",
+      "features": {
+        "images": "Up to 30 photos per property",
+        "resolution": "4K ultra-high resolution",
+        "ai": "AI-powered enhancement",
+        "templates": "All professional styles",
+        "downloads": "Instant downloads",
+        "print": "Perfect for print media"
       }
     },
     "video": {

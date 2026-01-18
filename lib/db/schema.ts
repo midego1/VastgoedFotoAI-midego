@@ -758,6 +758,9 @@ export const projectPayment = pgTable(
       { onDelete: "set null" }
     ),
 
+    // Pricing tier: 'standard' (2K) | 'premium' (4K)
+    pricingTier: text("pricing_tier").notNull().default("standard"),
+
     // Amounts
     amountCents: integer("amount_cents").notNull(), // 1900 = €19
     currency: text("currency").notNull(), // 'eur'
@@ -787,3 +790,4 @@ export type ProjectPayment = typeof projectPayment.$inferSelect;
 export type NewProjectPayment = typeof projectPayment.$inferInsert;
 export type PaymentMethod = "stripe" | "invoice" | "free";
 export type PaymentStatus = "pending" | "completed" | "failed" | "refunded";
+export type PricingTier = "standard" | "premium";

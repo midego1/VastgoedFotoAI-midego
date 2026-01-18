@@ -1,0 +1,1 @@
+ALTER TABLE "project_payment" ADD COLUMN "pricing_tier" text DEFAULT 'standard' NOT NULL;

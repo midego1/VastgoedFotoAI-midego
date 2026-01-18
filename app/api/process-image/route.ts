@@ -56,11 +56,13 @@ export async function POST(request: NextRequest) {
       console.log("Uploaded to Fal.ai storage:", falImageUrl);
 
       // Call Fal.ai Nano Banana Pro API with Fal.ai storage URL
+      // Resolution: "2K" is the default tier. "4K" will be available as a premium option.
       const result = await fal.subscribe(NANO_BANANA_PRO_EDIT, {
         input: {
           prompt: image.prompt,
           image_urls: [falImageUrl], // Use Fal.ai storage URL
           num_images: 1,
+          resolution: "2K",
           output_format: "jpeg",
         },
       });

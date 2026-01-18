@@ -29,6 +29,13 @@
       "when": 1768532877450,
       "tag": "0002_free_trial",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1768716261521,
+      "tag": "0004_whole_sir_ram",
+      "breakpoints": true
     }
   ]
 }

@@ -10,13 +10,21 @@ import { getProjectById, getWorkspaceById } from "@/lib/db/queries";
 import {
   type PaymentMethod,
   type PaymentStatus,
+  type PricingTier,
   projectPayment,
   stripeCustomer,
   user,
   workspace,
 } from "@/lib/db/schema";
-import { getBaseUrl, STRIPE_CONFIG, stripe } from "@/lib/stripe";
+import {
+  getBaseUrl,
+  getTierPrice,
+  getTierPriceId,
+  STRIPE_CONFIG,
+  stripe,
+} from "@/lib/stripe";
 import { createProjectInvoiceLineItemAction } from "./billing";
+
 
 // ============================================================================
 // Types
@@ -125,11 +133,12 @@ export async function getProjectPaymentStatus(projectId: string): Promise<{
   isPaid: boolean;
   method?: PaymentMethod;
   status?: PaymentStatus;
+  pricingTier?: PricingTier;
 }> {
   try {
-    // Bypass payment in development
+    // Bypass payment in development (default to standard tier)
     if (process.env.NODE_ENV === "development") {
-      return { isPaid: true, status: "completed", method: "free" };
+      return { isPaid: true, status: "completed", method: "free", pricingTier: "standard" };
     }
 
     const payment = await db.query.projectPayment.findFirst({
@@ -144,6 +153,7 @@ export async function getProjectPaymentStatus(projectId: string): Promise<{
       isPaid: payment.status === "completed",
       method: payment.paymentMethod as PaymentMethod,
       status: payment.status as PaymentStatus,
+      pricingTier: (payment.pricingTier as PricingTier) || "standard",
     };
   } catch (error) {
     console.error("[payments:getProjectPaymentStatus] Error:", error);
@@ -152,10 +162,27 @@ export async function getProjectPaymentStatus(projectId: string): Promise<{
 }
 
 /**
+ * Get pricing tier for a project (used by image processing to determine resolution)
+ */
+export async function getProjectPricingTier(projectId: string): Promise<PricingTier> {
+  try {
+    const payment = await db.query.projectPayment.findFirst({
+      where: eq(projectPayment.projectId, projectId),
+    });
+
+    return (payment?.pricingTier as PricingTier) || "standard";
+  } catch (error) {
+    console.error("[payments:getProjectPricingTier] Error:", error);
+    return "standard"; // Default to standard if error
+  }
+}
+
+/**
  * Create a Stripe checkout session for a project
  */
 export async function createStripeCheckoutSession(
-  projectId: string
+  projectId: string,
+  tier: PricingTier = "standard"
 ): Promise<ActionResult<{ url: string; sessionId: string }>> {
   try {
     // Get session
@@ -188,6 +215,8 @@ export async function createStripeCheckoutSession(
     }
 
     const baseUrl = getBaseUrl();
+    const priceId = getTierPriceId(tier);
+    const amountCents = getTierPrice(tier);
 
     // Create checkout session with setup_future_usage to save card
     const checkoutSession = await stripe.checkout.sessions.create({
@@ -198,7 +227,7 @@ export async function createStripeCheckoutSession(
       },
       line_items: [
         {
-          price: STRIPE_CONFIG.PRICE_PROJECT_EUR,
+          price: priceId,
           quantity: 1,
         },
       ],
@@ -208,6 +237,7 @@ export async function createStripeCheckoutSession(
         projectId,
         workspaceId: projectData.project.workspaceId,
         userId: session.user.id,
+        pricingTier: tier,
       },
     });
 
@@ -217,6 +247,8 @@ export async function createStripeCheckoutSession(
         .update(projectPayment)
         .set({
           stripeCheckoutSessionId: checkoutSession.id,
+          pricingTier: tier,
+          amountCents,
           status: "pending",
           updatedAt: new Date(),
         })
@@ -228,7 +260,8 @@ export async function createStripeCheckoutSession(
         workspaceId: projectData.project.workspaceId,
         paymentMethod: "stripe",
         stripeCheckoutSessionId: checkoutSession.id,
-        amountCents: STRIPE_CONFIG.PROJECT_PRICE_EUR_CENTS,
+        pricingTier: tier,
+        amountCents,
         currency: "eur",
         status: "pending",
       });
@@ -489,7 +522,8 @@ export async function getWorkspacePaymentMethods(
  */
 export async function chargeWithSavedPaymentMethod(
   projectId: string,
-  paymentMethodId: string
+  paymentMethodId: string,
+  tier: PricingTier = "standard"
 ): Promise<ActionResult<{ status: string; paymentIntentId: string }>> {
   try {
     // Get session
@@ -522,9 +556,11 @@ export async function chargeWithSavedPaymentMethod(
       return { success: false, error: "No Stripe customer found" };
     }
 
+    const amountCents = getTierPrice(tier);
+
     // Create PaymentIntent with saved payment method
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: STRIPE_CONFIG.PROJECT_PRICE_EUR_CENTS,
+      amount: amountCents,
       currency: "eur",
       customer: customerRecord.stripeCustomerId,
       payment_method: paymentMethodId,
@@ -534,6 +570,7 @@ export async function chargeWithSavedPaymentMethod(
         projectId,
         workspaceId: projectData.project.workspaceId,
         userId: session.user.id,
+        pricingTier: tier,
       },
     });
 
@@ -545,6 +582,8 @@ export async function chargeWithSavedPaymentMethod(
         .update(projectPayment)
         .set({
           stripePaymentIntentId: paymentIntent.id,
+          pricingTier: tier,
+          amountCents,
           status: isSucceeded ? "completed" : "pending",
           paidAt: isSucceeded ? new Date() : null,
           updatedAt: new Date(),
@@ -557,7 +596,8 @@ export async function chargeWithSavedPaymentMethod(
         workspaceId: projectData.project.workspaceId,
         paymentMethod: "stripe",
         stripePaymentIntentId: paymentIntent.id,
-        amountCents: STRIPE_CONFIG.PROJECT_PRICE_EUR_CENTS,
+        pricingTier: tier,
+        amountCents,
         currency: "eur",
         status: isSucceeded ? "completed" : "pending",
         paidAt: isSucceeded ? new Date() : null,

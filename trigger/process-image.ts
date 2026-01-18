@@ -1,4 +1,5 @@
 import { logger, metadata, task } from "@trigger.dev/sdk/v3";
+import { getProjectPricingTier } from "@/lib/actions/payments";
 import {
   getImageGenerationById,
   getImageRoomTypeSequence,
@@ -104,16 +105,24 @@ export const processImageTask = task({
         progress: 50,
       } satisfies ProcessImageStatus);
 
+      // Get pricing tier to determine resolution
+      const pricingTier = await getProjectPricingTier(image.projectId);
+      const resolution = pricingTier === "premium" ? "4K" : "2K";
+
       logger.info("Calling Fal.ai Nano Banana Pro", {
         imageId,
         prompt: image.prompt,
+        pricingTier,
+        resolution,
       });
 
+      // Resolution based on pricing tier: Standard = 2K, Premium = 4K
       const result = (await fal.subscribe(NANO_BANANA_PRO_EDIT, {
         input: {
           prompt: image.prompt,
           image_urls: [falImageUrl],
           num_images: 1,
+          resolution,
           output_format: "jpeg",
         },
       })) as unknown as NanoBananaProOutput;

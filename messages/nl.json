@@ -217,24 +217,42 @@
     "perProject": "per project",
     "perProperty": "per woning",
     "perVideo": "per video",
-    "photo": {
-      "title": "Premium Foto Pakket",
+    "standard": {
+      "title": "Standaard Pakket",
+      "badge": "2K Resolutie",
       "price": "€24,50",
       "originalPrice": "€49",
-      "launchDiscount": "🔥 TIJDELIJKE ACTIE: 50% KORTING!",
+      "launchDiscount": "🔥 50% LANCERINGSKORTING!",
       "per": "per woning (excl. BTW)",
       "features": {
-        "images": "Alles-in-één: tot 30 foto's per woning",
-        "ai": "Geavanceerde AI: Perfecte belichting & kleuren",
-        "templates": "Professionele stijlen voor elke woning",
-        "downloads": "Direct downloaden in print-kwaliteit",
-        "fast": "Klaar terwijl u een koffie drinkt"
+        "images": "Tot 30 foto's per woning",
+        "resolution": "2K resolutie output",
+        "ai": "AI-gestuurde verbetering",
+        "templates": "Alle professionele stijlen",
+        "downloads": "Direct downloaden"
+      }
+    },
+    "premium": {
+      "title": "Premium Pakket",
+      "badge": "4K Resolutie",
+      "price": "€39,50",
+      "originalPrice": "€79",
+      "launchDiscount": "🔥 50% LANCERINGSKORTING!",
+      "per": "per woning (excl. BTW)",
+      "popular": "BESTE WAARDE",
+      "features": {
+        "images": "Tot 30 foto's per woning",
+        "resolution": "4K ultra-hoge resolutie",
+        "ai": "AI-gestuurde verbetering",
+        "templates": "Alle professionele stijlen",
+        "downloads": "Direct downloaden",
+        "print": "Perfect voor drukwerk"
       }
     },
     "video": {
       "title": "Cinematische Video",
-      "price": "€19",
-      "per": "per video",
+      "price": "Binnenkort",
+      "per": "Komt later dit jaar",
       "features": {
         "professional": "Professionele rondleiding video",
         "ai": "Vloeiende AI-transities & effecten",
