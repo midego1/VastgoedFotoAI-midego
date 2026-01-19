@@ -184,7 +184,7 @@ export default function Page() {
           <BlueBlob className="h-full w-full" />
         </div>
 
-        <div className="flex-1">
+        <div className="flex-1 flex flex-col items-center md:items-start text-center md:text-left">
             <h3 className="mb-6 font-bold text-[#221E68] text-[32px] leading-tight md:text-[50px]">
               {t("section2.title")}
               <br />
@@ -270,7 +270,7 @@ export default function Page() {
               <VirtualStagingPreview />
             </div>
         </div>
-        <div className="order-1 flex-1 md:order-2">
+        <div className="order-1 flex-1 md:order-2 flex flex-col items-center md:items-start text-center md:text-left">
             <h3 className="mb-6 font-bold text-[#221E68] text-[32px] leading-tight md:text-[50px]">
               {t("section3.title")}
               <br />

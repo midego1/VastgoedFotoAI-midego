@@ -31,7 +31,7 @@ export function LandingFooter() {
           {t("description")}
         </p>
 
-        <div className="mb-8 flex flex-wrap justify-center gap-6 font-medium text-sm text-white/60">
+        <div className="mb-8 grid grid-cols-2 place-items-center gap-4 font-medium text-sm text-white/60 md:flex md:flex-wrap md:justify-center md:gap-6">
           <LocalizedLink
             className="transition-colors hover:text-white"
             href="/#pricing"

@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 import { Suspense } from "react";
 import { useSession } from "@/lib/auth-client";
 
-function HeroAuthButton() {
+function HeroAuthButton({ className }: { className?: string }) {
   const { data: session, isPending } = useSession();
   const t = useTranslations("landing.hero");
 
@@ -24,7 +24,7 @@ function HeroAuthButton() {
 
   return (
     <Link
-      className="inline-flex h-12 items-center gap-2 rounded-full px-7 font-medium text-base transition-all duration-200 hover:scale-[1.03] active:scale-[0.98]"
+      className={`inline-flex h-12 items-center justify-center gap-2 rounded-full px-7 font-medium text-base transition-all duration-200 hover:scale-[1.03] active:scale-[0.98] ${className || ""}`}
       href={href}
       style={{
         backgroundColor: "var(--landing-accent)",
@@ -72,7 +72,7 @@ export function LandingHero() {
 
         {/* Main Headline */}
         <h1
-          className="landing-stagger-2 animate-spring-up font-bold text-4xl leading-[1.1] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl"
+          className="landing-stagger-2 animate-spring-up font-bold text-3xl leading-[1.1] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl"
           style={{ color: "var(--landing-text)" }}
         >
           {t("title")}
@@ -93,20 +93,22 @@ export function LandingHero() {
         </p>
 
         {/* CTA Buttons */}
-        <div className="landing-stagger-4 mt-10 flex animate-spring-up flex-col items-center justify-center gap-4 sm:flex-row">
-          <Suspense
-            fallback={
-              <div
-                className="h-12 w-36 animate-pulse rounded-full"
-                style={{ backgroundColor: "var(--landing-border)" }}
-              />
-            }
-          >
-            <HeroAuthButton />
-          </Suspense>
+        <div className="landing-stagger-4 mt-10 flex animate-spring-up flex-col items-center justify-center gap-4 sm:flex-row w-full sm:w-auto px-6 sm:px-0">
+          <div className="w-full sm:w-auto">
+            <Suspense
+              fallback={
+                <div
+                  className="h-12 w-36 animate-pulse rounded-full"
+                  style={{ backgroundColor: "var(--landing-border)" }}
+                />
+              }
+            >
+              <HeroAuthButton className="w-full sm:w-auto" />
+            </Suspense>
+          </div>
 
           <button
-            className="inline-flex h-12 items-center gap-2 rounded-full px-6 font-medium text-base transition-all duration-200 hover:scale-[1.02]"
+            className="inline-flex h-12 w-full sm:w-auto items-center justify-center gap-2 rounded-full px-6 font-medium text-base transition-all duration-200 hover:scale-[1.02]"
             style={{
               backgroundColor: "var(--landing-card)",
               color: "var(--landing-text)",
